@@ -20,4 +20,6 @@ conceptlist = Getdailyfromconcept('TS355', 20191009, 20191010)
 # Dataframdatashow(conceptlist)
 # Dataframdatashow(Getconcept_detail('TS328',''))
 Dataframdatashow(moneyflowlist(stock_list,'','20190601','20191018'))
+Dataframdatashow(moneyflowlist(stock_list,'','20190701','20191018'))
+
 
