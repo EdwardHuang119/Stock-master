@@ -189,6 +189,40 @@ def stockcodelist(df,ts_code,name_code):
     else:
         print('兄弟给个dataframe过来呢。stockcodelist')
 
+def stk_rewards(ts_code):
+    # 获取高管的薪酬
+    stk_rewards = pro.stk_rewards(ts_codecode)
+    return stk_rewards
+
+def stock_company(exchange):
+# 来获取上市公司的基本情况
+# 通过输入市场来曲确认内容，交易所代码 ，SSE上交所 SZSE深交所
+    if str(exchange) != "SSE" and str(exchange) != "SZSE":
+        print('交易所代码 ，SSE上交所 SZSE深交所，请输入字典项')
+    else:
+        stock_company = pro.stock_company(exchange=exchange)
+        return stock_company
+
+
+def moneyflow_hsgt(trade_date,start_date,end_date):
+# 获取沪股通、深股通、港股通每日资金流向数据，每次最多返回300条记录，总量不限制
+    if trade_date !='':
+        moneyflow_hsgt=pro.query('moneyflow_hsgt', trade_date=trade_date)
+    elif trade_date =='' and start_date!='' and end_date !='':
+        moneyflow_hsgt=pro.moneyflow_hsgt(start_date=start_date, end_date=end_date)
+    elif trade_date =='' and start_date =='' or end_date =='':
+        print('当trade_date为空时，start_date和end_date不可以同时为空。')
+    return moneyflow_hsgt
+
+def hk_hold(trade_date,start_date,end_date,exchange):
+# 沪深港股通持股明细
+    if trade_date !='':
+        hk_hold=pro.hk_hold(trade_date=trade_date)
+    elif trade_date =='' and start_date!='' and end_date!='':
+        hk_hold=pro.hk_hold(start_date=start_date,end_date=end_date)
+    elif trade_date =='' and start_date =='' or end_date =='':
+        print('当trade_date为空时，start_date和end_date不可以同时为空。')
+    return hk_hold
 
 if __name__ == "__main__":
     show=True
@@ -201,10 +235,28 @@ if __name__ == "__main__":
     # show_func(moneyflow('000001.SZ','20191016','',''))
     # show_func(moneyflowlist(['000001.SZ','601398.SH'],'20191016','',''))
     # concerp = show_func(Getconcept(''))
-    stock_pf = Getconcept_detail('TS26','')
+    # stock_pf = Getconcept_detail('TS26','')
     # show_func(stock_pf)
-    stock_list = stockcodelist(stock_pf,'ts_code','')
+    # stock_list = stockcodelist(stock_pf,'ts_code','')
     # show_func(type(stock_list))
     # show_func(moneyflowlist(stock_list,'','20190601','20191018'))
     # Dataframdatashow(moneyflowlist(stock_list, '', '20190601', '20191018'))
     # moneyflowlist(stock_list, '', '20190601', '20191018').to_csv('DATa1.csv')
+    # code = GetTscodefromCname('渝农商行')
+    # show_func(code)
+    # data = stk_rewards('601077.SH')
+    # cc = data[data['name'].str.contains(r'蔡')]
+    # 最好的获取某个人薪酬的模糊查询方案
+    # data = stk_rewards('601077.SH')
+    # show_func(cc)
+    # Dataframdatashow(data)
+    # 上市公司基本请情况
+    # stock_company = stock_company("SSE")
+    # show_func(stock_company)
+    # Dataframdatashow(stock_company)
+    # 各股通的流入信息调用情况
+    # 用trade来调用
+    # moneyflow_hsgt = moneyflow_hsgt('20200122','','')
+    # 用startdate和enddate来调用
+    # moneyflow_hsgt = moneyflow_hsgt('', '20191221', '20200123')
+    # show_func(moneyflow_hsgt)
