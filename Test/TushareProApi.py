@@ -214,7 +214,7 @@ def moneyflow_hsgt(trade_date,start_date,end_date):
         print('当trade_date为空时，start_date和end_date不可以同时为空。')
     return moneyflow_hsgt
 
-def hk_hold(trade_date,start_date,end_date,exchange):
+def hk_hold(trade_date,start_date,end_date):
 # 沪深港股通持股明细
     if trade_date !='':
         hk_hold=pro.hk_hold(trade_date=trade_date)
@@ -223,6 +223,8 @@ def hk_hold(trade_date,start_date,end_date,exchange):
     elif trade_date =='' and start_date =='' or end_date =='':
         print('当trade_date为空时，start_date和end_date不可以同时为空。')
     return hk_hold
+
+
 
 if __name__ == "__main__":
     show=True
@@ -260,3 +262,7 @@ if __name__ == "__main__":
     # 用startdate和enddate来调用
     # moneyflow_hsgt = moneyflow_hsgt('', '20191221', '20200123')
     # show_func(moneyflow_hsgt)
+#     港股通持股明细
+    hk_hold_detail=hk_hold('','20200102','20200103')
+    show_func(hk_hold_detail)
+
