@@ -9,6 +9,7 @@ from Test.TushareProApi import moneyflowlist
 import Test.QyptTableView
 from Test.QyptTableView import Dataframdatashow
 from Test.TushareProApi import trade_cal
+import sys
 
 
 
@@ -29,4 +30,9 @@ A =trade_cal('20200101','20200215')
 B =A.loc[A['is_open'] ==1]['cal_date'].tolist()
 # B =B['cal_date'].tolist()
 show_func(type(B),B)
+print(sys.platform)
 
+if sys.platform == 'darwin':
+    print('mac')
+else:
+    print('windows')

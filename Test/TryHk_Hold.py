@@ -27,7 +27,7 @@ period = trade_cal_list(start_date,end_date)
 # show_func(period[0])
 
 # show(period[0])
-'''''''''
+
 # 循环获取港股通的每日流入流出内容
 HK_hold_DataFrame = pd.DataFrame()
 for i in range(len(period)):
@@ -35,9 +35,17 @@ for i in range(len(period)):
     HK_hold_DataFrame = pd.concat([HK_hold_DataFrame,HK_hold_list_per])
     i=i+1
 show_func(HK_hold_DataFrame.head())
-HK_hold_DataFrame.to_csv('C:\\Users\\Edward & Bella\\Desktop\\stork\HK_HOLD\\HK_hold.csv',na_rep='0',encoding='utf_8_sig')
-'''''''''
+# 对整个dataframe进行排序
+HK_hold_DataFrame.sort_values(by=['ts_code'],ascending=(True))
+
+
+if sys.platform == 'win32':
+    HK_hold_DataFrame.to_csv('C:\\Users\\Edward & Bella\\Desktop\\stork\HK_HOLD\\HK_hold.csv',na_rep='0',encoding='utf_8_sig')
+elif sys.platform == 'darwin':
+    HK_hold_DataFrame.to_csv('/Users/Mac/Documents/Stock/HK_hold.csv',na_rep='0',encoding='utf_8_sig')
+
 # 读取CSV的内容
+'''
 HK_hold_Dataframe_csv = pd.read_csv('C:\\Users\\Edward & Bella\\Desktop\\stork\HK_HOLD\\HK_hold.csv')
 # 将日期转化为str类型
 HK_hold_Dataframe_csv['trade_date'] = HK_hold_Dataframe_csv['trade_date'].apply(str)
@@ -64,4 +72,4 @@ print(A)
 # # Hk_vol = HK_hold_DataFrame_percode['vol']
 # vol12change = vol2-vol
 # show_func(vol,vol2,vol12change)
-
+'''
