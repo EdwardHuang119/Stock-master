@@ -7,6 +7,7 @@ from abupy import ABuMarketDrawing
 import mpl_finance as mpf
 import matplotlib.pyplot as plt
 import platform
+from Test.TushareProApi import Getdailyfromtscode
 
 
 # np_list = np.arange(10000)

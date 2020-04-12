@@ -3,8 +3,10 @@
 
 import tushare as ts
 import pandas as pd
+import time
 import numpy as np
 from Test.QyptTableView import Dataframdatashow
+import sys
 
 
 ts.set_token('22e74c8e4523bb24f26bcd5706617b2059c0e4e0f7f9df3559c5b000')
@@ -24,18 +26,62 @@ def GetTscodefromCname(cnname):
     else:
         return code
 
+
+def GetAlltscode(is_hs,list_status,exchange,codeonly):
+    # 获取一下全部有效的tscode
+    # 先梳理一下字典想取值
+    is_hs_list =['N','H','S','']
+    list_status_list = ['L','D','P','']
+    exchange_list = ['SSE','SZSE','']
+    codeonly_list = ['1','']
+    if is_hs not in is_hs_list:
+        print('字典项错误，is_hs代表"是否沪深港通标的"，字典项为N否 H沪股通 S深股通,空为全部')
+    elif list_status not in list_status_list:
+        print('字典项错误，list_status上市状态： 字典项为L上市 D退市 P暂停上市，默认L')
+    elif exchange not in exchange_list:
+        print('字典项错误，is_hs代表"交易所"，字典项为交易所 SSE上交所 SZSE深交所 HKEX港交所(未上线)')
+    elif codeonly not in codeonly_list:
+        print('字典项错误，oodeonly表示是否仅返回tscode的list，字典为空则表示返回dataframe,1代表返回tscode的list。')
+    else:
+        # 开始执行交易获取
+        if codeonly == '':
+            # 如果要全部一个包含多个信息的dataframe就输入0
+            if list_status == '':
+                list_status = 'L'
+            #     如果list——status是空赋值为L
+            tscode = pro.query('stock_basic', is_hs=is_hs, exchange=exchange, list_status=list_status, fields='ts_code,symbol,name,area,industry,list_date,exchange,curr_type,is_hs')
+        elif codeonly == '1':
+            # 不赋值就返回所有的股票的基础信息，返回dataframe
+            tscode = pro.query('stock_basic', is_hs=is_hs, exchange=exchange, list_status= list_status, fields='ts_code,symbol,name,area,industry,list_date,exchange,curr_type,is_hs')
+            tscode = tscode['ts_code'].to_list()
+        return tscode
+
+
+
+
 def Getdailyfromtscode(ts_code,start_date,end_date):
     # 通过ts_code来获取到日线信息
-    if type(ts_code) == str:
+    if type(ts_code) == str and str(ts_code) != '':
         Stock_daily = pro.daily(ts_code=ts_code, start_date=start_date, end_date=end_date)
-        return (Stock_daily)
     elif type(ts_code) == list:
         Stock_daily = pd.DataFrame()
         for i in range(len(ts_code)):
             Stock_daily_per = pro.daily(ts_code=ts_code[i], start_date=start_date, end_date=end_date)
             Stock_daily = pd.concat([Stock_daily,Stock_daily_per])
             i=i+1
-        return (Stock_daily)
+    elif ts_code =='':
+        if str(start_date) != str(end_date):
+            trade_cal_list_1 = trade_cal_list(start_date,end_date)
+            Stock_daily = pd.DataFrame()
+            for i in range(len(trade_cal_list_1)):
+                Stock_daily_per = pro.daily(start_date = trade_cal_list_1[i],end_date = trade_cal_list_1[i])
+                Stock_daily = pd.concat([Stock_daily,Stock_daily_per])
+                print(trade_cal_list_1[i],'全部国内市场交易数据已经获取')
+                time.sleep(2)
+                i =i+1
+        else:
+            Stock_daily = pro.daily(start_date=start_date, end_date=end_date)
+    return (Stock_daily)
 
 def GetdatlyfromCname(cnname,start_date,end_date):
     # 通过中文名字来获取股票日线行情，
@@ -233,10 +279,41 @@ def trade_cal_list(start_date,end_date):
     trade_cal_list =A.loc[A['is_open'] ==1]['cal_date'].tolist()
     return trade_cal_list
 
+def hk_daily(ts_code,start_date,end_date):
+    if type(ts_code)==str and str(ts_code) !='':
+        hk_daily=pro.hk_daily(ts_code=ts_code, start_date=start_date, end_date=end_date)
+    elif type(ts_code) == list:
+        hk_daily = pd.DataFrame()
+        for i in range(len(ts_code)):
+            hk_daily_per = pro.hk_daily(ts_code=ts_code[i], start_date=start_date, end_date=end_date)
+            hk_daily = pd.concat([hk_daily, hk_daily_per])
+            i = i + 1
+    elif ts_code == '':
+        if str(start_date) != str(end_date):
+            trade_cal_list_1 = trade_cal_list(start_date,end_date)
+            hk_daily = pd.DataFrame()
+            for i in range(len(trade_cal_list_1)):
+                hk_daily_per = pro.hk_daily(trade_date = trade_cal_list_1[i])
+                hk_daily = pd.concat([hk_daily,hk_daily_per])
+                print(trade_cal_list_1[i],'全部香港市场交易数据已经获取')
+                time.sleep(2)
+                i =i+1
+    return hk_daily
+
+def Tocsv(dataframe,name):
+    if sys.platform == 'win32':
+        dataframe.to_csv('C:\\Users\\Edward & Bella\\Desktop\\stork\HK_HOLD\\Chinadaily.csv', na_rep='0',encoding='utf_8_sig')
+    elif sys.platform == 'darwin':
+        dataframe.to_csv('/Users/Mac/Documents/Stock/Chinadaily.csv', na_rep='0', encoding='utf_8_sig')
+    print()
+
 
 if __name__ == "__main__":
     show=True
     show_func = print if show else lambda a: a
+    start_date = '20191202'
+    end_date = '20191203'
+    Chinadaily = Getdailyfromtscode('', start_date, end_date)
     # show_func(Getdailyfromconcept('TS355',20191009,20191010))
     # show_func(index_classify('L1'))
     # show_func(index_member('801780.SI',''))
