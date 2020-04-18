@@ -50,22 +50,7 @@ hkdaily = hk_daily('',start_date,end_date)
 chinaandhkmarket = pd.concat([Chinadaily,hkdaily])
 print(chinaandhkmarket)
 
-Tocsv(chinaandhkmarket,'1','Chinadaily')
+Tocsv(chinaandhkmarket,'','Chinadaily')
 
 
-# print(type(hkdaily))
-'''
-if sys.platform == 'win32':
-    Chinadaily.to_csv('C:\\Users\\Edward & Bella\\Desktop\\stork\HK_HOLD\\Chinadaily.csv',na_rep='0',encoding='utf_8_sig')
-elif sys.platform == 'darwin':
-    Chinadaily.to_csv('/Users/Mac/Documents/Stock/Chinadaily.csv',na_rep='0',encoding='utf_8_sig')
-if sys.platform == 'win32':
-    hkdaily.to_csv('C:\\Users\\Edward & Bella\\Desktop\\stork\HK_HOLD\\hkdaily.csv',na_rep='0',encoding='utf_8_sig')
-elif sys.platform == 'darwin':
-    hkdaily.to_csv('/Users/Mac/Documents/Stock/hkdaily.csv',na_rep='0',encoding='utf_8_sig')
 
-if sys.platform == 'win32':
-    chinaandhkmarket.to_csv('C:\\Users\\Edward & Bella\\Desktop\\stork\HK_HOLD\\chinaandhkmarket.csv',na_rep='0',encoding='utf_8_sig')
-elif sys.platform == 'darwin':
-    chinaandhkmarket.to_csv('/Users/Mac/Documents/Stock/chinaandhkmarket.csv',na_rep='0',encoding='utf_8_sig')
-'''

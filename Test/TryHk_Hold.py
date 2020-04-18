@@ -12,6 +12,7 @@ from Test.TushareProApi import trade_cal_list
 from Test.TushareProApi import hk_daily
 from Test.TushareProApi import Getdailyfromtscode
 from Test.TushareProApi import hk_hold
+from Test.TushareProApi import Tocsv
 import tushare as ts
 import pandas as pd
 from pandas import Series
@@ -24,8 +25,8 @@ show_func = print if show else lambda a: a
 # print(sys.platform)
 
 # 获取一段时间的每个开盘日期。形成trade_cal_list
-start_date = '20200324'
-end_date = '20200415'
+start_date = '20200414'
+end_date = '20200418'
 period = trade_cal_list(start_date,end_date,'')
 start_date = str(period[0])
 end_date = str(period[-1])
@@ -43,48 +44,50 @@ for i in range(len(period)):
     HK_hold_list_per = hk_hold(period[i],'','')
     HK_hold_DataFrame = pd.concat([HK_hold_DataFrame,HK_hold_list_per])
     i=i+1
-
 # 对整个dataframe进行排序
 HK_hold_DataFrame.sort_values(by=['ts_code','trade_date','exchange'],inplace=True)
+Tocsv(HK_hold_DataFrame,'','HK_hold')
 # show_func(HK_hold_DataFrame.head())
 
-
+''''
 if sys.platform == 'win32':
     HK_hold_DataFrame.to_csv('C:\\Users\\Edward & Bella\\Desktop\\stork\HK_HOLD\\HK_hold.csv',na_rep='0',encoding='utf_8_sig')
 elif sys.platform == 'darwin':
     HK_hold_DataFrame.to_csv('/Users/Mac/Documents/Stock/HK_hold.csv',na_rep='0',encoding='utf_8_sig')
 
 '''
-'''
 # 整体获取一下港资持仓的变化情况，并且加入A股和H股的日线情况
 # 读取CSV的内容
+'''
 if sys.platform == 'win32':
     HK_hold_Dataframe_csv = pd.read_csv('C:\\Users\\Edward & Bella\\Desktop\\stork\HK_HOLD\\HK_hold.csv')
 elif sys.platform == 'darwin':
     HK_hold_Dataframe_csv = pd.read_csv('/Users/Mac/Documents/Stock/HK_hold.csv')
 # 将日期转化为str类型
+'''
 
-HK_hold_Dataframe_csv.insert(6,'vol_yesterday',HK_hold_Dataframe_csv['vol'])
-HK_hold_Dataframe_csv.insert(8,'ratio_yesterday',HK_hold_Dataframe_csv['ratio'])
-Vollist = HK_hold_Dataframe_csv['vol'].tolist()
+HK_hold_DataFrame.insert(6,'vol_yesterday',HK_hold_DataFrame['vol'])
+HK_hold_DataFrame.insert(8,'ratio_yesterday',HK_hold_DataFrame['ratio'])
+Vollist = HK_hold_DataFrame['vol'].tolist()
 Vollist.insert(0,0)
 Vollist.pop()
 # 开头新增一个0作为初始值，后面删除最尾巴数据，避免不对称
-ratiolist = HK_hold_Dataframe_csv['ratio'].tolist()
+ratiolist = HK_hold_DataFrame['ratio'].tolist()
 ratiolist.insert(0,0)
 ratiolist.pop()
 # 开头新增一个0作为初始值，后面删除最尾巴数据，避免不对称
-HK_hold_Dataframe_csv['vol_yesterday'] = Vollist
-HK_hold_Dataframe_csv['ratio_yesterday'] = ratiolist
-# print(type(HK_hold_Dataframe_csv['vol'].tolist()))
+HK_hold_DataFrame['vol_yesterday'] = Vollist
+HK_hold_DataFrame['ratio_yesterday'] = ratiolist
+# print(type(HK_hold_DataFrame['vol'].tolist()))
 
 
 # 获取日期序列
 # 将dataframe先把对应列转为list,之后通过set函数（list(set(list1))）进行有效值去重，之后通过sort进行排序
 # 现将trade做成str类型
-HK_hold_Dataframe_csv['trade_date'] = HK_hold_Dataframe_csv['trade_date'].apply(str)
+HK_hold_DataFrame['trade_date'] = HK_hold_DataFrame['trade_date'].apply(str)
 # 将起始日的值上个交易日的信息赋值为0
-HK_hold_Dataframe_csv.loc[HK_hold_Dataframe_csv['trade_date']==start_date,['vol_yesterday','ratio_yesterday']]=0
+HK_hold_DataFrame.loc[HK_hold_DataFrame['trade_date']==start_date,['vol_yesterday','ratio_yesterday']]=0
+
 
 # 并入一下周期内股票的对应交易数据
 Chinadaily = Getdailyfromtscode('',start_date,end_date)
@@ -92,22 +95,18 @@ Chinadaily = Getdailyfromtscode('',start_date,end_date)
 hkdaily = hk_daily('',start_date,end_date)
 # 获取全部的香港市场数据
 chinaandhkmarket = pd.concat([Chinadaily,hkdaily])
-HK_hold_Dataframe_csv = pd.merge(HK_hold_Dataframe_csv,chinaandhkmarket,on=['ts_code','trade_date'])
+HK_hold_DataFrame = pd.merge(HK_hold_DataFrame,chinaandhkmarket,on=['ts_code','trade_date'])
+Tocsv(HK_hold_DataFrame,'','HK_hold_test')
 
-# 生成一个过程的csv文件
-if sys.platform == 'win32':
-    HK_hold_Dataframe_csv.to_csv('C:\\Users\\Edward & Bella\\Desktop\\stork\HK_HOLD\\HK_hold_test.csv',na_rep='0',encoding='utf_8_sig')
-elif sys.platform == 'darwin':
-    HK_hold_Dataframe_csv.to_csv('/Users/Mac/Documents/Stock/HK_hold_test.csv',encoding='utf_8_sig')
-# 整体获取一下港资持仓的变化情况，并且加入A股和H股的日线情况 完成
 
-'''
+
+
 if sys.platform == 'win32':
     HK_hold_Dataframe_csv = pd.read_csv('C:\\Users\\Edward & Bella\\Desktop\\stork\HK_HOLD\\HK_hold_test.csv')
 elif sys.platform == 'darwin':
     HK_hold_Dataframe_csv = pd.read_csv('/Users/Mac/Documents/Stock/HK_hold_test.csv')
 # show_func(HK_hold_Dataframe_csv)
-'''
+
 HK_hold_Dataframe_csv['trade_date'] = HK_hold_Dataframe_csv['trade_date'].apply(str)
 show_func(HK_hold_Dataframe_csv.head())
 
@@ -144,15 +143,16 @@ hk_hold_report_5 = pd.merge(hk_hold_report_5,hk_hold_report_4,on=['ts_code','nam
 # hk_hold_report_5 = hk_hold_report_5.dropna(axis=0,how='any')
 hk_hold_report_5['ratio_change'] = hk_hold_report_5['end_ratio'] - hk_hold_report_5['start_ratio']
 hk_hold_report_5['close_change'] = hk_hold_report_5['end_close'] - hk_hold_report_5['start_close']
+hk_hold_report_5['ratio_change_per'] = hk_hold_report_5['ratio_change']/ hk_hold_report_5['start_ratio']
+# hk_hold_report_5['ratio_change_per'] = hk_hold_report_5['close_change_per'].apply(lambda x: format(x, '.2%'))
+hk_hold_report_5['close_change_per'] = hk_hold_report_5['close_change']/ hk_hold_report_5['start_close']
+# hk_hold_report_5['close_change_per'] = hk_hold_report_5['close_change_per'].apply(lambda x: format(x, '.2%'))
 show_func(hk_hold_report_5.head())
 # show_func(hk_hold_report_5[(hk_hold_report_5['ratio_change']>0)&(hk_hold_report_5['close_change']<0)])
 
+Tocsv(hk_hold_report_5,'','HK_hold_report')
 
-if sys.platform == 'win32':
-    hk_hold_report_5.to_csv('C:\\Users\\Edward & Bella\\Desktop\\stork\HK_HOLD\\HK_hold_report.csv',na_rep='0',encoding='utf_8_sig')
-elif sys.platform == 'darwin':
-    hk_hold_report_5.to_csv('/Users/Mac/Documents/Stock/HK_hold_report.csv',encoding='utf_8_sig')
-print('文件已经保存，执行完毕')
+
 
 '''
 trade_list = list(set(HK_hold_Dataframe_csv['trade_date'].tolist()))
