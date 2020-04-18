@@ -13,6 +13,7 @@ from Test.TushareProApi import trade_cal_list
 from Test.TushareProApi import hk_daily
 from Test.TushareProApi import GetAlltscode
 from Test.TushareProApi import Getdailyfromtscode
+from Test.TushareProApi import Tocsv
 from Test.TushareProApi import hk_hold
 import tushare as ts
 import pandas as pd
@@ -25,9 +26,11 @@ show_func = print if show else lambda a: a
 # print(sys.platform)
 
 # 获取一段时间的每个开盘日期。形成trade_cal_list
-start_date = '20191202'
-end_date = '20191215'
-period = trade_cal_list(start_date,end_date)
+start_date = '20200409'
+end_date = '20200413'
+period = trade_cal_list(start_date,end_date,'')
+start_date = str(period[0])
+end_date = str(period[-1])
 
 # 首先获取A股的情况
 # 首先获取全量的股票代码？？
@@ -47,6 +50,8 @@ hkdaily = hk_daily('',start_date,end_date)
 chinaandhkmarket = pd.concat([Chinadaily,hkdaily])
 print(chinaandhkmarket)
 
+Tocsv(chinaandhkmarket,'1','Chinadaily')
+
 
 # print(type(hkdaily))
 '''
@@ -58,9 +63,9 @@ if sys.platform == 'win32':
     hkdaily.to_csv('C:\\Users\\Edward & Bella\\Desktop\\stork\HK_HOLD\\hkdaily.csv',na_rep='0',encoding='utf_8_sig')
 elif sys.platform == 'darwin':
     hkdaily.to_csv('/Users/Mac/Documents/Stock/hkdaily.csv',na_rep='0',encoding='utf_8_sig')
-'''
+
 if sys.platform == 'win32':
     chinaandhkmarket.to_csv('C:\\Users\\Edward & Bella\\Desktop\\stork\HK_HOLD\\chinaandhkmarket.csv',na_rep='0',encoding='utf_8_sig')
 elif sys.platform == 'darwin':
     chinaandhkmarket.to_csv('/Users/Mac/Documents/Stock/chinaandhkmarket.csv',na_rep='0',encoding='utf_8_sig')
-
+'''

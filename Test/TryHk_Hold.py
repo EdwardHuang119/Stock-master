@@ -24,9 +24,9 @@ show_func = print if show else lambda a: a
 # print(sys.platform)
 
 # 获取一段时间的每个开盘日期。形成trade_cal_list
-start_date = '20200302'
-end_date = '20200409'
-period = trade_cal_list(start_date,end_date)
+start_date = '20200324'
+end_date = '20200415'
+period = trade_cal_list(start_date,end_date,'')
 start_date = str(period[0])
 end_date = str(period[-1])
 show_func(start_date,end_date)

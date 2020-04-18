@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 import Test.TushareProApi
 from Test.TushareProApi import GetdatlyfromCname
 from Test.TushareProApi import Getconcept_detail
@@ -14,20 +13,26 @@ from Test.TushareProApi import hk_daily
 from Test.TushareProApi import GetAlltscode
 from Test.TushareProApi import Getdailyfromtscode
 from Test.TushareProApi import hk_hold
-from Test.TushareProApi import index_classify
-from Test.TushareProApi import index_member
+import tushare as ts
 import pandas as pd
-
+from pandas import Series
+import sys
+from configparser import ConfigParser
 show = True
 show_func = print if show else lambda a: a
 
-index_classify_L1=index_classify('L1')
-index_classify_L2=index_classify('L2')
-index_classify_L3=index_classify('L3')
-index_classify = pd.DataFrame()
-# index_classify = pd.concat(index_classify_L1
-
-show_func(index_classify_L3.head(),index_classify_L2.head(),index_classify_L1.head())
-
-# show_func(index_classify.head())
-
+trade_date = '20200414'
+start_date = trade_date
+end_date = trade_date
+'''
+hk_daily=hk_daily('', start_date, end_date)
+if hk_daily.empty == True:
+    print(start_date,"没有数据")
+else:
+    print(start_date,"有相关数据")
+'''
+hk_hold = hk_hold(start_date,'','')
+if hk_hold.empty ==True:
+    print(start_date,'对应沪港流通数据还不存在')
+else:
+    print(start_date,'对应沪港流通数据已经存在')

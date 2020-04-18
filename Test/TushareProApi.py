@@ -7,6 +7,8 @@ import time
 import numpy as np
 from Test.QyptTableView import Dataframdatashow
 import sys
+import os
+from configparser import ConfigParser
 
 
 ts.set_token('22e74c8e4523bb24f26bcd5706617b2059c0e4e0f7f9df3559c5b000')
@@ -71,7 +73,7 @@ def Getdailyfromtscode(ts_code,start_date,end_date):
             i=i+1
     elif ts_code =='':
         if str(start_date) != str(end_date):
-            trade_cal_list_1 = trade_cal_list(start_date,end_date)
+            trade_cal_list_1 = trade_cal_list(start_date,end_date,'')
             Stock_daily = pd.DataFrame()
             for i in range(len(trade_cal_list_1)):
                 Stock_daily_per = pro.daily(start_date = trade_cal_list_1[i],end_date = trade_cal_list_1[i])
@@ -154,7 +156,7 @@ def Getdailyfromconcept(concept_id,start_date,end_date):
 
 def index_classify(level):
     # 申银万国行业区分
-    index_list = pro.index_classify(level=level, src='SW')
+    index_list = pro.index_classify(level=level, src='SW',fields='index_code,industry_name,level,industry_code')
     return index_list
 
 def index_member(index_code,ts_code):
@@ -270,12 +272,15 @@ def hk_hold(trade_date,start_date,end_date):
         print('当trade_date为空时，start_date和end_date不可以同时为空。')
     return hk_hold
 
-def trade_cal(start_date,end_date):
-    trade_cal=pro.trade_cal(exchange='SSE', start_date=start_date, end_date=end_date)
+def trade_cal(start_date,end_date,exchange):
+    if str(exchange)=='':
+        trade_cal=pro.trade_cal(exchange='SSE', start_date=start_date, end_date=end_date)
+    else:
+        trade_cal = pro.trade_cal(exchange=exchange, start_date=start_date, end_date=end_date)
     return trade_cal
 
-def trade_cal_list(start_date,end_date):
-    A =trade_cal(start_date,end_date)
+def trade_cal_list(start_date,end_date,exchange):
+    A =trade_cal(start_date,end_date,exchange)
     trade_cal_list =A.loc[A['is_open'] ==1]['cal_date'].tolist()
     return trade_cal_list
 
@@ -290,7 +295,7 @@ def hk_daily(ts_code,start_date,end_date):
             i = i + 1
     elif ts_code == '':
         if str(start_date) != str(end_date):
-            trade_cal_list_1 = trade_cal_list(start_date,end_date)
+            trade_cal_list_1 = trade_cal_list(start_date,end_date,'XHKG')
             hk_daily = pd.DataFrame()
             for i in range(len(trade_cal_list_1)):
                 hk_daily_per = pro.hk_daily(trade_date = trade_cal_list_1[i])
@@ -298,22 +303,49 @@ def hk_daily(ts_code,start_date,end_date):
                 print(trade_cal_list_1[i],'全部香港市场交易数据已经获取')
                 time.sleep(2)
                 i =i+1
+        else:
+            hk_daily =pro.hk_daily(trade_date = start_date)
     return hk_daily
 
-def Tocsv(dataframe,name):
+def Tocsv(dataframe,filepathinput,name):
+    configname = 'config.conf'
+    fatherpath = os.path.abspath(os.path.dirname(os.getcwd()))
+    configpath = fatherpath + '/confing' + '//' + configname
+    cf = ConfigParser()
+    cf.read(configpath)
     if sys.platform == 'win32':
-        dataframe.to_csv('C:\\Users\\Edward & Bella\\Desktop\\stork\HK_HOLD\\Chinadaily.csv', na_rep='0',encoding='utf_8_sig')
+        pathprefix = 'win'
     elif sys.platform == 'darwin':
-        dataframe.to_csv('/Users/Mac/Documents/Stock/Chinadaily.csv', na_rep='0', encoding='utf_8_sig')
-    print()
+        pathprefix = 'mac'
+    if filepathinput =='':
+        pathosread = 'filepath'
+    else:
+        pathosread = 'filepath'+'_'+filepathinput
+    filesearch = pathprefix+pathosread
+    filepath = cf.get('fileswrite',filesearch)
+    fullname = filepath+name+'.csv'
+    dataframe.to_csv(fullname, na_rep='0', encoding='utf_8_sig')
+    print('TOCSV结束',fullname,'已经存储')
+    return
 
+
+
+
+def index_daily(ts_code,trade_date,start_date,end_date):
+    index_daily = pro.index_daily(ts_code,start_date,end_date)
+    return index_daily
 
 if __name__ == "__main__":
     show=True
     show_func = print if show else lambda a: a
     start_date = '20191202'
     end_date = '20191203'
-    Chinadaily = Getdailyfromtscode('', start_date, end_date)
+
+
+
+    # Chinadaily = Getdailyfromtscode('', start_date, end_date)
+    # df = pro.index_daily(ts_code='801710.SI', trade_date = '20200413',start_date='20200413', end_date='20200414')
+    # show_func(df)
     # show_func(Getdailyfromconcept('TS355',20191009,20191010))
     # show_func(index_classify('L1'))
     # show_func(index_member('801780.SI',''))
@@ -351,5 +383,5 @@ if __name__ == "__main__":
 #     hk_hold_detail=hk_hold('','20200102','20200103')
 #     show_func(hk_hold_detail)
 #     获取一段时间的整体工作日历时间，为很多逐个日子拼接dataframe做准备
-    show_func(trade_cal_list('20191201','20200215'))
+#     show_func(trade_cal_list('20191201','20200215'))
 
