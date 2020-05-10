@@ -49,7 +49,6 @@ hkdaily = hk_daily('',start_date,end_date)
 # 获取全部的香港市场数据
 chinaandhkmarket = pd.concat([Chinadaily,hkdaily])
 print(chinaandhkmarket)
-
 Tocsv(chinaandhkmarket,'','Chinadaily')
 
 

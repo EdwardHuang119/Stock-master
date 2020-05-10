@@ -83,6 +83,7 @@ def Getdailyfromtscode(ts_code,start_date,end_date):
                 i =i+1
         else:
             Stock_daily = pro.daily(start_date=start_date, end_date=end_date)
+            # 可以允许起始和截至日期一致的
     return (Stock_daily)
 
 def GetdatlyfromCname(cnname,start_date,end_date):

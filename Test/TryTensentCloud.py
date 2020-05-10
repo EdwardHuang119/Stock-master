@@ -14,7 +14,6 @@ configpath = fatherpath+'/confing'+'//'+configname
 cf = ConfigParser()
 cf.read(configpath)
 # print(cf.sections())
-
 dbchoese = "tencentcdb"
 # dbchoese = 'localdb'
 host = cf.get(dbchoese,"host")
@@ -33,11 +32,12 @@ def connect_db():
     cursor = db.cursor()
     return (db,cursor)
 
-db,cursor = connect_db()
-cursor.execute("SELECT VERSION()")
-data = cursor.fetchone()
-print("Database version : %s " % data)
-db.close()
+if __name__ == "__main__":
+    db,cursor = connect_db()
+    cursor.execute("SELECT VERSION()")
+    data = cursor.fetchone()
+    print("Database version : %s " % data)
+    db.close()
 
 
 # def connect_db():
