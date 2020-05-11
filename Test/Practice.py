@@ -13,6 +13,7 @@ import sys
 from Test.TushareProApi import Getdailyfromtscode
 from Test.TushareProApi import Tocsv
 from Test.TryTensentCloud import connect_db
+from Test.TryTensentCloud import connect_db_engine
 
 
 
@@ -24,15 +25,24 @@ show_func = print if show else lambda a: a
 
 if __name__ == "__main__":
     Chinadaily = Getdailyfromtscode('','20200508','20200508')
+    Chinadaily = Chinadaily.head()
+    show_func(Chinadaily)
 
 
 
 # 连接数据库
-    db,cursor = connect_db()
-    cursor.execute("SELECT VERSION()")
-    data = cursor.fetchone()
-    print("Database version : %s " % data)
-    db.close()
+#     db,cursor = connect_db()
+    # cursor.execute("SELECT VERSION()")
+    # data = cursor.fetchone()
+    # print("Database version : %s " % data)
+
+    engine = connect_db_engine()
+    try:
+        Chinadaily.to_sql('stock_china_daily', con=engine, if_exists='replace', index=False)
+    except Exception as e:
+        print(e)
+
+    # db.close()
 
 
 
