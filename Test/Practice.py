@@ -15,6 +15,8 @@ from Test.TushareProApi import Tocsv
 from Test.TryTensentCloud import connect_db
 from Test.TryTensentCloud import connect_db_engine
 import pandas as pd
+import datetime
+import time
 
 
 
@@ -41,6 +43,13 @@ if __name__ == "__main__":
         except Exception as aa:
             print(aa)
             print('No DATA Code: ' + str(i))
+            continue
+        try:
+            trade_date = str(resu0[1]).strftime('%Y-%m-%d')
+            insert_sql = "INSERT INTO stock_china_daily (`ts_code`, `trade_date`, `open`, `high`, `low`, `close`, `pre_close`, `change`, `pct_chg`, `vol`, `amount`) VALUES ('%s', '%s', '%s', '%s','%s','%s','%s','%s','%s','%s','%s')" % (str(resu0[0]),str(resu0[1]),float(resu0[2]),float(resu0[3]),float(resu0[4]),float(resu0[5]),float(resu0[6]),float(resu0[7]),float(resu0[8]),float(resu0[9]),float(resu0[10]))
+            print(insert_sql)
+        except Exception as ab:
+            print(ab)
             continue
 # 连接数据库
 #     db,cursor = connect_db()
