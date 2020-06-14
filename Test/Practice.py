@@ -31,10 +31,6 @@ if __name__ == "__main__":
     Chinadaily = Chinadaily.head()
     Chinadaily['trade_date'] = pd.to_datetime(Chinadaily['trade_date'],format='%Y%m%d')
     show_func(Chinadaily)
-    # show_func(Chinadaily['trade_date'].dtype)
-    # show_func(Chinadaily.dtypes)
-    # show_func(len(Chinadaily))
-    # show_func(Chinadaily.shape[1])
     for i in range(Chinadaily.shape[0]):
         try:
             c_len = Chinadaily.shape[0]
@@ -45,7 +41,6 @@ if __name__ == "__main__":
             print('No DATA Code: ' + str(i))
             continue
         try:
-            trade_date = str(resu0[1]).strftime('%Y-%m-%d')
             insert_sql = "INSERT INTO stock_china_daily (`ts_code`, `trade_date`, `open`, `high`, `low`, `close`, `pre_close`, `change`, `pct_chg`, `vol`, `amount`) VALUES ('%s', '%s', '%s', '%s','%s','%s','%s','%s','%s','%s','%s')" % (str(resu0[0]),str(resu0[1]),float(resu0[2]),float(resu0[3]),float(resu0[4]),float(resu0[5]),float(resu0[6]),float(resu0[7]),float(resu0[8]),float(resu0[9]),float(resu0[10]))
             print(insert_sql)
         except Exception as ab:
