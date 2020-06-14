@@ -42,11 +42,17 @@ def connect_db_engine():
     return (engine)
 
 if __name__ == "__main__":
-    '''
     db,cursor = connect_db()
+    sql_insert = "INSERT INTO stock_china_daily (`ts_code`, `trade_date`, `open`, `high`, `low`, `close`, `pre_close`, `change`, `pct_chg`, `vol`, `amount`) VALUES ('000880.SZ', '2020-05-15 00:00:00', '7.74', '7.82','7.71','7.74','7.73','0.01','0.1294','18431.87','14297.047')"
+    cursor.execute(sql_insert)
+
+    '''
     cursor.execute("SELECT VERSION()")
     data = cursor.fetchone()
     print("Database version : %s " % data)
+    '''
+    cursor.close()
+    db.commit()
     db.close()
     '''
     engine = connect_db_engine()
@@ -55,19 +61,7 @@ if __name__ == "__main__":
           """
     query_sql = Template(query_sql)
     print(query_sql)
+    '''
 
 
 
-
-# def connect_db():
-#     """Connect database and return db and cursor"""
-#     db = pymysql.connect(host="cdb-91rtu6jl.gz.tencentcdb.com",port=10045,user='root',
-#                          passwd='3621@(!jj',db="Stock_test")
-#     cursor = db.cursor()
-#     return (db,cursor)
-#
-# db,cursor = connect_db()
-# cursor.execute("SELECT VERSION()")
-# data = cursor.fetchone()
-# print("Database version : %s " % data)
-# db.close()
