@@ -23,6 +23,7 @@ from configparser import ConfigParser
 
 show = True
 show_func = print if show else lambda a: a
+
 # print(sys.platform)
 
 # 获取一段时间的每个开盘日期。形成trade_cal_list

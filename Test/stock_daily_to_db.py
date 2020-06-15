@@ -5,21 +5,23 @@ import pandas as pd
 from Test.TushareProApi import Getdailyfromtscode
 from Test.TryTensentCloud import connect_db
 from Test.TushareProApi import Tocsv
+import datetime
 
 
 show = True
 show_func = print if show else lambda a: a
 
 if __name__ == "__main__":
-    Chinadaily = Getdailyfromtscode('','20200604','20200605')
+    starttime = datetime.datetime.now()
+    Chinadaily = Getdailyfromtscode('','20200501','20200527')
     Chinadaily['trade_date'] = pd.to_datetime(Chinadaily['trade_date'],format='%Y%m%d')
     # show_func(Chinadaily)
-    Tocsv(Chinadaily, '', '1days')
+    # Tocsv(Chinadaily, '', '1days')
     db, cursor = connect_db()
     for i in range(Chinadaily.shape[0]):
         try:
             c_len = Chinadaily.shape[0]
-            resu0 = list(Chinadaily.ix[c_len-1-i])
+            resu0 = list(Chinadaily.iloc[c_len-1-i])
             print(resu0)
         except Exception as aa:
             print(aa)
@@ -35,4 +37,6 @@ if __name__ == "__main__":
             continue
     cursor.close()
     db.close()
+    endtime = datetime.datetime.now()
     print('All finish')
+    print('从',starttime,'开始，到',endtime,'结束，耗时为',endtime-starttime,'。共导入数据',Chinadaily.shape[0],'条。')
