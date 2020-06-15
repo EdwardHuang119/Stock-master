@@ -69,7 +69,7 @@ def Getdailyfromtscode(ts_code,start_date,end_date):
         Stock_daily = pd.DataFrame()
         for i in range(len(ts_code)):
             Stock_daily_per = pro.daily(ts_code=ts_code[i], start_date=start_date, end_date=end_date)
-            Stock_daily = pd.concat([Stock_daily,Stock_daily_per])
+            Stock_daily = pd.concat([Stock_daily,Stock_daily_per],ignore_index=True)
             i=i+1
     elif ts_code =='':
         if str(start_date) != str(end_date):
@@ -77,7 +77,7 @@ def Getdailyfromtscode(ts_code,start_date,end_date):
             Stock_daily = pd.DataFrame()
             for i in range(len(trade_cal_list_1)):
                 Stock_daily_per = pro.daily(start_date = trade_cal_list_1[i],end_date = trade_cal_list_1[i])
-                Stock_daily = pd.concat([Stock_daily,Stock_daily_per])
+                Stock_daily = pd.concat([Stock_daily,Stock_daily_per],ignore_index=True)
                 print(trade_cal_list_1[i],'全部国内市场交易数据已经获取')
                 time.sleep(2)
                 i =i+1
@@ -198,7 +198,7 @@ def moneyflowlist(ts_code,trade_date,start_date,end_date):
         for i in range(len(ts_code)):
             # moneyflowpercode = pro.moneyflow(ts_code=ts_code[i],trade_date=trade_date)
             moneyflowpercode = moneyflow(ts_code=ts_code[i], trade_date=trade_date,start_date='',end_date='')
-            moneyflowpf = pd.concat([moneyflowpf,moneyflowpercode])
+            moneyflowpf = pd.concat([moneyflowpf,moneyflowpercode],ignore_index=True)
             i = i+1
         if moneyflowpf.shape[0] >= 4000:
             print('单股票单个日期返回结果超过4000（moneyflowlist）')
@@ -210,7 +210,7 @@ def moneyflowlist(ts_code,trade_date,start_date,end_date):
         moneyflowpf = pd.DataFrame()
         for i in range(len(ts_code)):
             moneyflowpercode = moneyflow(ts_code=ts_code[i], trade_date='', start_date=start_date, end_date=end_date)
-            moneyflowpf = pd.concat([moneyflowpf, moneyflowpercode])
+            moneyflowpf = pd.concat([moneyflowpf, moneyflowpercode],ignore_index=True)
             i = i + 1
         if moneyflowpf.shape[0] >= 4000:
             print('单股票池多个日期返回结果超过4000（moneyflowlist）')
@@ -292,7 +292,7 @@ def hk_daily(ts_code,start_date,end_date):
         hk_daily = pd.DataFrame()
         for i in range(len(ts_code)):
             hk_daily_per = pro.hk_daily(ts_code=ts_code[i], start_date=start_date, end_date=end_date)
-            hk_daily = pd.concat([hk_daily, hk_daily_per])
+            hk_daily = pd.concat([hk_daily, hk_daily_per],ignore_index=True)
             i = i + 1
     elif ts_code == '':
         if str(start_date) != str(end_date):
@@ -300,7 +300,7 @@ def hk_daily(ts_code,start_date,end_date):
             hk_daily = pd.DataFrame()
             for i in range(len(trade_cal_list_1)):
                 hk_daily_per = pro.hk_daily(trade_date = trade_cal_list_1[i])
-                hk_daily = pd.concat([hk_daily,hk_daily_per])
+                hk_daily = pd.concat([hk_daily,hk_daily_per],ignore_index=True)
                 print(trade_cal_list_1[i],'全部香港市场交易数据已经获取')
                 time.sleep(2)
                 i =i+1
