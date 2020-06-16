@@ -42,26 +42,33 @@ def connect_db_engine():
     return (engine)
 
 if __name__ == "__main__":
+    '''
     db,cursor = connect_db()
     sql_insert = "INSERT INTO stock_china_daily (`ts_code`, `trade_date`, `open`, `high`, `low`, `close`, `pre_close`, `change`, `pct_chg`, `vol`, `amount`) VALUES ('000880.SZ', '2020-05-15 00:00:00', '7.74', '7.82','7.71','7.74','7.73','0.01','0.1294','18431.87','14297.047')"
     cursor.execute(sql_insert)
-
-    '''
     cursor.execute("SELECT VERSION()")
     data = cursor.fetchone()
     print("Database version : %s " % data)
-    '''
     cursor.close()
     db.commit()
     db.close()
     '''
     engine = connect_db_engine()
     query_sql = """
-          select version()
+          INSERT INTO `stock_china_daily` (`ts_code`, `trade_date`, `open`, `high`, `low`, `close`, `pre_close`, `change`, `pct_chg`, `vol`, `amount`)
+select
+	`ts_code`, `trade_date`, `open`, `high`, `low`, `close`, `pre_close`, `change`, `pct_chg`, `vol`, `amount` from stock_china_daily_temp;
           """
-    query_sql = Template(query_sql)
-    print(query_sql)
-    '''
+    # query_sql = Template(query_sql)
+    # connection = engine.connect()
+    # result = connection.execute("select version()")
+    result = engine.execute(query_sql)
+    # for r in result:
+    #     print(r)
+    # connection.close()
+    engine.dispose()
+    print('done')
+
 
 
 
