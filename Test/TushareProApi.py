@@ -240,7 +240,7 @@ def stockcodelist(df,ts_code,name_code):
 
 def stk_rewards(ts_code):
     # 获取高管的薪酬
-    stk_rewards = pro.stk_rewards(ts_codecode)
+    stk_rewards = pro.stk_rewards(ts_code)
     return stk_rewards
 
 def stock_company(exchange):

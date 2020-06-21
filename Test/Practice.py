@@ -10,6 +10,7 @@ import Test.QyptTableView
 from Test.QyptTableView import Dataframdatashow
 from Test.TushareProApi import trade_cal
 from Test.TushareProApi import trade_cal_list
+from Test.TushareProApi import hk_hold
 import sys
 from Test.TushareProApi import Getdailyfromtscode
 from Test.TushareProApi import Tocsv
@@ -28,6 +29,47 @@ show_func = print if show else lambda a: a
 
 
 if __name__ == "__main__":
+    # 港股通数据存储
+    starttime = datetime.datetime.now()
+    start_date = '20200602'
+    end_date = '20200621'
+    period = trade_cal_list(start_date, end_date, '')
+    HK_hold_DataFrame = pd.DataFrame()
+    for i in range(len(period)):
+        HK_hold_list_per = hk_hold(period[i], '', '')
+        HK_hold_DataFrame = pd.concat([HK_hold_DataFrame, HK_hold_list_per],ignore_index=True)
+        print('%s的数据已经完全获取' % (period[i]))
+        i = i + 1
+        time.sleep(0.2)
+    # hk_hold = hk_hold('','20141117','20200621')
+    # trade_cal['cal_date'] = pd.to_datetime(trade_cal['cal_date'], format='%Y%m%d')
+    HK_hold_DataFrame['trade_date'] = pd.to_datetime( HK_hold_DataFrame['trade_date'], format='%Y%m%d')
+    show_func(HK_hold_DataFrame.shape[0])
+    show_func(HK_hold_DataFrame)
+    engine = connect_db_engine()
+    try:
+        HK_hold_DataFrame.to_sql('stock_temp', con=engine, if_exists='replace', index=False)
+        print('%s到%s的数据已经导入到临时表中,共导入了%s条' %(start_date,end_date,HK_hold_DataFrame.shape[0]))
+    except Exception as e:
+        print(e)
+    try:
+        query_sql = """
+        INSERT INTO `stock_hk_hold` (`trade_date`, `ts_code`, `name`, `vol`, `ratio`, `exchange`)
+        SELECT
+        `trade_date`, `ts_code`, `name`, `vol`, `ratio`, `exchange` FROM stock_temp;
+                             """
+        query_sql2 = """
+                       delete from stock_temp
+                   """
+        engine.execute(query_sql)
+        print('数据已经导入到正是表')
+        engine.execute(query_sql2)
+        print('临时表数据已经删除')
+    except Exception as ae:
+        print(ae)
+    engine.dispose()
+    endtime = datetime.datetime.now()
+    print('从', starttime, '开始，到', endtime, '结束，耗时为', endtime - starttime, '。共导入数据', HK_hold_DataFrame.shape[0], '条。')
     '''
     # 尝试从数据库获取数据转dataframe
     engine = connect_db_engine()
