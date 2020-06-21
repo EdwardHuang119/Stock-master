@@ -9,6 +9,7 @@ from Test.TushareProApi import moneyflowlist
 import Test.QyptTableView
 from Test.QyptTableView import Dataframdatashow
 from Test.TushareProApi import trade_cal
+from Test.TushareProApi import trade_cal_list
 import sys
 from Test.TushareProApi import Getdailyfromtscode
 from Test.TushareProApi import Tocsv
@@ -27,6 +28,50 @@ show_func = print if show else lambda a: a
 
 
 if __name__ == "__main__":
+    '''
+    # 尝试从数据库获取数据转dataframe
+    engine = connect_db_engine()
+    sql = """select * from stock_china_daily where trade_date >= '2020-01-01'"""
+    chinadaily = pd.read_sql_query(sql, engine)
+    show_func(chinadaily.head())
+    show_func(chinadaily.shape[0])
+    engine.dispose()
+    # 尝试从数据库获取数据转dataframe，结束
+    '''
+    '''
+    # 存交易日历
+    engine = connect_db_engine()
+    trade_cal_sse = trade_cal('20200101','20201231','')
+    trade_cal_hk = trade_cal('20200101','20201231','XHKG')
+    trade_cal = pd.concat([trade_cal_sse,trade_cal_hk],ignore_index=True)
+    trade_cal['cal_date'] = pd.to_datetime(trade_cal['cal_date'],format='%Y%m%d')
+    try:
+        trade_cal.to_sql('stock_china_daily_temp', con=engine, if_exists='replace', index=False)
+    except Exception as e:
+        print(e)
+    show_func(trade_cal)
+    engine.dispose()
+    # 存交易日历结束
+    '''
+    '''
+    # 练习怎么从数据库获取数据信息
+    engine = connect_db_engine()
+    result = engine.execute("select max(trade_date) from stock_china_daily ")
+    for row in result:
+        # print(row['max(trade_date)'],type(row['max(trade_date)']),row['max(trade_date)']+datetime.timedelta(days=1))
+        startdate =row['max(trade_date)']+datetime.timedelta(days=1)
+        startdate = startdate.strftime('%Y%m%d')
+    time_temp =datetime.datetime.now()
+    enddate = time_temp.strftime('%Y%m%d')
+    if startdate == enddate:
+        print('截止到%s的数据已经获取完整'%(enddate))
+    else:
+        print('开始获取%s到%f的数据'%(startdate,enddate))
+    # print(startdate,enddate)
+    engine.dispose()
+    '''
+    '''
+    # 练习一些怎么获取把东西导入到数据库里面。通过To_sql命令来实现，效果是明显提速了。
     Chinadaily = Getdailyfromtscode('','20200316','20200319')
     # Chinadaily = Chinadaily.head()
     # Chinadaily['trade_date'] = pd.to_datetime(Chinadaily['trade_date'],format='%Y%m%d')
@@ -53,7 +98,7 @@ if __name__ == "__main__":
     except Exception as ae:
         print(ae)
     engine.dispose()
-
+    '''
 '''
     for i in range(Chinadaily.shape[0]):
         try:
