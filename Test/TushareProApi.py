@@ -330,11 +330,13 @@ def Tocsv(dataframe,filepathinput,name):
     return
 
 
-
-
 def index_daily(ts_code,trade_date,start_date,end_date):
     index_daily = pro.index_daily(ts_code,start_date,end_date)
     return index_daily
+
+def daily_pro(ts_code,start_date,end_date,adj,freq,ma,factors,adjfactor):
+    daily_pro = ts.pro_bar(ts_code=ts_code, start_date=start_date, end_date=end_date,adj=adj,freq=freq,ma=ma,factors=factors,adjfactor=adjfactor)
+    return daily_pro
 
 if __name__ == "__main__":
     show=True
@@ -342,7 +344,12 @@ if __name__ == "__main__":
     start_date = '20191202'
     end_date = '20191203'
 
-
+    # PRO日线获取
+    # daily_pro_2 = daily_pro('000876.SZ','20190101','20200620','None','D',[5,10,20,60],[],'Flase')
+    # daily_pro_1 = ts.pro_bar(ts_code='601398.SH',start_date='20200101',end_date='20200620',adj='None',freq='D',ma=[5,10],factors=[],adjfactor=False)
+    # Tocsv(daily_pro_2,'','0625_1')
+    # show_func(daily_pro_2)
+    # show_func(daily_pro_1)
 
     # Chinadaily = Getdailyfromtscode('', start_date, end_date)
     # df = pro.index_daily(ts_code='801710.SI', trade_date = '20200413',start_date='20200413', end_date='20200414')

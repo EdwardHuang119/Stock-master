@@ -10,7 +10,7 @@ import Test.QyptTableView
 from Test.QyptTableView import Dataframdatashow
 from Test.TushareProApi import trade_cal
 from Test.TushareProApi import trade_cal_list
-from Test.TushareProApi import hk_hold
+from Test.TushareProApi import hk_hold,index_classify,index_member
 import sys
 from Test.TushareProApi import Getdailyfromtscode
 from Test.TushareProApi import Tocsv
@@ -20,7 +20,24 @@ import pandas as pd
 import datetime
 import time
 
+def index_get():
+    level = ['l1', 'l2', 'l3']
+    index = pd.DataFrame()
+    for i in range(len(level)):
+        index_per = index_classify(level[i])
+        index = pd.concat([index, index_per], ignore_index=True)
+        i = i + 1
+    return index
 
+def index_menber_get():
+    index = index_get()
+    index_member_list = index['index_code'].values.tolist()
+    index_member_1 =pd.DataFrame()
+    for i in range(len(index_member_list)):
+        index_member_per = index_member(index_member_list[i],'')
+        index_member_1 = pd.concat([index_member_1,index_member_per],ignore_index=True)
+        i=i+1
+    return index_member_1
 
 show = True
 show_func = print if show else lambda a: a
@@ -29,6 +46,23 @@ show_func = print if show else lambda a: a
 
 
 if __name__ == "__main__":
+    index_member = index_menber_get()
+    index_member['in_date']= pd.to_datetime(index_member['in_date'],format='%Y%m%d')
+    # index_member = index_member['out_date'] !='None'
+    show_func(index_member)
+
+    '''
+    engine = connect_db_engine()
+    try:
+        index_member.to_sql('index_member_temp', con=engine, if_exists='replace', index=False)
+    except Exception as e:
+        print(e)
+    engine.dispose()
+    '''
+
+
+
+    '''
     # 港股通数据存储
     starttime = datetime.datetime.now()
     start_date = '20200602'
@@ -70,6 +104,8 @@ if __name__ == "__main__":
     engine.dispose()
     endtime = datetime.datetime.now()
     print('从', starttime, '开始，到', endtime, '结束，耗时为', endtime - starttime, '。共导入数据', HK_hold_DataFrame.shape[0], '条。')
+    # 港股数据存储结束
+    '''
     '''
     # 尝试从数据库获取数据转dataframe
     engine = connect_db_engine()
