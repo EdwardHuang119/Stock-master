@@ -20,6 +20,8 @@ pro = ts.pro_api()
 # pro=ts_pro()
 # engine = sql_engine()
 engine = connect_db_engine()
+show = True
+show_func = print if show else lambda a: a
 
 #剔除次新股和st股票
 def get_code():
@@ -34,12 +36,16 @@ def get_code():
     names=dd.name.values
     return codes,names
 
-def get_data(date='20180101'):
+def get_data(date='2020-01-01'):
     codes,names=get_code()
-    sql=f'select * from daily_data where trade_date>{date}'
+
+    sql=f'select * from stock_china_daily where trade_date>{date}'
     data=pd.read_sql(sql,engine)
+
     data=data.sort_values(['ts_code','trade_date'])
+    show_func(data.head())
     #前复权价格
+    # data['adjclose']=data.groupby('ts_code').apply(lambda x:x.close*x.adj_factor/x.adj_factor.iloc[-1]).values
     data['adjclose']=data.groupby('ts_code').apply(lambda x:x.close*x.adj_factor/x.adj_factor.iloc[-1]).values
     df=data.set_index(['trade_date','ts_code'])['adjclose']
     #数据重排，列名为代码
@@ -87,5 +93,6 @@ class RPS(object):
         ax1.spines['right'].set_color('none') 
         ax1.spines['top'].set_color('none')
         plt.show()
-        
-		
+
+data = get_data()
+A=RPS()

@@ -13,7 +13,7 @@ from configparser import ConfigParser
 
 ts.set_token('22e74c8e4523bb24f26bcd5706617b2059c0e4e0f7f9df3559c5b000')
 pro = ts.pro_api()
-show_fuck = print()
+# show_fuck = print()
 
 def GetTscodefromCname(cnname):
     # 通过股票中文名称获取全部的TS_code，TS_code作为后续每次选择股票的基础信息
@@ -345,11 +345,11 @@ if __name__ == "__main__":
     end_date = '20191203'
 
     # PRO日线获取
-    # daily_pro_2 = daily_pro('000876.SZ','20190101','20200620','None','D',[5,10,20,60],[],'Flase')
-    # daily_pro_1 = ts.pro_bar(ts_code='601398.SH',start_date='20200101',end_date='20200620',adj='None',freq='D',ma=[5,10],factors=[],adjfactor=False)
-    # Tocsv(daily_pro_2,'','0625_1')
-    # show_func(daily_pro_2)
-    # show_func(daily_pro_1)
+    daily_pro_2 = daily_pro('000876.SZ','20190101','20200620','None','D',[5,10,20,60],[],'True')
+    daily_pro_1 = ts.pro_bar(ts_code='601398.SH',start_date='20200101',end_date='20200620',adj='None',freq='D',ma=[5,10],factors=[],adjfactor=False)
+    Tocsv(daily_pro_2,'','0625_2')
+    show_func(daily_pro_2)
+    show_func(daily_pro_1)
 
     # Chinadaily = Getdailyfromtscode('', start_date, end_date)
     # df = pro.index_daily(ts_code='801710.SI', trade_date = '20200413',start_date='20200413', end_date='20200414')
