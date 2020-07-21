@@ -7,6 +7,7 @@ from matplotlib import dates as mdates
 from matplotlib import ticker as mticker
 # from matplotlib.finance import candlestick_ohlc
 import mpl_finance as mpf
+import talib
 from matplotlib.dates import DateFormatter, WeekdayLocator, DayLocator, MONDAY,YEARLY
 from matplotlib.dates import MonthLocator,MONTHLY
 import datetime as dt
@@ -23,7 +24,7 @@ end_date = time_temp.strftime('%Y-%m-%d')
 # show_func(enddate)
 
 MA1 = 10
-MA2 = 50
+MA2 = 20
 
 def get_data(ts_code,start_date,end_date):
     engine = connect_db_engine()
@@ -33,24 +34,30 @@ def get_data(ts_code,start_date,end_date):
     engine.dispose()
     return df
 
+def MA(data, para):
+    MAdata = talib.MA(data, para)
+    return MAdata
+
 def main():
     data = get_data('000001.SZ','2020-01-01','2020-06-30')
     data['trade_date'] = mdates.date2num(data['trade_date'])
     data.drop(['ts_code', 'change', 'pct_chg', 'vol', 'amount', 'pre_close'], axis=1, inplace=True)
     data = data.reindex(columns=['trade_date', 'open', 'high', 'low', 'close'])
 
-    Av1 = movingaverage(data.close.values, MA1)
-    Av2 = movingaverage(data.close.values, MA2)
-    SP = len(data.DateTime.values[MA2 - 1:])
+    Av1 = talib.MA(data.close.values, MA1)
+    Av2 = talib.MA(data.close.values, MA2)
+    # Av1 = movingaverage(data.close.values, MA1)
+    # Av2 = movingaverage(data.close.values, MA2)
+    SP = len(data.trade_date.values[MA2 - 1:])
     fig = plt.figure(facecolor='#07000d', figsize=(15, 10))
 
-    ax1 = plt.subplot2grid((6, 4), (1, 0), rowspan=4, colspan=4, axisbg='#07000d')
+    ax1 = plt.subplot2grid((6, 4), (1, 0), rowspan=4, colspan=4, facecolor='#07000d')
     mpf.candlestick_ohlc(ax1, data.values[-SP:], width=.6, colorup='#ff1717', colordown='#53c156')
     Label1 = str(MA1) + ' SMA'
     Label2 = str(MA2) + ' SMA'
 
-    ax1.plot(data.DateTime.values[-SP:], Av1[-SP:], '#e1edf9', label=Label1, linewidth=1.5)
-    ax1.plot(data.DateTime.values[-SP:], Av2[-SP:], '#4ee6fd', label=Label2, linewidth=1.5)
+    ax1.plot(data.trade_date.values[-SP:], Av1[-SP:], '#e1edf9', label=Label1, linewidth=1.5)
+    ax1.plot(data.trade_date.values[-SP:], Av2[-SP:], '#4ee6fd', label=Label2, linewidth=1.5)
     ax1.grid(True, color='w')
     ax1.xaxis.set_major_locator(mticker.MaxNLocator(10))
     ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
@@ -64,12 +71,12 @@ def main():
     ax1.tick_params(axis='x', colors='w')
     plt.ylabel('Stock price and Volume')
     plt.show()
-'''
+
 if __name__ == "__main__":
     main()
+
+
 '''
-
-
 data = get_data('000001.SZ','2020-01-01','2020-06-30')
 # daysreshape['DateTime']=mdates.date2num(daysreshape['DateTime'].astype(dt.date))
 data['trade_date'] = mdates.date2num(data['trade_date'])
@@ -77,3 +84,5 @@ data.drop(['ts_code','change','pct_chg','vol','amount','pre_close'],axis=1,inpla
 data = data.reindex(columns=['trade_date', 'open', 'high', 'low', 'close'])
     # data['trade_date']
 show_func(data)
+show_func(data.close.values)
+'''
