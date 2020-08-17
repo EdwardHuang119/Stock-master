@@ -3,7 +3,8 @@
 from functools import reduce
 
 from pandas import DataFrame, Series
-import pandas as pd; import numpy as np
+import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import dates as mdates
 from matplotlib import ticker as mticker
@@ -48,6 +49,28 @@ def SMA(vals, n, m) :
 def EMA(vals, n):
     return SMA(vals, n+1, 2)
 
+def callMacd(short=12,long=26,M=9):
+    # 数据准备
+    days = get_data('600004.SH', start_date, end_date)
+    data = days.reset_index()
+    data['trade_date'] = mdates.date2num(data['trade_date'])
+    data.drop(['ts_code', 'change', 'pct_chg', 'vol', 'amount', 'pre_close'], axis=1, inplace=True)
+    data = data.reindex(columns=['trade_date', 'open', 'high', 'low', 'close'])
+    data = data['close']
+    # 数据准备结束
+    a = EMA(data, short)
+    b = EMA(data, long)
+    data['diff'] = pd.Series(a) - pd.Series(b)
+    data['dea'] = 0
+    for i in range(len(data)):
+        if i == 0:
+            data.ix[i, 'dea'] = data.ix[i, 'diff']
+        if i > 0:
+            data.ix[i, 'dea'] = (2 * data.ix[i, 'diff'] + (M - 1) * data.ix[i - 1, 'dea']) / (M + 1)
+    data['macd'] = 2 * (data['diff'] - data['dea'])
+    return data
+
+
 def macd():
     days = get_data('600004.SH',start_date,end_date)
     data = days.reset_index()
@@ -64,9 +87,13 @@ def macd():
     # ema9 = talib.MA(macd, nema)
     # days['ZZ'] = macd-ema9
     # show_func(days)
-    show_func(days['high'])
-    print(type(days['high']))
-    # Tocsv(days,'','macd(600004)')
+    # show_func(days['high'])
+    # days['high_mean_1'] = MA(days['high'],5)
+    # days['high_mean_2'] = days['high'].rolling(5).mean()
+    # days['high_mean_count'] = days['high'].rolling(5).count()
+    # days['high_mean_max'] = days['high'].rolling(5).max()
+    # print(type(days['high']))
+    Tocsv(days,'','macd(600004)')
     return (emaslow)
 
 def main():
@@ -190,7 +217,7 @@ def main():
 
 if __name__ == "__main__":
     # main()
-    show_func(macd())
+    show_func(callMacd())
 
 
 '''
