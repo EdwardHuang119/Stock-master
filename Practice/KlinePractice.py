@@ -9,7 +9,8 @@ import matplotlib.pyplot as plt
 from matplotlib import dates as mdates
 from matplotlib import ticker as mticker
 # from matplotlib.finance import candlestick_ohlc
-import mpl_finance as mpf
+import mplfinance as mpf
+# import mpl_finance as mpf
 import talib
 from matplotlib.dates import DateFormatter, WeekdayLocator, DayLocator, MONDAY,YEARLY
 from matplotlib.dates import MonthLocator,MONTHLY
@@ -49,19 +50,30 @@ def SMA(vals, n, m) :
 def EMA(vals, n):
     return SMA(vals, n+1, 2)
 
+def get_EMA(df,N):
+    for i in range(len(df)):
+        if i==0:
+            df.ix[i,'ema']=df.ix[i,'close']
+        if i>0:
+            df.ix[i,'ema']=(2*df.ix[i,'close']+(N-1)*df.ix[i-1,'ema'])/(N+1)
+            # df.ix[i,'ena'] = EMA(df.ix[i,'close'],N)
+    ema=list(df['ema'])
+    return ema
+
+
 def callMacd(short=12,long=26,M=9):
     # 数据准备
     days = get_data('600004.SH', start_date, end_date)
     data = days.reset_index()
-    data['trade_date'] = mdates.date2num(data['trade_date'])
+    # data['trade_date'] = mdates.date2num(data['trade_date'])
     data.drop(['ts_code', 'change', 'pct_chg', 'vol', 'amount', 'pre_close'], axis=1, inplace=True)
     data = data.reindex(columns=['trade_date', 'open', 'high', 'low', 'close'])
-    data = data['close']
-    # 数据准备结束
-    a = EMA(data, short)
-    b = EMA(data, long)
+
+    a = get_EMA(data,short)
+    b = get_EMA(data,long)
     data['diff'] = pd.Series(a) - pd.Series(b)
-    data['dea'] = 0
+    # show_func(data)
+    # data['dea'] = 0
     for i in range(len(data)):
         if i == 0:
             data.ix[i, 'dea'] = data.ix[i, 'diff']
@@ -96,13 +108,35 @@ def macd():
     Tocsv(days,'','macd(600004)')
     return (emaslow)
 
+def data_clean(data):
+    data.drop(['ts_code', 'change', 'pct_chg', 'amount', 'pre_close'], axis=1, inplace=True)
+    data = data.reindex(columns=['trade_date', 'open', 'high', 'low', 'close', 'vol'])
+    data.columns = ['Date', 'Open','High','Low','Close','Volume']
+    pd_date = pd.DatetimeIndex(data['Date'].values)
+    data['Date'] = pd_date
+    data.set_index(["Date"],inplace=True)
+    return data
+
+def main_2():
+    days = get_data('000001.SZ',start_date,'2020-06-30')
+    data = days.reset_index()
+    data = data_clean(data)
+    mpf.plot(data,type='candle',mav=(2, 5, 10),volume=True)
+
+
+
 def main():
     days = get_data('000001.SZ',start_date,'2020-06-30')
     data = days.reset_index()
     data['trade_date'] = mdates.date2num(data['trade_date'])
+
     data.drop(['ts_code', 'change', 'pct_chg', 'vol', 'amount', 'pre_close'], axis=1, inplace=True)
     data = data.reindex(columns=['trade_date', 'open', 'high', 'low', 'close'])
-
+    '''
+    data.drop(['ts_code', 'change', 'pct_chg', 'amount', 'pre_close'], axis=1, inplace=True)
+    # data = data.reindex(columns=['Date', 'Open', 'High', 'Low', 'Close','Volume'])
+    show_func(data.head())
+    '''
     Av1 = talib.MA(data.close.values, MA1)
     Av2 = talib.MA(data.close.values, MA2)
     # Av1 = movingaverage(data.close.values, MA1)
@@ -112,6 +146,7 @@ def main():
 
     ax1 = plt.subplot2grid((6, 4), (1, 0), rowspan=4, colspan=4, facecolor='#07000d')
     mpf.candlestick_ohlc(ax1, data.values[-SP:], width=.6, colorup='#ff1717', colordown='#53c156')
+    # mpf.plot(data)
     Label1 = str(MA1) + ' SMA'
     Label2 = str(MA2) + ' SMA'
 
@@ -217,8 +252,9 @@ def main():
 
 if __name__ == "__main__":
     # main()
-    show_func(callMacd())
-
+    main_2()
+    # show_func(callMacd())
+    # Tocsv(callMacd(),'','CAmacd(600004)')
 
 '''
 data = get_data('000001.SZ','2020-01-01','2020-06-30')
