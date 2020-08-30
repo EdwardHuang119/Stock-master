@@ -32,8 +32,8 @@ if __name__ == "__main__":
             i = i + 1
             time.sleep(0.2)
         HK_hold_DataFrame['trade_date'] = pd.to_datetime(HK_hold_DataFrame['trade_date'], format='%Y%m%d')
-        show_func(HK_hold_DataFrame.shape[0])
-        show_func(HK_hold_DataFrame)
+        # show_func(HK_hold_DataFrame.shape[0])
+        # show_func(HK_hold_DataFrame)
         try:
             HK_hold_DataFrame.to_sql('stock_temp', con=engine, if_exists='replace', index=False)
             print('%s到%s的数据已经导入到临时表中,共导入了%s条' %(start_date,end_date,HK_hold_DataFrame.shape[0]))

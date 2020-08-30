@@ -21,6 +21,7 @@ from Test.TryTensentCloud import *
 import functools
 
 
+
 show = True
 show_func = print if show else lambda a: a
 start_date = '2020-01-01'
@@ -33,10 +34,20 @@ MA2 = 20
 
 def get_data(ts_code,start_date,end_date):
     engine = connect_db_engine()
+    starttime = dt.datetime.now()
+    print('%s开始获取数据'%(starttime))
     # sql = """select * from stock_china_daily where trade_date >= '2020-01-01'"""
-    sql = "select * from stock_china_daily where ts_code = '%s' and trade_date between '%s' and '%s'" %(ts_code,start_date,end_date)
+    if type(ts_code) == str and str(ts_code) !='':
+        sql = "select * from stock_china_daily where ts_code = '%s' and trade_date between '%s' and '%s'" %(ts_code,start_date,end_date)
+    elif type(ts_code) == list:
+        ts_code_tuple = tuple(ts_code)
+        sql = "select * from stock_china_daily where ts_code in %s and trade_date between '%s' and '%s'" % (ts_code_tuple, start_date, end_date)
+    elif type(ts_code) == str and str(ts_code) =='':
+        sql = "select * from stock_china_daily where trade_date between '%s' and '%s'" % (start_date, end_date)
     df = pd.read_sql_query(sql, engine)
     engine.dispose()
+    endtime = dt.datetime.now()
+    print('%s数据已经获取'%(endtime))
     return df
 
 def MA(data, para):
@@ -96,15 +107,6 @@ def macd():
     days['emaslow'] = emaslow
     days['enafast'] = emafast
     days['macd'] = macd*2
-    # ema9 = talib.MA(macd, nema)
-    # days['ZZ'] = macd-ema9
-    # show_func(days)
-    # show_func(days['high'])
-    # days['high_mean_1'] = MA(days['high'],5)
-    # days['high_mean_2'] = days['high'].rolling(5).mean()
-    # days['high_mean_count'] = days['high'].rolling(5).count()
-    # days['high_mean_max'] = days['high'].rolling(5).max()
-    # print(type(days['high']))
     Tocsv(days,'','macd(600004)')
     return (emaslow)
 
@@ -123,7 +125,34 @@ def main_2():
     data = data_clean(data)
     mpf.plot(data,type='candle',mav=(2, 5, 10),volume=True)
 
+def setlist(one_list):
+    return list(set(one_list))
 
+def marginofma(tscode,start_date,end_date,ma):
+    days = get_data(tscode,start_date,end_date)
+    data = days.reset_index()
+    ts_code_list = data['ts_code'].tolist()
+    ts_code_list = setlist(ts_code_list)
+    data_2 =pd.DataFrame()
+    starttime = dt.datetime.now()
+    print('%s已经开始计算均线差值'%(starttime))
+    for i in range(len(ts_code_list)):
+        data_per = data.loc[data['ts_code'] == ts_code_list[i]].copy()
+        # 防止链式调用，所以直接用了一个新的Copy，有可能占用内存
+        show_func(data_per.head())
+        data_per['MA20'] = MA(data_per.close.values, 20)
+        Max_tradedate = data_per['trade_date'].max()
+        data_3 = data_per.loc[data_per['trade_date'] == Max_tradedate]
+        # data_3['marginochange'] = data_3['close'] - data_3
+        data_2 = pd.concat([data_2, data_3],ignore_index=True)
+        # print('已经获取%s的数据' % (ts_code_list[i]))
+        i = i + 1
+    # data_2 = data_2.reset_index()
+    endtime = dt.datetime.now()
+    Tocsv(data_2,'','data_2_pra_test')
+    timeconsuming = endtime-starttime
+    print('%s已经开始计算均线差值,共耗时%s' % (endtime,timeconsuming))
+    return data_2
 
 def main():
     days = get_data('000001.SZ',start_date,'2020-06-30')
@@ -252,17 +281,14 @@ def main():
 
 if __name__ == "__main__":
     # main()
-    main_2()
-    # show_func(callMacd())
-    # Tocsv(callMacd(),'','CAmacd(600004)')
-
-'''
-data = get_data('000001.SZ','2020-01-01','2020-06-30')
-# daysreshape['DateTime']=mdates.date2num(daysreshape['DateTime'].astype(dt.date))
-data['trade_date'] = mdates.date2num(data['trade_date'])
-data.drop(['ts_code','change','pct_chg','vol','amount','pre_close'],axis=1,inplace=True)
-data = data.reindex(columns=['trade_date', 'open', 'high', 'low', 'close'])
-    # data['trade_date']
-show_func(data)
-show_func(data.close.values)
-'''
+    # main_2()
+    # marginofma(['000001.SZ','601398.SH'],'2020-02-01','2020-08-25',10)
+    index_code = index_
+    '''
+    
+    days = get_data(['000001.SZ','601398.SH'],start_date,'2020-06-30')
+    data = days.reset_index()
+    data['MA5'] = MA(data.close.values,5)
+    Tocsv(data,'','Practise')
+    show_func(data.head())
+    '''
