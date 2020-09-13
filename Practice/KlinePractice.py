@@ -50,6 +50,40 @@ def get_data(ts_code,start_date,end_date):
     print('%s数据已经获取'%(endtime))
     return df
 
+def get_sw_date(ts_code,start_date,end_date):
+    engine = connect_db_engine()
+    if type(ts_code) == str and str(ts_code) !='':
+        sql = "select * from stockindex_china_sw where ts_code = '%s' and trade_date between '%s' and '%s'" %(ts_code,start_date,end_date)
+    elif type(ts_code) == list:
+        ts_code_tuple = tuple(ts_code)
+        sql = "select * from stockindex_china_sw where ts_code in %s and trade_date between '%s' and '%s'" % (ts_code_tuple, start_date, end_date)
+    elif type(ts_code) == str and str(ts_code) =='':
+        sql = "select * from stockindex_china_sw where trade_date between '%s' and '%s'" % (start_date, end_date)
+    sw_date = pd.read_sql_query(sql, engine)
+    engine.dispose()
+    '''
+    # 先获取行业的类别内容
+    index_class = index_classify('')
+    index_code_list = index_class['index_code'].tolist()
+    # show_func(index_code_list)
+    # 循环获取行业数据
+    sw_date = pd.DataFrame()
+    for i in range(len(index_code_list)):
+        # 首先获取数据信息
+        sw_date_per = index_sw_daily(ts_code=index_code_list[i],start_date=startdate,end_date=enddate)
+        # 返回的数据日期是倒序的，改为升序
+        sw_date_per = sw_date_per.sort_values(by=['trade_date'],ascending=True)
+        # 获取20日线信息
+        sw_date_per['MA20'] = MA(sw_date_per.close.values,20)
+        # show_func(sw_date_per.head())
+        sw_date = pd.concat([sw_date,sw_date_per],ignore_index= True)
+        time.sleep(0.4)
+        i = i+1
+    sw_date['trade_date']=pd.to_datetime(sw_date['trade_date'], format='%Y%m%d')
+    '''
+    return sw_date
+
+
 def MA(data, para):
     MAdata = talib.MA(data, para)
     return MAdata
@@ -70,7 +104,6 @@ def get_EMA(df,N):
             # df.ix[i,'ena'] = EMA(df.ix[i,'close'],N)
     ema=list(df['ema'])
     return ema
-
 
 def callMacd(short=12,long=26,M=9):
     # 数据准备
@@ -283,7 +316,11 @@ if __name__ == "__main__":
     # main()
     # main_2()
     # marginofma(['000001.SZ','601398.SH'],'2020-02-01','2020-08-25',10)
-    index_code = index_
+    data = get_sw_date('858811.SI','2020-01-01','2020-09-06')
+    show_func(data)
+    # Tocsv(data,'','指数信息核对')
+
+    # index_code = index_
     '''
     
     days = get_data(['000001.SZ','601398.SH'],start_date,'2020-06-30')

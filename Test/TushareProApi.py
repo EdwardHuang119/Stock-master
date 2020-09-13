@@ -157,7 +157,12 @@ def Getdailyfromconcept(concept_id,start_date,end_date):
 
 def index_classify(level):
     # 申银万国行业区分
-    index_list = pro.index_classify(level=level, src='SW',fields='index_code,industry_name,level,industry_code')
+    if level !='':
+        index_list = pro.index_classify(level=level, src='SW',fields='index_code,industry_name,level,industry_code')
+    elif level == '':
+        index_list = pro.index_classify(src='SW', fields='index_code,industry_name,level,industry_code')
+        # index_list = pro.index_classify(src='SW')
+    #     如果不指定fields会返回不足量。
     return index_list
 
 def index_member(index_code,ts_code):
@@ -347,15 +352,28 @@ def daily_pro(ts_code,start_date,end_date,adj,freq,ma,factors,adjfactor):
     daily_pro = ts.pro_bar(ts_code=ts_code, start_date=start_date, end_date=end_date,adj=adj,freq=freq,ma=ma,factors=factors,adjfactor=adjfactor)
     return daily_pro
 
-def index_sw_daily():
-    index_sw_daily = pro.sw_daily()
+def index_sw_daily(ts_code,start_date,end_date):
+    # index_sw_daily = pro.sw_daily(trade_date = 20200630)
+    index_sw_daily = pro.sw_daily(ts_code =ts_code,start_date = start_date,end_date = end_date)
+    return index_sw_daily
+
+def index_sw_daily_trade(trade_date):
+    index_sw_daily = pro.sw_daily(trade_date = trade_date)
     return index_sw_daily
 
 if __name__ == "__main__":
     show=True
     show_func = print if show else lambda a: a
-    df = pro.index_daily(ts_code='801011.SI', start_date='20200501', end_date='20200826')
+    # df = pro.index_daily(ts_code='801011.SI', start_date='20200501', end_date='20200826')
+    # df = index_sw_daily()
+    # df = pro.index_classify(src='SW',fields='index_code,industry_name,level,industry_code')
+    df = index_classify('')
+    # df2 = index_sw_daily(ts_code='801710.SI',start_date=20200101,end_date=20200831)
+    # df2['trade_date'] = pd.to_datetime(df2['trade_date'], format='%Y%m%d')
     show_func(df)
+
+
+    # Tocsv(df,'','index_sw_daily')
     # show_func(index_daily('857333.SI','2020-01-01','2020-08-26'))
     # Tocsv(index_basic(),'','index_basic')
     # show_func(index_basic())
