@@ -54,7 +54,8 @@ def get_data(ts_code,start_date,end_date):
     print('%s开始获取数据'%(starttime))
     # sql = """select * from stock_china_daily where trade_date >= '2020-01-01'"""
     if type(ts_code) == str and str(ts_code) !='':
-        sql = "select * from stock_china_daily where ts_code = '%s' and trade_date between '%s' and '%s'" %(ts_code,start_date,end_date)
+        sql = "select * from stock_china_daily where ts_code = '%s' and trade_date between '%s' and '%s' union select * from stock_china_daily_1 where ts_code = '%s' and trade_date between '%s' and '%s' order by trade_date" %(ts_code,start_date,end_date,ts_code,start_date,end_date)
+        # print(sql)
     elif type(ts_code) == list:
         ts_code_tuple = tuple(ts_code)
         sql = "select * from stock_china_daily where ts_code in %s and trade_date between '%s' and '%s'" % (ts_code_tuple, start_date, end_date)
@@ -67,13 +68,14 @@ def get_data(ts_code,start_date,end_date):
     return df
 
 
-df=get_data('600000.SH','2015-01-01','2020-05-01')
+df=get_data('600000.SH','2008-10-01','2020-05-01')
 df.index=pd.to_datetime(df.trade_date)
 df['openinterest']=0
 df = df.rename(columns={'vol':'volume'})
 df=df[['open','high','low','close','volume','openinterest']]
-start=dt(2015, 1, 1)
-end=dt(2020, 3, 31)
+# show_func(df.head())
+start=dt.datetime(2008, 10, 1)
+end=dt.datetime(2020, 3, 31)
 # 加载数据
 data = bt.feeds.PandasData(dataname=df,fromdate=start,todate=end)
 # show_func(df.head())
@@ -89,7 +91,7 @@ startcash = 10000
 cerebro.broker.setcash(startcash)
 # 设置交易手续费为 0.2%
 cerebro.broker.setcommission(commission=0.002)
-# print(f'净收益: {round(pnl,2)}')
+mpl.rcParams['font.sans-serif']=['SimHei']
 
 d1=start.strftime('%Y%m%d')
 d2=end.strftime('%Y%m%d')
@@ -101,3 +103,5 @@ portvalue = cerebro.broker.getvalue()
 pnl = portvalue - startcash
 #打印结果
 print(f'总资金: {round(portvalue,2)}')
+print(f'净收益: {round(pnl,2)}')
+cerebro.plot(style='candlestick')
