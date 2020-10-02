@@ -20,6 +20,7 @@ class my_strategy1(bt.Strategy):
     #全局设定交易策略的参数
     params=(
         ('maperiod',20),
+        ('printlog', True)
            )
 
     def __init__(self):
@@ -47,6 +48,45 @@ class my_strategy1(bt.Strategy):
             if self.dataclose[0] < self.sma[0]:
                 #执行卖出
                 self.order = self.sell(size=500)
+    #交易记录日志（可省略，默认不输出结果）
+    def log(self, txt, dt=None,doprint=False):
+        if self.params.printlog or doprint:
+            dt = dt or self.datas[0].datetime.date(0)
+            print(f'{dt.isoformat()},{txt}')
+
+    #记录交易执行情况（可省略，默认不输出结果）
+    def notify_order(self, order):
+        # 如果order为submitted/accepted,返回空
+        if order.status in [order.Submitted, order.Accepted]:
+            return
+        # 如果order为buy/sell executed,报告价格结果
+        if order.status in [order.Completed]:
+            if order.isbuy():
+                self.log(f'买入:\n价格:{order.executed.price},\
+                成本:{order.executed.value},\
+                手续费:{order.executed.comm}')
+                self.buyprice = order.executed.price
+                self.buycomm = order.executed.comm
+            else:
+                self.log(f'卖出:\n价格：{order.executed.price},\
+                成本: {order.executed.value},\
+                手续费{order.executed.comm}')
+            self.bar_executed = len(self)
+        # 如果指令取消/交易失败, 报告结果
+        elif order.status in [order.Canceled, order.Margin, order.Rejected]:
+            self.log('交易失败')
+        self.order = None
+
+    #记录交易收益情况（可省略，默认不输出结果）
+    def notify_trade(self,trade):
+        if not trade.isclosed:
+            return
+        self.log(f'策略收益：\n毛收益 {trade.pnl:.2f}, 净收益 {trade.pnlcomm:.2f}')
+
+    #回测结束后输出结果（可省略，默认输出结果）
+    def stop(self):
+        self.log('(MA均线： %2d日) 期末总资金 %.2f' %
+                 (self.params.maperiod, self.broker.getvalue()), doprint=True)
 
 def get_data(ts_code,start_date,end_date):
     engine = connect_db_engine()
