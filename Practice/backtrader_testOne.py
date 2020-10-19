@@ -19,7 +19,7 @@ show_func = print if show else lambda a: a
 class my_strategy1(bt.Strategy):
     #全局设定交易策略的参数
     params=(
-        ('maperiod',20),
+        ('maperiod',60),
         ('printlog', True)
            )
 
@@ -48,11 +48,24 @@ class my_strategy1(bt.Strategy):
             if self.dataclose[0] < self.sma[0]:
                 #执行卖出
                 self.order = self.sell(size=500)
+
     #交易记录日志（可省略，默认不输出结果）
+    '''
     def log(self, txt, dt=None,doprint=False):
         if self.params.printlog or doprint:
             dt = dt or self.datas[0].datetime.date(0)
             print(f'{dt.isoformat()},{txt}')
+    '''
+    def log(self, txt, dt=None,doprint=False):
+        # 所有的要打印出来的数据都通过传入的txt方法来实现。但是每次调用的时候默认输入一个日期作为基本的记录
+        # 函数内的调用默认是self.params.printlog来表示
+        ''' Logging function fot this strategy'''
+        if self.params.printlog or doprint:
+            dt = dt or self.data.datetime.date(0)
+            if isinstance(dt, float):
+                dt = bt.num2date(dt)
+            #print('%s, %s' % (dt.isoformat(), txt))
+            print('%s, %s' % (dt.strftime('%Y-%m-%d'), txt))
 
     #记录交易执行情况（可省略，默认不输出结果）
     def notify_order(self, order):
@@ -126,6 +139,7 @@ cerebro = bt.Cerebro()
 cerebro.adddata(data)
 # 将交易策略加载到回测系统中
 cerebro.addstrategy(my_strategy1)
+# cerebro.addwriter(bt.WriterFile, out='log.csv', csv=True)
 # 设置初始资本为10,000
 startcash = 10000
 cerebro.broker.setcash(startcash)
