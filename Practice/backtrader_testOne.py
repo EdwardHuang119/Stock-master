@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from pylab import mpl
 from Test.TushareProApi import *
 from Test.TryTensentCloud import *
+from Practice.strategylist import *
 
 show = True
 show_func = print if show else lambda a: a
@@ -101,6 +102,7 @@ class my_strategy1(bt.Strategy):
         self.log('(MA均线： %2d日) 期末总资金 %.2f' %
                  (self.params.maperiod, self.broker.getvalue()), doprint=True)
 
+
 def get_data(ts_code,start_date,end_date):
     engine = connect_db_engine()
     starttime = dt.datetime.now()
@@ -138,7 +140,7 @@ cerebro = bt.Cerebro()
 #将数据传入回测系统
 cerebro.adddata(data)
 # 将交易策略加载到回测系统中
-cerebro.addstrategy(my_strategy1)
+cerebro.addstrategy(my_strategy2)
 # cerebro.addwriter(bt.WriterFile, out='log.csv', csv=True)
 # 设置初始资本为10,000
 startcash = 10000
