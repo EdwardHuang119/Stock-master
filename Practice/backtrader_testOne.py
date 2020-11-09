@@ -19,9 +19,18 @@ show_func = print if show else lambda a: a
 
 class my_strategy1(bt.Strategy):
     #全局设定交易策略的参数
-    params=(
-        ('maperiod',60),
-        ('printlog', True)
+    params=dict(
+        p_stoploss=0.05,
+        p_takeprofit=0.3,
+        maperiod = 5,
+        printlog = True,
+        limit = 0.005,
+        limdays = 3,
+        limdays2 = 1000,
+        hold = 10,
+        trailamount=0.0,
+        trailpercent=0.05,
+        stoptype=bt.Order.StopTrail
            )
 
     def __init__(self):
@@ -36,19 +45,52 @@ class my_strategy1(bt.Strategy):
                       self.datas[0], period=self.params.maperiod)
 
     def next(self):
-        if self.order: # 检查是否有指令等待执行,
-            return
+        # if self.order: # 检查是否有指令等待执行,
+            # return
         # 检查是否持仓
         if not self.position: # 没有持仓
             #执行买入条件判断：收盘价格上涨突破20日均线
             if self.dataclose[0] > self.sma[0]:
                 #执行买入
-                self.order = self.buy(size=500)
+                # self.order = self.buy(size=500)
+                close = self.dataclose[0]
+                p1 = close * (1.0 - self.p.limit)
+                p2 = p1 - self.p.p_stoploss * close
+                p3 = p1 + self.p.p_takeprofit * close
+                # 计算订单有效期
+                valid1 = dt.timedelta(self.p.limdays)
+                valid2 = valid3 = dt.timedelta(self.p.limdays2)
+                os = self.buy_bracket(
+                    price=p1, valid=valid1,
+                    # stopprice=p2, stopargs=dict(valid=valid2),
+                    # limitprice=p3, limitargs=dict(valid=valid3),
+                )
+                self.orefs = [o.ref for o in os]
+        # 保护性卖出
+        elif self.order is None:
+        # self.order is None:
+        # 提交stoptrail订单
+            self.order = self.sell(exectype=self.p.stoptype,
+                                   trailamount=self.p.trailamount,
+                                   trailpercent=self.p.trailpercent)
+            if self.p.trailamount:
+                tcheck = self.data.close - self.p.trailamount
+            else:
+                tcheck = self.data.close * (1.0 - self.p.trailpercent)
+            print('Sell stoptrail order created: {}: \
+                            close： {} /  \
+                            Limit price: {} / check price {}'.format(
+                self.datetime.date(), self.data.close[0],
+                self.order.created.price, tcheck))
+            print('-' * 10)
         else:
-            #执行卖出条件判断：收盘价格跌破20日均线
-            if self.dataclose[0] < self.sma[0]:
-                #执行卖出
-                self.order = self.sell(size=500)
+            if self.p.trailamount:
+                tcheck = self.data.close - self.p.trailamount
+            else:
+                tcheck = self.data.close * (1.0 - self.p.trailpercent)
+                print('update limit price: {}: \
+                        close： {} /  \
+                        Limit price: {} / check price {}'.format(self.datetime.date(), self.data.close[0],self.order.created.price, tcheck))
 
     #交易记录日志（可省略，默认不输出结果）
     '''
@@ -88,7 +130,7 @@ class my_strategy1(bt.Strategy):
             self.bar_executed = len(self)
         # 如果指令取消/交易失败, 报告结果
         elif order.status in [order.Canceled, order.Margin, order.Rejected]:
-            self.log('交易失败')
+            self.log('交易失败，交易状态为%s'%(order.getstatusname()))
         self.order = None
 
     #记录交易收益情况（可省略，默认不输出结果）
@@ -123,13 +165,13 @@ def get_data(ts_code,start_date,end_date):
     return df
 
 
-df=get_data('600000.SH','2008-10-01','2020-05-01')
+df=get_data('600547.SH','2017-01-01','2020-05-01')
 df.index=pd.to_datetime(df.trade_date)
 df['openinterest']=0
 df = df.rename(columns={'vol':'volume'})
 df=df[['open','high','low','close','volume','openinterest']]
 # show_func(df.head())
-start=dt.datetime(2008, 10, 1)
+start=dt.datetime(2018, 1, 1)
 end=dt.datetime(2020, 3, 31)
 # 加载数据
 data = bt.feeds.PandasData(dataname=df,fromdate=start,todate=end)
@@ -140,11 +182,12 @@ cerebro = bt.Cerebro()
 #将数据传入回测系统
 cerebro.adddata(data)
 # 将交易策略加载到回测系统中
-cerebro.addstrategy(my_strategy2)
+cerebro.addstrategy(my_strategy3)
 # cerebro.addwriter(bt.WriterFile, out='log.csv', csv=True)
 # 设置初始资本为10,000
-startcash = 10000
+startcash = 100000
 cerebro.broker.setcash(startcash)
+cerebro.addsizer(bt.sizers.FixedSize, stake = 1000)
 # 设置交易手续费为 0.2%
 cerebro.broker.setcommission(commission=0.002)
 mpl.rcParams['font.sans-serif']=['SimHei']
@@ -161,3 +204,5 @@ pnl = portvalue - startcash
 print(f'总资金: {round(portvalue,2)}')
 print(f'净收益: {round(pnl,2)}')
 cerebro.plot(style='candlestick')
+
+

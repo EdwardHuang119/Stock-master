@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import backtrader as bt
+import datetime as dt
 
 class my_strategy2(bt.Strategy):
     # 均线的交叉策略
@@ -75,7 +76,7 @@ class my_strategy2(bt.Strategy):
             self.bar_executed = len(self)
         # 如果指令取消/交易失败, 报告结果
         elif order.status in [order.Canceled, order.Margin, order.Rejected]:
-            self.log('交易失败')
+            self.log('交易失败，交易状态为'%order.status)
         self.order = None
 
     #记录交易收益情况（可省略，默认不输出结果）
@@ -88,3 +89,89 @@ class my_strategy2(bt.Strategy):
     def stop(self):
         self.log('(均线%2d日和均线%2d日交叉) 期末总资金 %.2f' %
                  (self.params.pfast,self.params.pslow, self.broker.getvalue()), doprint=True)
+
+
+class my_strategy3(bt.Strategy):
+    params = dict(
+        buy_limit_percent = 0.01,
+        buy_valid_date = 5,
+        stoptype=bt.Order.StopTrail,
+        trailamount=0.0,
+        trailpercent=0.05,
+        p_high_period = 5,
+        p_fast = 5,
+        p_slow = 20,
+    )
+    def __init__(self):
+        slowSMA = bt.ind.SMA(period = self.p.p_slow)
+        self.buy_con = bt.And(
+            bt.ind.CrossUp(
+            bt.ind.SMA(period = self.p.p_fast), slowSMA),
+            #slowSMA == bt.ind.Highest(slowSMA, period = self.p.p_high_period, plot = False)
+        )
+        self.order = None
+    def notify_order(self, order):
+        if order.status in [order.Completed]:
+            print('Completed order: {}: Order ref: {} / Type {} / Status {} '.format(
+                self.data.datetime.date(0),
+                order.ref, 'Buy' * order.isbuy() or 'Sell',
+                order.getstatusname()))
+            self.order = None
+        if order.status in [order.Expired]:
+            self.order = None
+        print('{}: Order ref: {} / Type {} / Status {}'.format(
+            self.data.datetime.date(0),
+            order.ref, 'Buy' * order.isbuy() or 'Sell',
+            order.getstatusname()))
+    def next(self):
+        # 无场内资产
+        if not self.position:
+            # 未提交买单
+            if None == self.order:
+                # 金叉到达了买点
+                if self.buy_con:
+                    self.order = self.buy()
+                    '''
+                    # 计算订单有效期时间，如果超过有效期，股价仍未回踩，则放弃下买入订单
+                    valid = self.data.datetime.date(0)
+                    if self.p.buy_valid_date:
+                        valid = valid + dt.timedelta(days=self.p.buy_valid_date)
+                    # 计算回踩后的买入价格
+                    price = self.datas[0].close[0] * (1.0 - self.p.buy_limit_percent)
+                    print('Buy order created: {}: close: {} / limit price: {} / valid: {}'.format(
+                        self.datetime.date(), self.datas[0].close[0], price, valid) )
+                    # 用有效时间及回踩买点提交买入订单
+                    price = self.datas[0].close[0]
+                    self.order = self.buy(exectype = bt.Order.Limit, price = price, valid = valid)
+                    # self.order = self.buy(price=price)
+                    # self.order = self.buy_bracket()
+                    #o = self.buy()
+                    print('*' * 50)
+                    '''
+        elif self.order is None:
+            # 提交stoptrail订单
+            self.order = self.sell(exectype=self.p.stoptype,
+                                   trailamount=self.p.trailamount,
+                                   trailpercent=self.p.trailpercent)
+            if self.p.trailamount:
+                tcheck = self.data.close - self.p.trailamount
+            else:
+                tcheck = self.data.close * (1.0 - self.p.trailpercent)
+            print('Sell stoptrail order created: {}: \
+                close： {} /  \
+                Limit price: {} / check price {}'.format(
+                self.datetime.date(), self.data.close[0],
+                self.order.created.price, tcheck
+            ))
+            print('-' * 10)
+        else:
+            if self.p.trailamount:
+                tcheck = self.data.close - self.p.trailamount
+            else:
+                tcheck = self.data.close * (1.0 - self.p.trailpercent)
+            print('update limit price: {}: \
+                close： {} /  \
+                Limit price: {} / check price {}'.format(
+                self.datetime.date(), self.data.close[0],
+                self.order.created.price, tcheck
+            ))
