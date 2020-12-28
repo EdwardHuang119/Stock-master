@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import pandas as pd
-from Test.TushareProApi import Getdailyfromtscode
+from Test.TushareProApi import *
 from Test.TryTensentCloud import connect_db
 from Test.TryTensentCloud import connect_db_engine
 from Test.TushareProApi import Tocsv
@@ -20,12 +20,21 @@ if __name__ == "__main__":
     result = engine.execute("select max(trade_date) from stock_china_daily ")
     for row in result:
         startdate =row['max(trade_date)']+datetime.timedelta(days=1)
+        # 从数据库找到的最大日期开始，+1天作为起始日期
+        max_trade_date = row['max(trade_date)'].strftime('%Y%m%d')
+        #保留一下数据库最大日期
+    '''
+    result2 = engine.execute("select * from trade_cal where exchange = 'SSE' and cal_date = '%s' " % (startdate))
+        #获取起始日期是否是节假日
+    for row in result2:
+        startdate_is_open = row['is_open']
+    '''
     startdate=startdate.strftime('%Y%m%d')
     time_temp =datetime.datetime.now()
     enddate = time_temp.strftime('%Y%m%d')
-    if startdate == enddate:
-        print('截止到%s的数据已经获取完整'%(enddate))
-    else:
+    # show_func(trade_cal_list(startdate,enddate,'SSE'))
+    if trade_cal_list(startdate,enddate,'SSE'):
+        # 数据库最大日期的第二天到现在没有有任何一个交易日，则开始执行
         Chinadaily = Getdailyfromtscode('',startdate,enddate)
         Chinadaily['trade_date'] = pd.to_datetime(Chinadaily['trade_date'],format='%Y%m%d')
         try:
@@ -52,6 +61,9 @@ if __name__ == "__main__":
         print('All finish')
         endtime = datetime.datetime.now()
         print('从',starttime,'开始，到',endtime,'结束，耗时为',endtime-starttime,'。共导入数据',Chinadaily.shape[0],'条。')
+    else:
+        # 1）最大日期就到现在没有任何一天需要下载数据的话
+        print('截止到%s的数据已经获取完整'%(enddate))
     '''
     db, cursor = connect_db()
     for i in range(Chinadaily.shape[0]):

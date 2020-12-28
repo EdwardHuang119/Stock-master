@@ -25,8 +25,8 @@ show_func = print if show else lambda a: a
 # print(sys.platform)
 
 # 获取一段时间的每个开盘日期。形成trade_cal_list
-start_date = '20201016'
-end_date = '20201023'
+start_date = '20201117'
+end_date = '20201124'
 period = trade_cal_list(start_date,end_date,'')
 start_date = str(period[0])
 end_date = str(period[-1])
@@ -150,7 +150,7 @@ hk_hold_report_5['close_change_per'] = hk_hold_report_5['close_change']/ hk_hold
 show_func(hk_hold_report_5.head())
 # show_func(hk_hold_report_5[(hk_hold_report_5['ratio_change']>0)&(hk_hold_report_5['close_change']<0)])
 
-Tocsv(hk_hold_report_5,'','HK_hold_report(1016--1023)')
+Tocsv(hk_hold_report_5,'','HK_hold_report(1117--1124)')
 
 '''
 trade_list = list(set(HK_hold_Dataframe_csv['trade_date'].tolist()))

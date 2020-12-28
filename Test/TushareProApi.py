@@ -361,16 +361,19 @@ def index_sw_daily_trade(trade_date):
     index_sw_daily = pro.sw_daily(trade_date = trade_date)
     return index_sw_daily
 
+
 if __name__ == "__main__":
     show=True
     show_func = print if show else lambda a: a
+    list=trade_cal_list('20201219','20201220','SSE')
+    show_func(list)
     # df = pro.index_daily(ts_code='801011.SI', start_date='20200501', end_date='20200826')
     # df = index_sw_daily()
     # df = pro.index_classify(src='SW',fields='index_code,industry_name,level,industry_code')
-    df = index_classify('')
+    # df = index_classify('')
     # df2 = index_sw_daily(ts_code='801710.SI',start_date=20200101,end_date=20200831)
     # df2['trade_date'] = pd.to_datetime(df2['trade_date'], format='%Y%m%d')
-    show_func(df)
+    # show_func(df)
 
 
     # Tocsv(df,'','index_sw_daily')

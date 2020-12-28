@@ -61,7 +61,7 @@ def sw_date_insert(data):
                 delete from stock_temp
             """
         engine.execute(query_sql)
-        print('数据已经导入到正是表')
+        print('数据已经导入到正式表')
         engine.execute(query_sql2)
         print('临时表数据已经删除')
     except Exception as ae:
@@ -82,7 +82,10 @@ if __name__ == "__main__":
     end_date = time_temp.strftime('%Y-%m-%d')
     # end_date = '2020-08-30'
     data = sw_date_get(start_date,end_date)
-    sw_date_insert(data)
-    endtime = datetime.datetime.now()
-    print('从', starttime, '开始，到', endtime, '结束，耗时为', endtime - starttime)
+    if data.empty:
+        print('没有需要下载的数据')
+    else:
+        sw_date_insert(data)
+        endtime = datetime.datetime.now()
+        print('从', starttime, '开始，到', endtime, '结束，耗时为', endtime - starttime)
 
