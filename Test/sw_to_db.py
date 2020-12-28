@@ -23,29 +23,33 @@ def sw_date_get(start_date,end_date):
     # start_date=time_temp.strftime('%Y%m%d')
     # end_date = time_temp.strftime('%Y%m%d')
     date_list = sw_date_list(start_date,end_date)
-    sw_date = pd.DataFrame()
-    for i in range(len(date_list)):
-        sw_date_per = index_sw_daily_trade(trade_date = date_list[i])
-        sw_date = pd.concat([sw_date,sw_date_per],ignore_index= True)
-        print('%s的数据已经获取'%(date_list[i]))
-        time.sleep(0.4)
-        i = i+1
-    '''
-    index_class = index_classify('')
-    index_code_list = index_class['index_code'].tolist()
-    # show_func(index_code_list)
-    # 循环获取行业数据
-        for i in range(len(index_code_list)):
-        # 首先获取数据信息
-        sw_date_per = index_sw_daily(ts_code=index_code_list[i], start_date=start_date, end_date=end_date)
-        # 返回的数据日期是倒序的，改为升序
-        # sw_date_per = sw_date_per.sort_values(by=['trade_date'], ascending=True)
-        sw_date = pd.concat([sw_date,sw_date_per],ignore_index= True)
-        time.sleep(0.4)
-        i = i+1
-    '''
-    print('共获取数据',sw_date.shape[0],'条')
-    return sw_date
+    if date_list:
+        sw_date = pd.DataFrame()
+        for i in range(len(date_list)):
+            sw_date_per = index_sw_daily_trade(trade_date = date_list[i])
+            sw_date = pd.concat([sw_date,sw_date_per],ignore_index= True)
+            print('%s的数据已经获取'%(date_list[i]))
+            time.sleep(0.4)
+            i = i+1
+        '''
+        index_class = index_classify('')
+        index_code_list = index_class['index_code'].tolist()
+        # show_func(index_code_list)
+        # 循环获取行业数据
+            for i in range(len(index_code_list)):
+            # 首先获取数据信息
+            sw_date_per = index_sw_daily(ts_code=index_code_list[i], start_date=start_date, end_date=end_date)
+            # 返回的数据日期是倒序的，改为升序
+            # sw_date_per = sw_date_per.sort_values(by=['trade_date'], ascending=True)
+            sw_date = pd.concat([sw_date,sw_date_per],ignore_index= True)
+            time.sleep(0.4)
+            i = i+1
+        '''
+        print('共获取数据',sw_date.shape[0],'条')
+        return sw_date
+    else:
+        print('没有要下载的数据')
+
 
 def sw_date_insert(data):
     try:
@@ -80,11 +84,11 @@ if __name__ == "__main__":
     start_date = start_date_get()
     time_temp = datetime.datetime.now()
     end_date = time_temp.strftime('%Y-%m-%d')
-    # end_date = '2020-08-30'
     data = sw_date_get(start_date,end_date)
-    if data.empty:
-        print('没有需要下载的数据')
+    if data == None:
+        pass
     else:
+        show_func(data)
         sw_date_insert(data)
         endtime = datetime.datetime.now()
         print('从', starttime, '开始，到', endtime, '结束，耗时为', endtime - starttime)
