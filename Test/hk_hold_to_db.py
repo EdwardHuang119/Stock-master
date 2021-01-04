@@ -45,7 +45,7 @@ if __name__ == "__main__":
             i = i + 1
             time.sleep(0.2)
         if HK_hold_DataFrame.empty:
-            print('再等等')
+            pass
         else:
             HK_hold_DataFrame['trade_date'] = pd.to_datetime(HK_hold_DataFrame['trade_date'], format='%Y%m%d')
                 # show_func(HK_hold_DataFrame.shape[0])

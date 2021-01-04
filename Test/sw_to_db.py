@@ -46,9 +46,11 @@ def sw_date_get(start_date,end_date):
             i = i+1
         '''
         print('共获取数据',sw_date.shape[0],'条')
-        return sw_date
     else:
         print('没有要下载的数据')
+        sw_date = pd.DataFrame()
+    # show_func(sw_date)
+    return sw_date
 
 
 def sw_date_insert(data):
@@ -85,10 +87,10 @@ if __name__ == "__main__":
     time_temp = datetime.datetime.now()
     end_date = time_temp.strftime('%Y-%m-%d')
     data = sw_date_get(start_date,end_date)
-    if data == None:
+    if data.empty:
         pass
     else:
-        show_func(data)
+        # show_func(data)
         sw_date_insert(data)
         endtime = datetime.datetime.now()
         print('从', starttime, '开始，到', endtime, '结束，耗时为', endtime - starttime)
