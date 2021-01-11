@@ -314,7 +314,7 @@ def main():
 
 if __name__ == "__main__":
     # main()
-    # main_2()
+    main_2()
     # marginofma(['000001.SZ','601398.SH'],'2020-02-01','2020-08-25',10)
     data = get_sw_date('858811.SI','2020-01-01','2020-09-06')
     show_func(data)

@@ -15,7 +15,8 @@ show_func = print if show else lambda a: a
 
 # print(bt.__file__)
 # class my_strategy2(bt.Strategy)
-
+plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
+plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
 
 class my_strategy1(bt.Strategy):
     #全局设定交易策略的参数
