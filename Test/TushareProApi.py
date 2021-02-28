@@ -290,6 +290,13 @@ def trade_cal_list(start_date,end_date,exchange):
     trade_cal_list =A.loc[A['is_open'] ==1]['cal_date'].tolist()
     return trade_cal_list
 
+def hk_tradecal(start_date,end_date):
+    A=pro.hk_tradecal(start_date=start_date, end_date=end_date)
+    # A=hk_tradecal(start_date,end_date)
+    hk_tradecal_list = A.loc[A['is_open']==1]['cal_date'].tolist()
+    hk_tradecal_list.sort()
+    return hk_tradecal_list
+
 def hk_daily(ts_code,start_date,end_date):
     if type(ts_code)==str and str(ts_code) !='':
         hk_daily=pro.hk_daily(ts_code=ts_code, start_date=start_date, end_date=end_date)
@@ -365,7 +372,10 @@ def index_sw_daily_trade(trade_date):
 if __name__ == "__main__":
     show=True
     show_func = print if show else lambda a: a
-    list=trade_cal_list('20201219','20201220','SSE')
+    # list=trade_cal_list('20210101','20211231','SSE')
+    # list=trade_cal_list('20200101','20211231','XHKG')
+    list = hk_tradecal('20210101','20211231')
+
     show_func(list)
     # df = pro.index_daily(ts_code='801011.SI', start_date='20200501', end_date='20200826')
     # df = index_sw_daily()

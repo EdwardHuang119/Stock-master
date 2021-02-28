@@ -4,7 +4,8 @@ import sys
 import pandas as pd
 from PyQt5.QtWidgets import QApplication, QTableView
 from PyQt5.QtCore import QAbstractTableModel, Qt
-# from Test.TushareProApi import Getdailyfromconcept, Getconcept
+from Test.TushareProApi import *
+# import PyQt5
 
 '''''''''
 def QyTalbeShow(data):
@@ -37,6 +38,7 @@ df = pd.DataFrame({'a': ['Mary', 'Jim', 'John'],
                    'b': [100, 200, 300],
                    'c': ['a', 'b', 'c']})
 '''''''''''
+# df = Getdailyfromconcept('TS355', 20191009, 20191010)
 # df = Getdailyfromconcept('TS355', 20191009, 20191010)
 # df = Getconcept('')
 
@@ -76,7 +78,7 @@ def Dataframdatashow(data):
 
 # Talbe1 = Dataframdatashow(df)
 
-''''''''''
+'''
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     model = pandasModel(df)
@@ -85,4 +87,4 @@ if __name__ == '__main__':
     view.resize(800, 600)
     view.show()
     sys.exit(app.exec_())
-'''''
+'''

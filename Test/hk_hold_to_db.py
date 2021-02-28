@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import datetime
-from Test.TushareProApi import trade_cal_list,hk_hold
+from Test.TushareProApi import *
 from Test.TryTensentCloud import connect_db_engine,connect_db
 import pandas as pd
 import time
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     start_date = start_date.strftime('%Y%m%d')
     time_temp = datetime.datetime.now()
     end_date = time_temp.strftime('%Y%m%d')
-    period = trade_cal_list(start_date, end_date, 'XHKG')
+    period = hk_tradecal(start_date,end_date)
     # show_func(period)
     HK_hold_DataFrame = pd.DataFrame()
     if period:
@@ -43,7 +43,7 @@ if __name__ == "__main__":
                 print('%s的数据已经完全获取' % (period[i]))
             HK_hold_DataFrame = pd.concat([HK_hold_DataFrame, HK_hold_list_per],ignore_index=True)
             i = i + 1
-            time.sleep(0.2)
+            time.sleep(0.8)
         if HK_hold_DataFrame.empty:
             pass
         else:

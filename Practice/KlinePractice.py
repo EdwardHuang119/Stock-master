@@ -24,7 +24,7 @@ import functools
 
 show = True
 show_func = print if show else lambda a: a
-start_date = '2020-01-01'
+start_date = '2015-01-01'
 time_temp =dt.datetime.now()
 end_date = time_temp.strftime('%Y-%m-%d')
 # show_func(enddate)
@@ -157,6 +157,7 @@ def main_2():
     data = days.reset_index()
     data = data_clean(data)
     mpf.plot(data,type='candle',mav=(2, 5, 10),volume=True)
+
 
 def setlist(one_list):
     return list(set(one_list))
@@ -316,8 +317,8 @@ if __name__ == "__main__":
     # main()
     main_2()
     # marginofma(['000001.SZ','601398.SH'],'2020-02-01','2020-08-25',10)
-    data = get_sw_date('858811.SI','2020-01-01','2020-09-06')
-    show_func(data)
+    # data = get_sw_date('858811.SI','2020-01-01','2020-09-06')
+    # show_func(data)
     # Tocsv(data,'','指数信息核对')
 
     # index_code = index_

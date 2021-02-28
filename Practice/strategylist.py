@@ -92,6 +92,7 @@ class my_strategy2(bt.Strategy):
 
 
 class my_strategy3(bt.Strategy):
+    # 均线的交叉策略
     params = dict(
         buy_limit_percent = 0.01,
         buy_valid_date = 5,

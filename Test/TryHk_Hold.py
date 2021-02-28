@@ -1,18 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import Test.TushareProApi
-from Test.TushareProApi import GetdatlyfromCname
-from Test.TushareProApi import Getconcept_detail
-from Test.TushareProApi import Getdailyfromconcept
-from Test.TushareProApi import moneyflowlist
 import Test.QyptTableView
 from Test.QyptTableView import Dataframdatashow
-from Test.TushareProApi import trade_cal
-from Test.TushareProApi import trade_cal_list
-from Test.TushareProApi import hk_daily
-from Test.TushareProApi import Getdailyfromtscode
-from Test.TushareProApi import hk_hold
-from Test.TushareProApi import Tocsv
+from Test.TushareProApi import *
 import tushare as ts
 import pandas as pd
 from pandas import Series
@@ -151,7 +142,6 @@ show_func(hk_hold_report_5.head())
 # show_func(hk_hold_report_5[(hk_hold_report_5['ratio_change']>0)&(hk_hold_report_5['close_change']<0)])
 
 Tocsv(hk_hold_report_5,'','HK_hold_report(1117--1124)')
-
 '''
 trade_list = list(set(HK_hold_Dataframe_csv['trade_date'].tolist()))
 trade_list.sort()
