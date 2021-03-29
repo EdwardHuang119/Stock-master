@@ -5,7 +5,7 @@ import tushare as ts
 import pandas as pd
 import time
 import numpy as np
-from Test.QyptTableView import Dataframdatashow
+# from Test.QyptTableView import Dataframdatashow
 import sys
 import os
 from configparser import ConfigParser
@@ -368,15 +368,43 @@ def index_sw_daily_trade(trade_date):
     index_sw_daily = pro.sw_daily(trade_date = trade_date)
     return index_sw_daily
 
+def fund_basic(market):
+    if market =='':
+        fund_basic = pro.fund_basic()
+    else:
+        fund_basic = pro.fund_basic(market=market)
+    return fund_basic
+
+def fund_nav(ts_code,end_date,market):
+    fund_nav = pro.fund_nav(ts_code=ts_code,end_date=end_date,market=market)
+    return fund_nav
+
+def fund_portfolio(ts_code):
+    fund_portfolio = pd.DataFrame()
+    if type(ts_code) ==list:
+        for i in range(len(ts_code)):
+            fund_portfolio_per = pro.fund_portfolio(ts_code=ts_code[i])
+            fund_portfolio = pd.concat([fund_portfolio, fund_portfolio_per], ignore_index=True)
+            i = i + 1
+    elif type(ts_code)==str and str(ts_code) !='':
+        fund_portfolio = pro.fund_portfolio(ts_code=ts_code)
+    return fund_portfolio
+
+
+
+
+
 
 if __name__ == "__main__":
     show=True
     show_func = print if show else lambda a: a
     # list=trade_cal_list('20210101','20211231','SSE')
     # list=trade_cal_list('20200101','20211231','XHKG')
-    list = hk_tradecal('20210101','20211231')
-
-    show_func(list)
+    # list = hk_tradecal('20210101','20211231')
+    # df = fund_basic()
+    df = fund_portfolio('')
+    Tocsv(df,'','fund_portfolio')
+    show_func(df)
     # df = pro.index_daily(ts_code='801011.SI', start_date='20200501', end_date='20200826')
     # df = index_sw_daily()
     # df = pro.index_classify(src='SW',fields='index_code,industry_name,level,industry_code')
