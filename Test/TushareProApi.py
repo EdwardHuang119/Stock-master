@@ -297,6 +297,10 @@ def hk_tradecal(start_date,end_date):
     hk_tradecal_list.sort()
     return hk_tradecal_list
 
+def hk_basic():
+    hk_basic = pro.hk_basic()
+    return hk_basic
+
 def hk_daily(ts_code,start_date,end_date):
     if type(ts_code)==str and str(ts_code) !='':
         hk_daily=pro.hk_daily(ts_code=ts_code, start_date=start_date, end_date=end_date)
@@ -341,6 +345,25 @@ def Tocsv(dataframe,filepathinput,name):
     print('TOCSV结束',fullname,'已经存储')
     return
 
+def Read_csv(name,filepathinput):
+    configname = 'config.conf'
+    fatherpath = os.path.abspath(os.path.dirname(os.getcwd()))
+    configpath = fatherpath + '/confing' + '//' + configname
+    cf = ConfigParser()
+    cf.read(configpath)
+    if sys.platform == 'win32':
+        pathprefix = 'win'
+    elif sys.platform == 'darwin':
+        pathprefix = 'mac'
+    if filepathinput =='':
+        pathosread = 'filepath'
+    else:
+        pathosread = 'filepath'+'_'+filepathinput
+    filesearch = pathprefix + pathosread
+    filepath = cf.get('fileswrite', filesearch)
+    fullname = filepath + name + '.csv'
+    dataframe = pd.read_csv(fullname,index_col=0)
+    return dataframe
 
 def index_daily(ts_code,start_date,end_date):
     index_daily = pro.index_daily(ts_code,start_date,end_date)
@@ -402,8 +425,9 @@ if __name__ == "__main__":
     # list=trade_cal_list('20200101','20211231','XHKG')
     # list = hk_tradecal('20210101','20211231')
     # df = fund_basic()
-    df = fund_portfolio('')
-    Tocsv(df,'','fund_portfolio')
+    # df = fund_portfolio('')
+    df = Read_csv('fund_protfolio_analys_All','')
+    # Tocsv(df,'','fund_portfolio')
     show_func(df)
     # df = pro.index_daily(ts_code='801011.SI', start_date='20200501', end_date='20200826')
     # df = index_sw_daily()
