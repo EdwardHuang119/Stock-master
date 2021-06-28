@@ -30,7 +30,7 @@ class LoginPage(object):
         self.w = 300
         self.h = 180
         self.root = master #定义内部变量root  
-        self.staIco = G_ico
+        self.staIco = g.ico
         self.root.geometry('%dx%d' % (self.w, self.h )) #设置窗口大小  
         self.username = StringVar()  
         self.password = StringVar()  
@@ -64,7 +64,7 @@ class LoginPage(object):
         Label(self.page).grid(row=0, stick=W)  
         Label(self.page, text = '聚宽账户: ').grid(row=1, stick=W, pady=10)
         Entry(self.page, textvariable=self.username).grid(row=1, column=1, stick=E)
-        self.username.set(G_user) 
+        self.username.set(g.user)
         Label(self.page, text = '聚宽密码: ').grid(row=2, stick=W, pady=10)  
         Entry(self.page, textvariable=self.password, show='*').grid(row=2, column=1, stick=E)  
         Button(self.page, text='登陆', command=self.loginCheck).grid(row=3, stick=W, pady=10)  
@@ -75,8 +75,8 @@ class LoginPage(object):
         name = self.username.get()  
         secret = self.password.get()  
         try:
-            x=auth(name,secret)   #聚宽用户认证,不需要可注释掉，把下一句注释去掉。
-            # x='Good'
+            # x=auth(name,secret)   #聚宽用户认证,不需要可注释掉，把下一句注释去掉。
+            x='Good'
         except:
             x="error"
         #x='test'

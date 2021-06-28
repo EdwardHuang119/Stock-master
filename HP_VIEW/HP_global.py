@@ -14,7 +14,7 @@
 """
 
 #运行系统环境设置
-#G_os=1 windows,=2 linux, =3 mac oS
+# G_os=1 windows,=2 linux, =3 mac oS
 global os   #操作系统
 global pyver  #Python版本
 

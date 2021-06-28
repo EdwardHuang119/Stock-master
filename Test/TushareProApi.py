@@ -79,7 +79,7 @@ def Getdailyfromtscode(ts_code,start_date,end_date):
                 Stock_daily_per = pro.daily(start_date = trade_cal_list_1[i],end_date = trade_cal_list_1[i])
                 Stock_daily = pd.concat([Stock_daily,Stock_daily_per],ignore_index=True)
                 print(trade_cal_list_1[i],'全部国内市场交易数据已经获取')
-                time.sleep(2)
+                time.sleep(3)
                 i =i+1
         else:
             Stock_daily = pro.daily(start_date=start_date, end_date=end_date)

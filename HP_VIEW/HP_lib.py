@@ -113,6 +113,7 @@ import pandas as pd
 import numpy  
 import math as m
 from HP_VIEW.HP_global import *
+from HP_VIEW.HP_set import *
 
 
 #版本号
@@ -172,7 +173,7 @@ def COPY(df,tp1,al=''):
     ZB_l = []
     y=0
     while i < len(df):  
-        y=df.get_value(i, tp1)
+        y=df._get_value(i, tp1)
         ZB_l.append(y)  
         i = i + 1          
     ZB_s = pd.Series(ZB_l)  
@@ -207,7 +208,7 @@ def EGTN(df,tp1,x,al=''):
     ZB_l = []
     y=0
     while i < len(df):  
-        if (df.get_value(i, tp1) >= x) :
+        if (df._get_value(i, tp1) >= x) :
                 y=1
         else:
                 y=0
@@ -228,7 +229,7 @@ def ELTN(df,tp1,x,al=''):
     ZB_l = []
     y=0
     while i < len(df):  
-        if (df.get_value(i, tp1) <= x) :
+        if (df._get_value(i, tp1) <= x) :
                 y=1
         else:
                 y=0
@@ -250,7 +251,7 @@ def EGT(df,tp1,tp2,al=''):
     ZB_l = []
     y=0
     while i < len(df):  
-        if (df.get_value(i, tp1) >= df.get_value(i, tp2)):
+        if (df._get_value(i, tp1) >= df._get_value(i, tp2)):
                 y=1
         else:
                 y=0
@@ -271,7 +272,7 @@ def ELT(df,tp1,tp2,al=''):
     ZB_l = []
     y=0
     while i < len(df):  
-        if (df.get_value(i, tp1) <= df.get_value(i, tp2)):
+        if (df._get_value(i, tp1) <= df._get_value(i, tp2)):
                 y=1
         else:
                 y=0
@@ -292,7 +293,7 @@ def EQUAL(df,tp1,tp2,al=''):
     ZB_l = []
     y=0
     while i < len(df):  
-        if (df.get_value(i, tp1)  == df.get_value(i, tp2)):
+        if (df._get_value(i, tp1)  == df._get_value(i, tp2)):
                 y=1
         else:
                 y=0
@@ -313,7 +314,7 @@ def GT(df,tp1,tp2,al=''):
     ZB_l = []
     y=0
     while i < len(df):  
-        if (df.get_value(i, tp1) > df.get_value(i, tp2)):
+        if (df._get_value(i, tp1) > df._get_value(i, tp2)):
                 y=1
         else:
                 y=0
@@ -334,7 +335,7 @@ def LT(df,tp1,tp2,al=''):
     ZB_l = []
     y=0
     while i < len(df):  
-        if (df.get_value(i, tp1) < df.get_value(i, tp2)):
+        if (df._get_value(i, tp1) < df._get_value(i, tp2)):
                 y=1
         else:
                 y=0
@@ -356,7 +357,7 @@ def AND(df,tp1,tp2,al=''):
     ZB_l = []
     y=0
     while i < len(df):  
-        if (df.get_value(i, tp1) >0 and df.get_value(i, tp2)>0):
+        if (df._get_value(i, tp1) >0 and df._get_value(i, tp2)>0):
                 y=1
         else:
                 y=0
@@ -377,7 +378,7 @@ def OR(df,tp1,tp2,al=''):
     ZB_l = []
     y=0
     while i < len(df)-1:  
-        if (df.get_value(i, tp1) >0 or df.get_value(i, tp2)>0):
+        if (df._get_value(i, tp1) >0 or df._get_value(i, tp2)>0):
                 y=1
         else:
                 y=0
@@ -394,7 +395,7 @@ def OR(df,tp1,tp2,al=''):
 #Winner当前价格获利率
 def WINNER(df,price, tp1,al=''):  
     if price==0.0:
-        price=df.get_value(len(df)-1, 'close')
+        price=df._get_value(len(df)-1, 'close')
     if (al.strip()==''):
         na='WINNER_' + tp1
     else:
@@ -403,12 +404,12 @@ def WINNER(df,price, tp1,al=''):
     ZB_l = []
     y=0
     while i < len(df):  
-        if (df.get_value(i, 'low') <price):
+        if (df._get_value(i, 'low') <price):
             y=0.0
-        elif (df.get_value(i, 'high') >price):
+        elif (df._get_value(i, 'high') >price):
             y=1.00
         else:
-            y=(price-df.get_value(i, 'low')+0.01)/(df.get_value(i, 'high')-df.get_value(i, 'low')+0.01)
+            y=(price-df._get_value(i, 'low')+0.01)/(df._get_value(i, 'high')-df._get_value(i, 'low')+0.01)
         yy=y
         ZB_l.append(yy)  
         i = i + 1          
@@ -462,10 +463,10 @@ def DMA(df,tp1,tp2,al=''):
         na=al 
     i = 1 
     ZB_l = [0]
-    y=df.get_value(i-1, tp1)*df.get_value(i-1, tp2)
+    y=df._get_value(i-1, tp1)*df._get_value(i-1, tp2)
     i=i+1
     while i < df.index[-1]:  
-        y=df.get_value(i-1, tp1)*df.get_value(i-1, tp2)+(1-df.get_value(i-1, tp2))*y
+        y=df._get_value(i-1, tp1)*df._get_value(i-1, tp2)+(1-df._get_value(i-1, tp2))*y
         ZB_l.append(y)  
         i = i + 1          
         
@@ -484,7 +485,7 @@ def CROSS(df,tp1,tp2,al=''):
     CR_l = [0]
     y=0
     while i < len(df):  
-        if ((df.get_value(i-1, tp1) <df.get_value(i-1, tp2)) and (df.get_value(i, tp1) >=df.get_value(i, tp2))):
+        if ((df._get_value(i-1, tp1) <df._get_value(i-1, tp2)) and (df._get_value(i, tp1) >=df._get_value(i, tp2))):
                 y=1
         else:
                 y=0
@@ -510,11 +511,11 @@ def REF(df,tp, n,al=''):
     ZB_l = []
     y = 0
     while i < n: 
-        y=df.get_value(i, tp1)   
+        y=df._get_value(i, tp1)   
         ZB_l.append(y) 
         i=i+1
     while i < len(df):  
-        y=df.get_value(i-n, tp1)        
+        y=df._get_value(i-n, tp1)        
         ZB_l.append(y)  
         i = i + 1          
         
@@ -537,11 +538,11 @@ def REFX(df,tp, n,al=''):
     ZB_l = []
     y=0
     while i < len(df)-n: 
-         y=df.get_value(i+n, tp1)   
+         y=df._get_value(i+n, tp1)   
          ZB_l.append(y) 
          i=i+1
     while i < len(df):  
-        y=df.get_value(i, tp1)        
+        y=df._get_value(i, tp1)        
         ZB_l.append(y)  
         i = i + 1          
         
@@ -568,18 +569,18 @@ def HHV(df,tp, n,al=''):
         na=al
     i = 0 
     ZB_l = []
-    y=df.get_value(i, tp1)  
+    y=df._get_value(i, tp1)  
     while i < n: 
-         if y<df.get_value(i, tp1):  
-             y=df.get_value(i, tp1)  
+         if y<df._get_value(i, tp1):  
+             y=df._get_value(i, tp1)  
          ZB_l.append(y) 
          i=i+1
     while i < len(df):  
         j=1
-        y=df.get_value(i, tp1)  
+        y=df._get_value(i, tp1)  
         while j < n: 
-            if y<df.get_value(i-j, tp1)  :
-                y=df.get_value(i-j, tp1)
+            if y<df._get_value(i-j, tp1)  :
+                y=df._get_value(i-j, tp1)
             j=j+1
         ZB_l.append(y)  
         i = i + 1          
@@ -601,18 +602,18 @@ def LLV(df,tp, n,al=''):
         na=al
     i = 0 
     ZB_l = []
-    y=df.get_value(0, tp1)  
+    y=df._get_value(0, tp1)  
     while i < n: 
-         if y>df.get_value(i, tp1):  
-             y=df.get_value(i, tp1)  
+         if y>df._get_value(i, tp1):  
+             y=df._get_value(i, tp1)  
          ZB_l.append(y) 
          i=i+1
     while i < len(df):  
         j=1
-        y=df.get_value(i, tp1)  
+        y=df._get_value(i, tp1)  
         while j < n: 
-            if y>df.get_value(i-j, tp1)  :
-                y=df.get_value(i-j, tp1)
+            if y>df._get_value(i-j, tp1)  :
+                y=df._get_value(i-j, tp1)
             j=j+1
         ZB_l.append(y)  
         i = i + 1          
@@ -637,7 +638,7 @@ def COUNT(df,tp, n,al=''):
     ZB_l = []
     y=0  
     while i < n: 
-         if df.get_value(i, tp1)>0:  
+         if df._get_value(i, tp1)>0:  
              y=y+1  
          ZB_l.append(y) 
          i=i+1
@@ -645,7 +646,7 @@ def COUNT(df,tp, n,al=''):
         j=1
         y=0  
         while j < n: 
-            if df.get_value(i-j, tp1)>0  :
+            if df._get_value(i-j, tp1)>0  :
                 y=y=y+1
             j=j+1
         ZB_l.append(y)  
@@ -670,14 +671,14 @@ def SUM(df,tp, n,al=''):
     ZB_l = []
     y=0  
     while i < n: 
-         y=y+ df.get_value(i, tp1)  
+         y=y+ df._get_value(i, tp1)  
          ZB_l.append(y) 
          i=i+1
     while i < len(df):  
         j=1
         y=0  
         while j < n: 
-            y=y+ df.get_value(i-j, tp1)  
+            y=y+ df._get_value(i-j, tp1)  
             j=j+1
         ZB_l.append(y)  
         i = i + 1          
@@ -701,7 +702,7 @@ def SMA(df,tp,n,m,al=''):
     ZB_l = []
     y=1
     while i < len(df):
-        y=(df.get_value(i, tp1)*m+(n-m)*y)/n
+        y=(df._get_value(i, tp1)*m+(n-m)*y)/n
         ZB_l.append(y) 
         i=i+1
    
@@ -720,28 +721,28 @@ def KDJ(df,n,m1,m2):
     i = 0 
     RSV=0.0000
     ZB_l = []
-    yl= df.get_value(0, 'low')  
-    yh= df.get_value(0, 'high')  
+    yl= df._get_value(0, 'low')  
+    yh= df._get_value(0, 'high')  
     while i < n: 
-        if yl>df.get_value(i, 'low')  :
-            yl=df.get_value(i, 'low')
-        if yh<df.get_value(i, 'high')  :
-            yh=df.get_value(i, 'high')
+        if yl>df._get_value(i, 'low')  :
+            yl=df._get_value(i, 'low')
+        if yh<df._get_value(i, 'high')  :
+            yh=df._get_value(i, 'high')
         i=i+1
-        RSV= (df.get_value(i, 'close')-yl)/(yh-yl)*100.0000
+        RSV= (df._get_value(i, 'close')-yl)/(yh-yl)*100.0000
         ZB_l.append(RSV) 
     while i < len(df):  
         j=0
-        yl= df.get_value(i, 'low')  
-        yh= df.get_value(i, 'high')   
+        yl= df._get_value(i, 'low')  
+        yh= df._get_value(i, 'high')   
         while j < n: 
-            if yl>df.get_value(i-j, 'low')  :
-                yl=df.get_value(i-j, 'low')
-            if yh<df.get_value(i-j, 'high')  :
-                yh=df.get_value(i-j, 'high')
+            if yl>df._get_value(i-j, 'low')  :
+                yl=df._get_value(i-j, 'low')
+            if yh<df._get_value(i-j, 'high')  :
+                yh=df._get_value(i-j, 'high')
             j=j+1
         if yh !=yl :
-            RSV= (df.get_value(i, 'close')-yl)/(yh-yl)*100.0000  
+            RSV= (df._get_value(i, 'close')-yl)/(yh-yl)*100.0000  
         else:
             RSV=50
         ZB_l.append(RSV)  
@@ -788,12 +789,12 @@ def OBVX(df, n,m):
     i = 0  
     OBV = [0]  
     while i < df.index[-1]:  
-        if df.get_value(i + 1, 'close') - df.get_value(i, 'close') > 0:  
-            OBV.append(df.get_value(i + 1, 'volume'))  
-        if df.get_value(i + 1, 'close') - df.get_value(i, 'close') == 0:  
+        if df._get_value(i + 1, 'close') - df._get_value(i, 'close') > 0:  
+            OBV.append(df._get_value(i + 1, 'volume'))  
+        if df._get_value(i + 1, 'close') - df._get_value(i, 'close') == 0:  
             OBV.append(0)  
-        if df.get_value(i + 1, 'close') - df.get_value(i, 'close') < 0:  
-            OBV.append(-df.get_value(i + 1, 'volume'))  
+        if df._get_value(i + 1, 'close') - df._get_value(i, 'close') < 0:  
+            OBV.append(-df._get_value(i + 1, 'volume'))  
         i = i + 1  
     OBV = pd.Series(OBV,name = 'OBV')  
     df=df.join(OBV)
@@ -813,8 +814,8 @@ def RSIX(df, n,al=''):
     UpI = [0]  
     DoI = [0]  
     while i + 1 <= df.index[-1]:  
-        UpMove = df.get_value(i + 1, 'high') - df.get_value(i, 'high')  
-        DoMove = df.get_value(i, 'low') - df.get_value(i + 1, 'low')  
+        UpMove = df._get_value(i + 1, 'high') - df._get_value(i, 'high')  
+        DoMove = df._get_value(i, 'low') - df._get_value(i + 1, 'low')  
         if UpMove > DoMove and UpMove > 0:  
             UpD = UpMove  
         else: UpD = 0  
@@ -852,10 +853,10 @@ def MACDX(df, n_long, n_short,m):
 
 #MACD, MACD Signal and MACD difference  
 def MACD(df, n_fast, n_slow):  
-    EMAfast = pd.Series(pd.ewma(df['close'], span = n_fast, min_periods = n_slow - 1))  
-    EMAslow = pd.Series(pd.ewma(df['close'], span = n_slow, min_periods = n_slow - 1))  
+    EMAfast = pd.Series(pd.DataFrame.ewm(df['close'], span = n_fast, min_periods = n_slow - 1).mean())
+    EMAslow = pd.Series(pd.DataFrame.ewm(df['close'], span = n_slow, min_periods = n_slow - 1).mean())
     MACD = pd.Series(EMAfast - EMAslow, name = 'MACD_' + str(n_fast) + '_' + str(n_slow))  
-    MACDsign = pd.Series(pd.ewma(MACD, span = 9, min_periods = 8), name = 'MACDsign_' + str(n_fast) + '_' + str(n_slow))  
+    MACDsign = pd.Series(pd.DataFrame.ewm(MACD, span = 9, min_periods = 8).mean(), name = 'MACDsign_' + str(n_fast) + '_' + str(n_slow))
     MACDdiff = pd.Series(MACD - MACDsign, name = 'MACDdiff_' + str(n_fast) + '_' + str(n_slow))  
     df = df.join(MACD)  
     df = df.join(MACDsign)  
@@ -881,7 +882,7 @@ def ATR(df, n):
     i = 0  
     TR_l = [0]  
     while i < len(df.index):  
-        TR = max(df.get_value(i + 1, 'high'), df.get_value(i, 'close')) - min(df.get_value(i + 1, 'low'), df.get_value(i, 'close'))  
+        TR = max(df._get_value(i + 1, 'high'), df._get_value(i, 'close')) - min(df._get_value(i + 1, 'low'), df._get_value(i, 'close'))  
         TR_l.append(TR)  
         i = i + 1  
     TR_s = pd.Series(TR_l)  
@@ -949,8 +950,8 @@ def ADX(df, n, n_ADX):
     UpI = []  
     DoI = []  
     while i + 1 <= df.index[-1]:  
-        UpMove = df.get_value(i + 1, 'high') - df.get_value(i, 'high')  
-        DoMove = df.get_value(i, 'low') - df.get_value(i + 1, 'low')  
+        UpMove = df._get_value(i + 1, 'high') - df._get_value(i, 'high')  
+        DoMove = df._get_value(i, 'low') - df._get_value(i + 1, 'low')  
         if UpMove > DoMove and UpMove > 0:  
             UpD = UpMove  
         else: UpD = 0  
@@ -963,7 +964,7 @@ def ADX(df, n, n_ADX):
     i = 0  
     TR_l = [0]  
     while i < df.index[-1]:  
-        TR = max(df.get_value(i + 1, 'high'), df.get_value(i, 'close')) - min(df.get_value(i + 1, 'low'), df.get_value(i, 'close'))  
+        TR = max(df._get_value(i + 1, 'high'), df._get_value(i, 'close')) - min(df._get_value(i + 1, 'low'), df._get_value(i, 'close'))  
         TR_l.append(TR)  
         i = i + 1  
     TR_s = pd.Series(TR_l)  
@@ -993,13 +994,13 @@ def Vortex(df, n):
     i = 0  
     TR = [0]  
     while i < df.index[-1]:  
-        Range = max(df.get_value(i + 1, 'high'), df.get_value(i, 'close')) - min(df.get_value(i + 1, 'low'), df.get_value(i, 'close'))  
+        Range = max(df._get_value(i + 1, 'high'), df._get_value(i, 'close')) - min(df._get_value(i + 1, 'low'), df._get_value(i, 'close'))  
         TR.append(Range)  
         i = i + 1  
     i = 0  
     VM = [0]  
     while i < df.index[-1]:  
-        Range = abs(df.get_value(i + 1, 'high') - df.get_value(i, 'low')) - abs(df.get_value(i + 1, 'low') - df.get_value(i, 'high'))  
+        Range = abs(df._get_value(i + 1, 'high') - df._get_value(i, 'low')) - abs(df._get_value(i + 1, 'low') - df._get_value(i, 'high'))  
         VM.append(Range)  
         i = i + 1  
     VI = pd.Series(pd.rolling_sum(pd.Series(VM), n) / pd.rolling_sum(pd.Series(TR), n), name = 'Vortex_' + str(n))  
@@ -1034,8 +1035,8 @@ def RSI(df, n):
     UpI = [0]  
     DoI = [0]  
     while i + 1 <= df.index[-1]:  
-        UpMove = df.get_value(i + 1, 'high') - df.get_value(i, 'high')  
-        DoMove = df.get_value(i, 'low') - df.get_value(i + 1, 'low')  
+        UpMove = df._get_value(i + 1, 'high') - df._get_value(i, 'high')  
+        DoMove = df._get_value(i, 'low') - df._get_value(i + 1, 'low')  
         if UpMove > DoMove and UpMove > 0:  
             UpD = UpMove  
         else: UpD = 0  
@@ -1089,7 +1090,7 @@ def MFI(df, n):
     PosMF = [0]  
     while i < df.index[-1]:  
         if PP[i + 1] > PP[i]:  
-            PosMF.append(PP[i + 1] * df.get_value(i + 1, 'volume'))  
+            PosMF.append(PP[i + 1] * df._get_value(i + 1, 'volume'))  
         else:  
             PosMF.append(0)  
         i = i + 1  
@@ -1105,12 +1106,12 @@ def OBV(df, n):
     i = 0  
     OBV = [0]  
     while i < df.index[-1]:  
-        if df.get_value(i + 1, 'close') - df.get_value(i, 'close') > 0:  
-            OBV.append(df.get_value(i + 1, 'volume'))  
-        if df.get_value(i + 1, 'close') - df.get_value(i, 'close') == 0:  
+        if df._get_value(i + 1, 'close') - df._get_value(i, 'close') > 0:  
+            OBV.append(df._get_value(i + 1, 'volume'))  
+        if df._get_value(i + 1, 'close') - df._get_value(i, 'close') == 0:  
             OBV.append(0)  
-        if df.get_value(i + 1, 'close') - df.get_value(i, 'close') < 0:  
-            OBV.append(-df.get_value(i + 1, 'volume'))  
+        if df._get_value(i + 1, 'close') - df._get_value(i, 'close') < 0:  
+            OBV.append(-df._get_value(i + 1, 'volume'))  
         i = i + 1  
     OBV = pd.Series(OBV)  
     OBV_ma = pd.Series(pd.rolling_mean(OBV, n), name = 'OBV_' + str(n))  
@@ -1165,9 +1166,9 @@ def ULTOSC(df):
     TR_l = [0]  
     BP_l = [0]  
     while i < df.index[-1]:  
-        TR = max(df.get_value(i + 1, 'high'), df.get_value(i, 'close')) - min(df.get_value(i + 1, 'low'), df.get_value(i, 'close'))  
+        TR = max(df._get_value(i + 1, 'high'), df._get_value(i, 'close')) - min(df._get_value(i + 1, 'low'), df._get_value(i, 'close'))  
         TR_l.append(TR)  
-        BP = df.get_value(i + 1, 'close') - min(df.get_value(i + 1, 'low'), df.get_value(i, 'close'))  
+        BP = df._get_value(i + 1, 'close') - min(df._get_value(i + 1, 'low'), df._get_value(i, 'close'))  
         BP_l.append(BP)  
         i = i + 1  
     UltO = pd.Series((4 * pd.rolling_sum(pd.Series(BP_l), 7) / pd.rolling_sum(pd.Series(TR_l), 7)) + (2 * pd.rolling_sum(pd.Series(BP_l), 14) / pd.rolling_sum(pd.Series(TR_l), 14)) + (pd.rolling_sum(pd.Series(BP_l), 28) / pd.rolling_sum(pd.Series(TR_l), 28)), name = 'Ultimate_Osc')  

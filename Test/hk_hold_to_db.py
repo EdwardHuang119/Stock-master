@@ -29,6 +29,7 @@ if __name__ == "__main__":
     start_date = start_date.strftime('%Y%m%d')
     time_temp = datetime.datetime.now()
     end_date = time_temp.strftime('%Y%m%d')
+    # end_date = '20210618'
     period = hk_tradecal(start_date,end_date)
     # show_func(period)
     HK_hold_DataFrame = pd.DataFrame()

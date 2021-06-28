@@ -18,12 +18,13 @@ import pandas as pd; import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import dates as mdates
 from matplotlib import ticker as mticker
-from matplotlib.finance import candlestick_ohlc
+# from matplotlib.finance import candlestick_ohlc
+import mplfinance as mpf
 from matplotlib.dates import DateFormatter, WeekdayLocator, DayLocator, MONDAY,YEARLY
 from matplotlib.dates import MonthLocator,MONTHLY
 import matplotlib
 from numpy import arange, sin, pi
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg,NavigationToolbar2TkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg,NavigationToolbar2Tk
 from matplotlib.backend_bases import key_press_handler
 from matplotlib.figure import Figure
 import datetime as dt
@@ -90,7 +91,7 @@ def draw_KDJ(ax1,days,x,y,z):
         posCol = '#386d13'
         negCol = '#8f2020'
         df=mylib.KDJ(days,x,y,z)
-        ax2 = plt.subplot2grid((7,4), (5,0), sharex=ax1, rowspan=2, colspan=4, axisbg='#07000d')
+        ax2 = plt.subplot2grid((7,4), (5,0), sharex=ax1, rowspan=2, colspan=4, facecolor='#07000d')
         fillcolor = '#00ffe8'
         ax2.plot(df.date.values, df.K.values, color=rsiCol, lw=2)
         ax2.plot(df.date.values, df.D.values, color=posCol, lw=2)
@@ -113,7 +114,7 @@ def draw_MACD(ax1,days,x,y,z):
         posCol = '#386d13'
         negCol = '#8f2020'
         df=mylib.MACD(days,x,y)
-        ax2 = plt.subplot2grid((7,4), (5,0), sharex=ax1, rowspan=2, colspan=4, axisbg='#07000d')
+        ax2 = plt.subplot2grid((7,4), (5,0), sharex=ax1, rowspan=2, colspan=4, facecolor='#07000d')
         fillcolor = '#00ffe8'
         ax2.plot(df.date.values, df.MACDsign_12_26.values, color=rsiCol, lw=1)
         ax2.plot(df.date.values, df.MACD_12_26.values, color=negCol, lw=1)

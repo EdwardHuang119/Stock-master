@@ -23,6 +23,7 @@ from matplotlib import ticker as mticker
 # from matplotlib.finance import candlestick_ohlc
 # from mplfinance import candlestick_ohlc
 import mplfinance as mpf
+from mplfinance.original_flavor import candlestick_ohlc
 from matplotlib.dates import DateFormatter, WeekdayLocator, DayLocator, MONDAY,YEARLY
 from matplotlib.dates import MonthLocator,MONTHLY
 import matplotlib
@@ -39,6 +40,9 @@ import tkinter as tk
 from tkinter import messagebox, filedialog, simpledialog, colorchooser
 from tkinter import ttk
 from PIL import Image, ImageTk
+import HP_VIEW.HP_lib as mylib
+import HP_VIEW.HP_draw as mydraw
+from Test.TryTensentCloud import *
 
 ################################
 #import HP_zwdata as sd
@@ -49,7 +53,35 @@ from HP_VIEW.HP_global import *
 from HP_VIEW.HP_set import *
 import HP_VIEW.HP_lib as mylib
 import HP_VIEW.HP_draw as mydraw
+from Test.TushareProApi import *
 
+
+def get_data(ts_code,start_date,end_date):
+    engine = connect_db_engine()
+    starttime = dt.datetime.now()
+    print('%s开始获取数据'%(starttime))
+    # sql = """select * from stock_china_daily where trade_date >= '2020-01-01'"""
+    if type(ts_code) == str and str(ts_code) !='':
+        sql = "select * from stock_china_daily where ts_code = '%s' and trade_date between '%s' and '%s'" %(ts_code,start_date,end_date)
+    elif type(ts_code) == list:
+        ts_code_tuple = tuple(ts_code)
+        sql = "select * from stock_china_daily where ts_code in %s and trade_date between '%s' and '%s'" % (ts_code_tuple, start_date, end_date)
+    elif type(ts_code) == str and str(ts_code) =='':
+        sql = "select * from stock_china_daily where trade_date between '%s' and '%s'" % (start_date, end_date)
+    df = pd.read_sql_query(sql, engine)
+    engine.dispose()
+    endtime = dt.datetime.now()
+    print('%s数据已经获取'%(endtime))
+    return df
+
+def data_clean(data):
+    data.drop(['ts_code', 'change', 'pct_chg', 'amount', 'pre_close'], axis=1, inplace=True)
+    data = data.reindex(columns=['trade_date', 'open', 'high', 'low', 'close', 'vol'])
+    data.columns = ['date', 'open','high','low','close','volume']
+    pd_date = pd.DatetimeIndex(data['date'].values)
+    data['date'] = pd_date
+    data.set_index(["date"],inplace=True)
+    return data
 
   
 class plotFrame3(Frame): # 继承Frame类  
@@ -61,36 +93,42 @@ class plotFrame3(Frame): # 继承Frame类
         self.createPage()  
    
     def createPage(self):  
-        ds=G_sday
-        de=G_eday
-        stockn=G_stock
+        ds=g.sday
+        de=g.eday
+        stockn=g.stock
         matplotlib.use('TkAgg')
-        df1 = jq.get_price(stockn,start_date=ds,end_date=de, frequency='daily') # 聚宽获取股票数据
-        #df1 = ts.get_hist_data(stockn,start=ds,end=de)   # tushare获取股票 数据
+        # df1 = jq.get_price(stockn,start_date=ds,end_date=de, frequency='daily') # 聚宽获取股票数据
+        # df1 = ts.get_hist_data(stockn,start=ds,end=de)   # tushare获取股票 数据
+        # df1 = Getdailyfromtscode(stockn,ds,de)
+        df1 = get_data(stockn, ds, de)
+        df1['trade_date'] = mdates.date2num(df1['trade_date'])
         df2=df1.copy()
-        df2.dropna(inplace=True)
-        df2.insert(0,'date',df2.index)
-        df2=df2.reset_index(level=None, drop=True ,col_level=0, col_fill='')  
+        # df2.dropna(inplace=True)
+        # df2.insert(0,'date',df2.index)
+        df2 = df2.reset_index()
+        # df2 = data_clean(df2)
         print(df1)
         print(df2)
         days=df2
-        G_df=df2
-        MA1 = G_MA1
-        MA2 = G_MA2
+        g.df=df2
+        MA1 = g.MA1
+        MA2 = g.MA2
         Av1=mylib.G_MA(days['close'],MA1)
-        Av2=mylib.G_MA(days['close'],MA2) 
-        SP = len(days.date.values[MA2-1:])
-        SP1 = len(days.date.values[MA1-1:])
+        Av2=mylib.G_MA(days['close'],MA2)
+        SP = len(days.trade_date.values[MA2-1:])
+        SP1 = len(days.trade_date.values[MA1-1:])
         fig = plt.figure(facecolor='#07000d',figsize=(7,4))
-        ax1 = plt.subplot2grid((7,4), (0,0), rowspan=4, colspan=4, axisbg='#07000d')
+        ax1 = plt.subplot2grid((7,4), (0,0), rowspan=4, colspan=4, facecolor='#07000d')
         daysreshape = days.reset_index()
-        daysreshape['date']=mdates.date2num(daysreshape['date'].astype(dt.date))
+        print(daysreshape)
+        # daysreshape['trade_date']=mdates.date2num(daysreshape['trade_date'].astype(dt.date))
         daysreshape = daysreshape.reindex(columns=['date','open','high','low','close'])
-        candlestick_ohlc(ax1, daysreshape.values, width=.6, colorup='#ff1717', colordown='#53c156')                
+        candlestick_ohlc(ax1, daysreshape.values, width=.6, colorup='#ff1717', colordown='#53c156')
+        # candlestick_ohlc(ax1, daysreshape.values, width=.6, colorup='#ff1717', colordown='#53c156')
         Label1 = str(MA1)+' MA'
         Label2 = str(MA2)+' MA'
-        ax1.plot(days.date.values,Av1,'#e1edf9',label=Label1, linewidth=1.5)
-        ax1.plot(days.date.values[-SP:],Av2[-SP:],'#4ee6fd',label=Label2, linewidth=1.5)
+        ax1.plot(days.trade_date.values,Av1,'#e1edf9',label=Label1, linewidth=1.5)
+        ax1.plot(days.trade_date.values[-SP:],Av2[-SP:],'#4ee6fd',label=Label2, linewidth=1.5)
         ax1.grid(True, color='r')
         ax1.xaxis.set_major_locator(mticker.MaxNLocator(10))
         ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
@@ -110,16 +148,16 @@ class plotFrame3(Frame): # 继承Frame类
         ax1v.spines['right'].set_color("#5998ff")
         ax1v.tick_params(axis='x', colors='w')
         ax1v.tick_params(axis='y', colors='w')
-        ax0 = plt.subplot2grid((7,4), (4,0),sharex=ax1,rowspan=1, colspan=4, axisbg='#07000d')
-        v1=mylib.G_MA(days['volume'],G_MA1)
-        v2=mylib.G_MA(days['volume'],G_MA2)
-        v3=mylib.G_MA(days['volume'],G_MA3)
+        ax0 = plt.subplot2grid((7,4), (4,0),sharex=ax1,rowspan=1, colspan=4, facecolor='#07000d')
+        v1=mylib.G_MA(days['vol'],g.MA1)
+        v2=mylib.G_MA(days['vol'],g.MA2)
+        v3=mylib.G_MA(days['vol'],g.MA3)
         rsiCol = '#c1f9f7'
         posCol = '#386d13'
         negCol = '#8f2020'
-        ax0.plot(days.date.values, v1, rsiCol, linewidth=1)
-        ax0.plot(days.date.values, v2, posCol, linewidth=1)
-        ax0.bar(days.date.values,days.volume.values, facecolor='yellow', alpha=.4)
+        ax0.plot(days.trade_date.values, v1, rsiCol, linewidth=1)
+        ax0.plot(days.trade_date.values, v2, posCol, linewidth=1)
+        ax0.bar(days.trade_date.values,days.vol.values, facecolor='yellow', alpha=.4)
         ax0.yaxis.label.set_color("w")
         ax0.spines['bottom'].set_color("#5998ff")
         ax0.spines['top'].set_color("#5998ff")
@@ -130,13 +168,13 @@ class plotFrame3(Frame): # 继承Frame类
         ax0.yaxis.set_major_locator(mticker.MaxNLocator(nbins=4, prune='upper'))#plt.gca().yaxis.set_major_locator(mticker.MaxNLocator(nbins=4,prune='upper'))
         ax0.tick_params(axis='x', colors='w')
         plt.ylabel('volume')                     
-        if G_index=='KDJ' :
+        if g.index=='KDJ' :
             mydraw.draw_KDJ(ax1,days,9,3,3)
-        if G_index=='MACD' :
+        if g.index=='MACD' :
             mydraw.draw_MACD(ax1,days,12,26,9)
-        if G_index=='RSI' :
+        if g.index=='RSI' :
             mydraw.draw_RSI(ax1,days,6,12,24)
-        if G_index=='OBV' :
+        if g.index=='OBV' :
             mydraw.draw_OBV(ax1,days,6,12)               
         plt.suptitle(stockn,color='w')
         plt.setp(ax0.get_xticklabels(), visible=False)
@@ -163,7 +201,7 @@ class MainFrame(Frame): # 继承Frame类
         self.date_s = StringVar()
         entrydates = Entry(self, textvariable=self.date_s)
         entrydates.grid(row=0, column=2)
-        self.date_s.set(G_sday)
+        self.date_s.set(g.sday)
         Label(self , text='    ').grid(row=0, column=3)
         
         label2 = Label(self , text='结束日期:  ')
@@ -171,7 +209,7 @@ class MainFrame(Frame): # 继承Frame类
         # 输入框 (Entry)
         self.date_e = StringVar()
         entrydatee = Entry(self, textvariable=self.date_e)
-        self.date_e.set(G_eday)
+        self.date_e.set(g.eday)
         entrydatee.grid(row=0, column=5)
         Label(self , text='    ').grid(row=0, column=6)
         label3 = Label(self , text='股票代码:  ')
@@ -202,39 +240,40 @@ class MainFrame(Frame): # 继承Frame类
         ds=self.date_s.get()
         de=self.date_e.get()
         stockn=self.stock.get()
-        G_index=self.book.get()
-        stockn=mylib.jqsn(stockn)  # 聚宽股票代码转换，不是聚宽数据，要注释掉
-        self.canvas._tkcanvas.pack_forget()
-        G_stock=stockn
+        g.index=self.book.get()
+        # stockn=mylib.jqsn(stockn)  # 聚宽股票代码转换，不是聚宽数据，要注释掉
+        # self.canvas._tkcanvas.pack_forget()
+        g.stock=stockn
         matplotlib.use('TkAgg')
-        df1 = jq.get_price(stockn,start_date=ds,end_date=de, frequency='daily') # 聚宽获取股票数据
+        # df1 = jq.get_price(stockn,start_date=ds,end_date=de, frequency='daily') # 聚宽获取股票数据
+        df1 = Getdailyfromtscode(stockn, ds, de)
         
         print(df1)
         df2=df1.copy()
         df2.dropna(inplace=True)
         df2.insert(0,'date',df2.index)
-        df2=df2.sort_index(axis = 0,ascending = True,by = 'date')
+        df2=df2.sort_values(axis=0,ascending=True,by='trade_date')
         df2=df2.reset_index(level=None, drop=True ,col_level=0, col_fill='')  
         print(df2)
 
         days=df2
-        G_df=df2
-        MA1 = G_MA1
-        MA2 = G_MA2
+        g.df=df2
+        MA1 = g.MA1
+        MA2 = g.MA2
         Av1=mylib.G_MA(days['close'],MA1)
-        Av2=mylib.G_MA(days['close'],MA2) 
-        SP = len(days.date.values[MA2-1:])
-        SP1 = len(days.date.values[MA1-1:])
+        Av2=mylib.G_MA(days['close'],MA2)
+        SP = len(days.trade_date.values[MA2-1:])
+        SP1 = len(days.trade_date.values[MA1-1:])
         fig = plt.figure(facecolor='#07000d',figsize=(7,4))
-        ax1 = plt.subplot2grid((7,4), (0,0), rowspan=4, colspan=4, axisbg='#07000d')
+        ax1 = plt.subplot2grid((7,4), (0,0), rowspan=4, colspan=4, facecolor='#07000d')
         daysreshape = days.reset_index()
-        daysreshape['date']=mdates.date2num(daysreshape['date'].astype(dt.date))
+        # daysreshape['date']=mdates.date2num(daysreshape['date'].astype(dt.date))
         daysreshape = daysreshape.reindex(columns=['date','open','high','low','close'])   
-        candlestick_ohlc(ax1, daysreshape.values, width=.6, colorup='#ff1717', colordown='#53c156')                
+        candlestick_ohlc(ax1, daysreshape.values, width=.6, colorup='#ff1717', colordown='#53c156')
         Label1 = str(MA1)+' MA'
         Label2 = str(MA2)+' MA'
-        ax1.plot(days.date.values,Av1,'#e1edf9',label=Label1, linewidth=1.5)
-        ax1.plot(days.date.values[-SP:],Av2[-SP:],'#4ee6fd',label=Label2, linewidth=1.5)
+        ax1.plot(days.trade_date.values,Av1,'#e1edf9',label=Label1, linewidth=1.5)
+        ax1.plot(days.trade_date.values[-SP:],Av2[-SP:],'#4ee6fd',label=Label2, linewidth=1.5)
         ax1.grid(True, color='r')
         ax1.xaxis.set_major_locator(mticker.MaxNLocator(10))
         ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
@@ -254,15 +293,15 @@ class MainFrame(Frame): # 继承Frame类
         ax1v.spines['right'].set_color("#5998ff")
         ax1v.tick_params(axis='x', colors='w')
         ax1v.tick_params(axis='y', colors='w')
-        ax0 = plt.subplot2grid((7,4), (4,0),sharex=ax1,rowspan=1, colspan=4, axisbg='#07000d')
-        v1=mylib.G_MA(days['volume'],G_MA1)
-        v2=mylib.G_MA(days['volume'],G_MA2)
+        ax0 = plt.subplot2grid((7,4), (4,0),sharex=ax1,rowspan=1, colspan=4, facecolor='#07000d')
+        v1=mylib.G_MA(days['vol'],g.MA1)
+        v2=mylib.G_MA(days['vol'],g.MA2)
         rsiCol = '#c1f9f7'
         posCol = '#386d13'
         negCol = '#8f2020'
-        ax0.plot(days.date.values, v1, rsiCol, linewidth=1)
-        ax0.plot(days.date.values, v2, posCol, linewidth=1)
-        ax0.bar(days.date.values,days.volume.values, facecolor='yellow', alpha=.4)
+        ax0.plot(days.trade_date.values, v1, rsiCol, linewidth=1)
+        ax0.plot(days.trade_date.values, v2, posCol, linewidth=1)
+        ax0.bar(days.trade_date.values,days.vol.values, facecolor='yellow', alpha=.4)
         ax0.yaxis.label.set_color("w")
         ax0.spines['bottom'].set_color("#5998ff")
         ax0.spines['top'].set_color("#5998ff")
@@ -273,13 +312,13 @@ class MainFrame(Frame): # 继承Frame类
         ax0.yaxis.set_major_locator(mticker.MaxNLocator(nbins=4, prune='upper'))#plt.gca().yaxis.set_major_locator(mticker.MaxNLocator(nbins=4,prune='upper'))
         ax0.tick_params(axis='x', colors='w')
         plt.ylabel('volume')                     
-        if G_index=='KDJ' :
+        if g.index=='KDJ' :
             mydraw.draw_KDJ(ax1,days,9,3,3)
-        if G_index=='MACD' :
+        if g.index=='MACD' :
             mydraw.draw_MACD(ax1,days,12,26,9)
-        if G_index=='RSI' :
+        if g.index=='RSI' :
             mydraw.draw_RSI(ax1,days,6,12,24)
-        if G_index=='OBV' :
+        if g.index=='OBV' :
             mydraw.draw_OBV(ax1,days,6,12)    
         plt.suptitle(stockn,color='w')
         plt.setp(ax0.get_xticklabels(), visible=False)

@@ -16,6 +16,7 @@
 import platform
 import HP_VIEW.HP_global as g
 import time
+import pandas as pd
 
 ##数据主目录
 g.datapath='\\xbdata'
@@ -31,9 +32,13 @@ g.ico='tt.ico'
 g.winW=1200
 g.winH=800
 g.ver=1.01
-g.user='18578755056'
+g.user='13750017510'
 g.login=False
-g.os=1
+# g.os=UseOS()
+G_tk='import tkinter as tk'
+G_tk1='from tkinter import *'
+G_tk2='from tkinter import ttk'
+
 
 #白底色
 g.ubg='w'
@@ -96,11 +101,11 @@ g.status=None
 ###########################################
 #软件参数
 #stype=0 通通本地数据，ts=1,qa=2,jq=3
-g.stype=2  #股票数据类型
+g.stype=1  #股票数据类型
 g.gtype=3  #指标线数量
-g.stock='000001' #股票代码 
+g.stock='000001.SZ' #股票代码
 g.df=None #默认df
-g.sday='2018-01-01'
+g.sday='2020-01-01'
 g.eday=time.strftime('%Y-%m-%d',time.localtime(time.time()))
 g.index=False
 g.formula='KDJ'
@@ -391,17 +396,20 @@ def HP_init():
     g.os=UseOS( )
 
 
-#通用平均线计算        
+#通用平均线计算
 def G_MA(Series,n):
     g.pyver=int(platform.python_version()[0:1])
     g.ma=None
     if g.pyver==2:
         g.MAstr='pd.rolling_mean(Series,n)'
-        g.ma=eval(MAstr)
+        g.ma=eval(Series)
     else :
         g.MAstr='Series.rolling(window=n,center=False).mean()'
-        g.ma=eval(MAstr)
+        g.ma=eval(Series)
     return g.ma
+
+g.os=UseOS()
+# print(g.os)
 
 #####################################################
 ################独狼荷蒲软件版权声明###################

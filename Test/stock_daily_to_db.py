@@ -32,6 +32,7 @@ if __name__ == "__main__":
     startdate=startdate.strftime('%Y%m%d')
     time_temp =datetime.datetime.now()
     enddate = time_temp.strftime('%Y%m%d')
+    # enddate = '20210623'
     # show_func(trade_cal_list(startdate,enddate,'SSE'))
     if trade_cal_list(startdate,enddate,'SSE'):
         # 数据库最大日期的第二天到现在没有有任何一个交易日，则开始执行

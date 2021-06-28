@@ -24,7 +24,8 @@ if __name__ == "__main__":
     exec(G_tk1)
     exec(G_tk2)
     G_root = tk.Tk()
-    G_root.title(G_title)  
+    # G_root.title(G_title)
+    G_root.title(g.title)
     LoginPage(G_root) 
     
 

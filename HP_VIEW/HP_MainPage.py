@@ -25,14 +25,16 @@ from HP_VIEW.HP_set import *
 class MainPage(object):  
     def __init__(self, master=None):  
         HP_init()
-#        if G_os==1:
-#            exec('import win32api')
-        self.root = master #定义内部变量root  
-        G_root=self.root
-        self.w = G_winW
-        self.h = G_winH
-        self.root.title(G_title)  
-        self.staIco = G_ico
+       # if g.os==1:
+       #     exec('import win32api')
+       # else:
+        self.root = master #定义内部变量root
+        # G_root=self.root
+        g.root=self.root
+        self.w = g.winW
+        self.h = g.winH
+        self.root.title(g.title)  
+        self.staIco = g.ico
         self.root.geometry('%dx%d' % (self.w, self.h)) #设置窗口大小  
         #plotCreat(self.root)
         self.createUI()

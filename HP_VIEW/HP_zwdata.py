@@ -18,12 +18,13 @@ import pandas as pd; import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import dates as mdates
 from matplotlib import ticker as mticker
-from matplotlib.finance import candlestick_ohlc
+# from matplotlib.finance import candlestick_ohlc
+import mplfinance as mpf
 from matplotlib.dates import DateFormatter, WeekdayLocator, DayLocator, MONDAY,YEARLY
 from matplotlib.dates import MonthLocator,MONTHLY
 import matplotlib
 from numpy import arange, sin, pi
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg,NavigationToolbar2TkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg,NavigationToolbar2Tk
 from matplotlib.backend_bases import key_press_handler
 from matplotlib.figure import Figure
 import datetime as dt
