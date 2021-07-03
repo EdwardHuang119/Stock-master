@@ -1,0 +1,22 @@
+'''
+    Python3 运行环境
+
+    Python3 可应用于多平台包括 Windows、Linux 和 Mac OS X。
+
+Unix (Solaris, Linux, FreeBSD, AIX, HP/UX, SunOS, IRIX, 等等。)
+Win 9x/NT/2000
+Macintosh (Intel, PPC, 68K)
+OS/2
+DOS (多个DOS版本)
+PalmOS
+Nokia 移动手机
+Windows CE
+Acorn/RISC OS
+BeOS
+Amiga
+VMS/OpenVMS
+QNX
+VxWorks
+Psion
+Python 同样可以移植到 Java 和 .NET 虚拟机上。
+'''

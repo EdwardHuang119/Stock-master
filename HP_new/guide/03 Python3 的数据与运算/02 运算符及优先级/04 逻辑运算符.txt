@@ -1,0 +1,63 @@
+'''
+    逻辑运算符
+
+    逻辑运算又称布尔运算，逻辑运算符见表3-4。
+    表3-4 逻辑运算符
+
+运算符	逻辑表达式	描述
+and	x and y	布尔与 。 如果 x 为 False，x and y 返回 False，否则它返回 y 的计算值。
+Or	x or y	布尔或 。 如果 x 是 True，它返回 x 的值，否则它返回 y 的计算值。
+Not	not x	布尔非 。 如果 x 为 True，返回 False 。如果 x 为 False，它返回 True。
+
+    下面给出逻辑运算符代码示例3-14。
+
+a=True
+print('a=',a)
+b=False
+print('b=',b)
+c=a and b
+print('c=a and b 运算结果 c= ',c)
+c=a or b
+print('c=a or b 运算结果 c= ',c)
+c= not a
+print('c=not a 运算结果 c= ',c)
+c= not b
+print('c=not b 运算结果 c= ',c)
+c=30=20
+print('c= 30 = 20 运算结果 c= ',c)
+c= a and 15
+print('c= a and 15 运算结果 c= ',c)
+c= 15 and a
+print('c= 15 and a 运算结果 c= ',c)
+c= b and 15
+print('c= b and 15 运算结果 c= ',c)
+c= 15 and b
+print('c= 15 and b 运算结果 c= ',c)
+c= a or 15
+print('c= a or 15 运算结果 c= ',c)
+c= 15 or a
+print('c= 15 or a 运算结果 c= ',c)
+c= b or 15
+print('c= b or 15 运算结果 c= ',c)
+c= 15 or b
+print('c= 15 or b 运算结果 c= ',c)
+c= a and 'abc'
+print('c=a and 'abc' 运算结果 c= ',c)  
+命令执行结果：
+a= True
+b= False
+c=a and b 运算结果 c=  False
+c=a or b 运算结果 c=  True
+c=not a 运算结果 c=  False
+c=not b 运算结果 c=  True
+c= 30 = 20 运算结果 c=  True
+c= a and 15 运算结果 c=  15
+c= 15 and a 运算结果 c=  True
+c= b and 15 运算结果 c=  False
+c= 15 and b 运算结果 c=  False
+c= a or 15 运算结果 c=  True
+c= 15 or a 运算结果 c=  15
+c= b or 15 运算结果 c=  15
+c= 15 or b 运算结果 c=  15
+c=a and 'abc' 运算结果 c=  abc
+'''

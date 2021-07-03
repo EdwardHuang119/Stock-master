@@ -1,0 +1,108 @@
+'''
+    Dictionary（字典）
+
+    Python3内置了Dictionary（字典）数据类型。字典使用大括号“{}”将字典元素
+括起来，每个字典元素使用键-值（key-value）存储，键值(key)与数值(value)之间
+以冒号“”隔开。键值必须是数字、字符串、元组，这些数据对象不可变动，例如：
+“cla={1'2',2'3',3'5'}”。
+    同一个字典的键值不能相同，如果相同，后面键-值会取代前面键值相同的数据。
+    字典是Python3内置数据类型，具有极快的查找速度。
+    我们在设计量化软件中就使用字典数据来存放颜色及对应的RGB编码表。
+    下面给出字典的示例。
+'''
+cla={12,23,15}
+print('原始输入数据 cla={12 , 23 , 15}')
+print('实际内容 cla= ',cla)
+
+#颜色编码表
+cns = {
+'aliceblue' :           '#F0F8FF',
+'black'     :          '#000000',
+'blue'      :           '#0000FF',
+'brown'     :           '#A52A2A',
+'coral'     :           '#FF7F50',
+'cornflowerblue':       '#6495ED',
+'cornsilk'      :       '#FFF8DC',
+'crimson'       :       '#DC143C',
+'cyan'          :       '#00FFFF',
+'darkblue'      :       '#00008B'}
+
+print('cns[\'blue\']= ',cns['blue'])
+print('cns[\'darkblue\']= ',cns['darkblue'])
+print('cns[\'cyan\']= ',cns['cyan'])
+
+'''
+len(dict)：“dict”表示字典数据,计算字典元素个数，即键的总数。
+str(dict)：把字典转换成可打印的字符串。
+type(variable)：“variable”表示变量,返回变量类型。
+请看示例。
+'''
+
+a={12 , 23 , 15,34}
+b=a.copy()
+print(a==b)
+print('len(a)= ',len(a))
+print(a)
+print('str(b)= ' +str(b))
+print('type(b)= ',type(b))
+
+'''
+    Python字典包含了以下内置函数：
+    dict.clear()：删除字典内所有元素。
+    dict.copy()：返回一个字典的复制。
+    dict.fromkeys()：创建一个新字典，以序列“seq”中元素做字典的
+键，“val”为字典所有键对应的初始值。
+    dict.get(key, default=None)：返回指定键的值，如果值不在字典
+返回“default”值。
+    dict.has_key(key)：如果键在字典“dict”里返回True，否则返回False。
+    dict.items()：以列表返回可遍历的“(键, 值)”元组数组。
+    dict.keys()：以列表返回一个字典所有的键。
+    radiansdict.setdefault(key, default=None)：和“get()”类似, 但
+如果键不存在于字典中，将会添加键并将值设为default。
+    dict.update(dict2)：把字典“dict2”的“(键, 值)”对更新到“dict”里。
+    dict.values()：以列表返回字典中的所有值。
+    见示例。
+'''
+#字典练习
+#1.创建空字典
+d={}
+print('type(d)',type(d))
+
+#2.直接赋值创建
+di={12,23,35}
+print('原始输入数据 di={12 , 23 , 35}')
+print('实际内容 d= ',di)
+
+#3.通过关键字dict和关键字参数创建
+dic = dict(spam = 1, egg = 2, bar =3)
+print('实际内容 dic= ',dic)
+
+#4.通过二元组列表创建
+list = [('spam', 1), ('egg', 2), ('bar', 3)]
+dic2 = dict(list)
+print('实际内容 dic2= ',dic2)
+
+#5.dict和zip结合创建
+dic3 = dict(zip('abc', [1, 2, 3]))
+print('实际内容 dic3= ',dic3)
+
+#6.通过字典推导式创建
+dic4 = {i for i in range(4)}
+print('实际内容 dic4= ',dic4)
+
+#7.通过dict.fromkeys()创建
+dic5 = dict.fromkeys(range(4), 'x')
+print('实际内容 dic5= ',dic5)
+
+
+#9.radiansdict.clear()：删除字典内所有元素
+di.clear()
+print('di.clear()')
+print('实际内容 di= ',di)
+
+dica=dic
+dicb=dic.copy()
+dica.clear()
+print('dica.clear()')
+print('实际内容 dic= ',dic)
+print('实际内容 dicb= ',dicb)

@@ -1,0 +1,12 @@
+6.6 集合元素个数
+格式：
+var=len(sets)
+返回集合 sets元素的个数。
+例如：
+bb = {x for x in range(1,5)}
+print('bb= ',bb)
+print('len(bb)=',len(bb))
+程序运行结果：
+bb=  {1, 2, 3, 4}
+len(bb)= 4
+

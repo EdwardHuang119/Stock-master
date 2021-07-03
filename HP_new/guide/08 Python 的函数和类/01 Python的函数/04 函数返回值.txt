@@ -1,0 +1,68 @@
+'''
+    函数返回值
+
+    （1）函数返回值语句return，作用是结束函数调用并返回值。
+     return语句可以不带参数，或者带多个参数。不带参数，就是结束函数运行，返回一个 None 作为
+返回值，类型是 NoneType，与 return 、return None 等效，都是返回 None。
+     带参数可以返回调用函数的语句，并且给变量表赋值。
+     一个函数中可以有任意多个return语句。当任何一个return语句执行，该函数运行结束。
+    （2）隐含返回值，指整个函数体内没有return语句。函数运行结束会隐含返回一个 None值作为返
+回值，类型是 NoneType，与 return 、return None 等效，都是返回 None。
+   请看示例4-6。
+
+# -- coding utf-8 --
+#函数返回参数演示
+
+#1.无return函数
+def func1(x)
+    x=x+1
+
+a=func1(10)
+print('a= ',a)
+print('type(a)= ',type(a))
+
+
+#2.有return函数，无返回参数
+def func2(x)
+    x=x+1
+    return
+
+#3.有return函数，返回参数None
+def func3(x)
+    x=x+1
+    return None
+
+a=func1(10)
+print('a= ',a)
+print('type(a)= ',type(a))
+
+b=func2(20)
+print('b= ',b)
+print('type(b)= ',type(b))
+
+c=func3(40)
+print('c= ',c)
+print('type(c)= ',type(c))
+
+#4.多个返回参数
+def func4(x)
+    return x,x2,x2
+
+d,e,f=func4(5)
+print('d= ',d)
+print('e= ',e)
+print('f= ',f)
+程序运行结果
+a=  None
+type(a)=  class 'NoneType'
+a=  None
+type(a)=  class 'NoneType'
+b=  None
+type(b)=  class 'NoneType'
+c=  None
+type(c)=  class 'NoneType'
+d=  5
+e=  10
+f=  25
+'''
+

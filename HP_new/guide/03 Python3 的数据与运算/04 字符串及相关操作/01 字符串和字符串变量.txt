@@ -1,0 +1,24 @@
+'''
+    字符串和字符串变量
+
+    字符串是 Python中最常用的数据类型，字符串属于序列类型。我们可以使用一对单引
+号“'”或双引号“”来创建字符串。
+    存储字符串的变量，称为字符串变量。字符串变量也是对象，对象都有方法（函数），
+因此一个变量成为字符串变量，就会拥有相关字符串处理的函数。
+    例如：
+
+var1='Hello'
+var2='World'
+var3=var1+var2   #var3的值为’HelloWorld’
+var4=var1[0]  #var4的值’H’
+print('var1=',var1)
+print('var2=',var2)
+print('var3=',var3)
+print('var4=',var4)
+
+    程序运行结果：
+var1= Hello
+var2= World
+var3= HelloWorld
+var4= H
+'''

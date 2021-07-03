@@ -1,0 +1,36 @@
+'''
+    多条件语句格式
+
+if 逻辑表达式1:
+    命令块
+elif 逻辑表达式2:
+    命令块
+    …
+else :
+    命令块 
+
+示例：根据学生分数打印字母等级，程序代码如下：
+'''
+#示例 根据学生分数打印字母等级
+score =float(input('请输入成绩 ：'))
+level = int(score / 10)
+
+if level >= 10:
+   print('Level A+')
+elif level == 9:
+   print('Level A')
+elif level == 8:
+   print('Level B')
+elif level == 7:
+   print('Level C')
+elif level == 6:
+   print('Level D')
+else:
+   print('Level E') 
+
+'''
+程序运行结果如下：
+请输入成绩 ：68
+Level D 
+'''
+

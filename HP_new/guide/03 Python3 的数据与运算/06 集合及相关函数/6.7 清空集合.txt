@@ -1,0 +1,72 @@
+6.7 清空集合
+清空集合的格式：
+sets.clear()
+相关演示见示例3-34。
+# -- coding utf-8 --
+
+集合
+
+
+print()
+bb = {x for x in range(1,5)}
+var = frozenset(bb)
+print(var,type(var))
+var2 = set(var)
+print(var2,type(var2))
+
+print()
+#可以使用大括号 { } 或者 set() 函数创建集合
+a=set('alacazam')
+print('a= ',a)
+#集合支持集合推导式
+b = {x for x in 'abracadabra' if x not in 'abc'}
+print('b= ',b)
+
+#增加单个集合元素用方法app(x)，x是一个元素值。
+b.add( 'abc' )
+print('增加abc b= ',b)
+
+#添加多个集合元素用方法update( x )，参数x可以是集合、列表，元组，字典等等。
+c={1,2,3}
+b.update(c)
+print('增加c={1,2,3} b= ',b)
+
+#删除集合元素
+b.discard(2)
+print('删除b中元素2： ',b)
+b.discard(2)
+print('删除b中元素2（没有报错）： ',b)
+b.remove(3)
+print('删除b中元素3： ',b)
+
+#弹出一个集合元素
+d=b.pop()
+print('弹出一个集合元素',d,' b= ',b)
+
+#集合复制
+e=b   #把b的地址复制给了e
+e.add('xyz')
+print('e=b  e.add('xyz')  b= ',b)
+print('id(b)=',id(b),'id(e)=',id(e),' 地址相同')
+
+f=b.copy()
+print('f=d.copy()  f= ',f)
+print('id(b)=',id(b),'id(f)=',id(f),' 地址不相同')
+
+#清空集合
+b.clear()
+print('清空集合 b= ',b)  
+程序运行结果：
+a=  {'a', 'l', 'm', 'c', 'z'}
+b=  {'r', 'd'}
+增加abc b=  {'r', 'd', 'abc'}
+增加c={1,2,3} b=  {1, 'd', 2, 3, 'abc', 'r'}
+删除b中元素2：  {1, 'd', 3, 'abc', 'r'}
+删除b中元素2（没有报错）：  {1, 'd', 3, 'abc', 'r'}
+删除b中元素3：  {1, 'd', 'abc', 'r'}
+弹出一个集合元素 1  b=  {'d', 'abc', 'r'}
+e=b  e.add('xyz')  b=  {'d', 'abc', 'r', 'xyz'}
+id(b)= 42507400 id(e)= 42507400  地址相同
+f=d.copy()  f=  {'r', 'd', 'xyz', 'abc'}
+id(b)= 42507400 id(f)= 156994024  地址不相同
+清空集合 b=  set()  

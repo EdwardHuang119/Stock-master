@@ -1,0 +1,41 @@
+'''
+    访问属性
+
+    你可以使用点号“.”来访问对象的属性。
+    例如上例，我们可以通过类方法SetName()来修改dog的名字，也可以直接修改类属性。
+    见示例4-10。
+
+# -- coding utf-8 --
+
+class dog(object)    #定义小狗类 
+    '这是一个dog类的定义。'
+    def __init__(self,dogname='小虎')     #类初始化
+        self.name=dogname
+        print('n你的小狗叫'+self.name+'。')
+
+    def SetName(self,dogname)
+        self.name=dogname
+        print('你的小狗改名叫'+self.name+'。')
+        
+    def Run(self)
+        print(self.name+'正在跑。')
+
+    def CalltheDog(self)
+        print('你呼唤'+self.name+','+self.name+'向你跑来。n')
+
+    def __del__(self)   #类对象销毁
+        class_name = self.__class__.__name__
+        print( class_name+  销毁)
+
+#实例化第一个类MyDoga
+MyDogc=dog('小黑')    #使用自定义参数
+MyDogc.CalltheDog()
+MyDogc.name=旺旺财
+MyDogc.CalltheDog()
+
+    运行结果如下图：    
+你的小狗叫小黑。
+你呼唤小黑,小黑向你跑来。
+
+你呼唤旺旺财,旺旺财向你跑来。
+'''

@@ -1,0 +1,26 @@
+'''
+   别名引用
+
+    直接引用库，并增加别名：
+    import  <库名>  as  <别名>
+    此时，程序可以调用库中的所有函数，使用库中函数的格式如下：
+     <别名>.<函数名>(<函数参数>)
+    请看示例。
+# -*- coding: utf-8 -*-
+import bbb as aa
+bb=aa.aaa()
+print('bb= ',bb)
+
+bb=aa.ddd()
+print('bb= ',bb)
+
+bb=aa.ccc()
+print('bb= ',bb)
+print('var3= ',aa.var3)
+
+    程序运行结果如下：
+bb=  aaa
+bb=  ddd4
+bb=  ccc3
+var3=  18.55
+'''

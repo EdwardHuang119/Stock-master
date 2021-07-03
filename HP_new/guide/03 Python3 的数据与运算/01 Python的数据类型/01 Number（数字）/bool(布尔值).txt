@@ -1,0 +1,14 @@
+'''
+    bool(布尔值)
+    Python3的布尔值有True(真)和False(假)，它与整数中的1 和0有对应关
+系。下面给出布尔值示例。
+'''
+a=True
+b=False
+print('a=',a)
+print('b=',b)
+print('a==1 ',a==1)
+print('b==0 ',b==0)
+print('a==18 ',a==18)
+print('a==0 ',a==0)
+print('a==-1 ',a==-1)

@@ -1,0 +1,23 @@
+'''
+   部分引用
+
+    如果只想从库中引用几个函数，就可以使用如下的命令格式：
+    from  <库名>  import  <函数名1，函数名2，...，函数名n>
+    此时，程序可以调用库中的函数，可以直接省略库名，使用库中函数的格式如下：
+   <函数名>(<函数参数>)
+    请看示例。
+# -*- coding: utf-8 -*-
+from  bbb import bbb,ddd
+bb=bbb()
+print('bb= ',bb)
+
+bb=ddd('xxx')   #输入参数'xxx'
+print('bb= ',bb)
+
+#bb=ccc()
+    程序运行结果：
+bb=  bbb2
+bb=  xxx
+    如果使用bbb.py中的ccc函数，就会出现错误提示：
+   “NameError: name 'ccc' is not defined”。
+'''

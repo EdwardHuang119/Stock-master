@@ -1,0 +1,20 @@
+'''
+    Set（集合）
+
+    Set（集合）与List（列表）类似，在Set（集合）中，没有重复的元素，集
+合元素没有顺序，因此也不存在集合索引。
+    在Python3中，集合使用大括号“{}”来包含集合元素，集合元素也用逗号
+“,”来分隔元素。
+下面看一个列表、元组、集合的示例。
+'''
+stock1=['000001','600080','300005']
+stock2=('000001','600080','300005')
+stock3={'000001','600080','300005'}
+print('stock1= ',stock1,type(stock1))
+print('stock1[0]= ',stock1[0])
+print('stock2= ',stock2,type(stock2))
+print('stock2[1]= ',stock2[1])
+print('stock3= ',stock3,type(stock3))
+print('600080' in stock3 ,'600080' in stock3)
+
+

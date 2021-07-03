@@ -1,0 +1,50 @@
+'''
+    模块目录 
+
+    为了便于管理，我们可以将不同的模块按功能等分类，放置到不同的子目录
+中。例如在子目录“funa”和子目录“funb”中都包含有“aaa.py”模块。因
+此我们在导入时需要增加子目录名。
+   “funaaaaaaa.py”文件内容如下：
+def aaa()
+    return 'funaaaa.py'
+“funbaaaaaa.py”文件内容如下：
+def aaa()
+    return 'funbaaa.py'
+
+   我们看演示示例。
+'''
+# -- coding utf-8 --
+import  funa.aaa
+import  funb.aaa
+aa=funa.aaa.aaa()
+print('naa=funa.aaa.aaa()')
+print('aa= ',aa)
+
+aa=funb.aaa.aaa()
+print('naa=funb.aaa.aaa()')
+print('aa= ',aa)
+
+from  funa.aaa  import 
+bb=aaa()
+print('nfrom  funa.aaa  import ')
+print('bb= ',bb)
+
+from funb.aaa import 
+bb=aaa()
+print('nfrom  funb.aaa  import ')
+print('bb= ',bb)
+
+'''
+    程序运行结果如下：
+aa=funa.aaa.aaa()
+aa=  funaaaa.py
+
+aa=funb.aaa.aaa()
+aa=  funbaaa.py
+
+from  funa.aaa import 
+bb=  funaaaa.py
+
+from  funb.aaa import 
+bb=  funbaaa.py
+'''

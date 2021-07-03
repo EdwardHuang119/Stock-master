@@ -1,0 +1,42 @@
+'''
+    直接引用库的方式
+
+   使用import语句引入库有以下几种方式。
+    （1）直接引用库的方法如下：
+    import  <库名>
+    此时，程序可以调用库中的所有函数，使用库中函数的格式如下：
+    <库名>.<函数名>(<函数参数>)
+    例如模块“bbb.py”如下。
+#模块bbb.py
+var1='var1'
+var2='var2'
+var3=18.55
+
+def aaa():
+    return 'aaa'
+
+def bbb():
+    return 'bbb2'
+
+def ccc():
+    return 'ccc3'
+
+def ddd(x='ddd4'):
+    return x
+
+    演示示例。
+
+# -*- coding: utf-8 -*-
+import bbb
+bb=bbb.aaa()
+print('bb= ',bb)
+
+bb=bbb.ddd()
+print('bb= ',bb)
+
+bb=bbb.ccc()
+print('bb= ',bb)
+    程序运行结果：
+bb=  aaa
+bb=  ddd4
+bb=  ccc3

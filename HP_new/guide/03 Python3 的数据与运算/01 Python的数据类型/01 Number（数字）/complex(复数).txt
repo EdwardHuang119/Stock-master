@@ -1,0 +1,18 @@
+'''
+    complex(复数)
+    Python3的复数类型存放的是一对浮点数，一个表示实数部分（real），
+另一个表示虚数部分（imag，跟随一个字母j）。
+    除“//”、“%”运算符和个别不支持复数的函数外，其它操作符与
+函数都可用于复数进行操作。
+'''
+a=2.912+3.289j  
+
+print('复数a= ',a)
+print('实部: ',a.real,' ,  虚部: ',a.imag)
+print('共轭复数: ',a.conjugate())   #输出该复数的共轭复数
+print()
+b=complex(1.23,4.56)
+print('复数b= ',b)
+print('实部: ',b.real,' ,  虚部: ',b.imag)
+print('共轭复数: ',b.conjugate())   #输出该复数的共轭复数
+

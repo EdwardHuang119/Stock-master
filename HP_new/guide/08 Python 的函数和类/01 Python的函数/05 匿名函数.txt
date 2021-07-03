@@ -1,0 +1,50 @@
+'''
+    匿名函数
+
+    lambda 表达式是一个匿名函数，lambda表达式基于数学中的λ演算得名，直接对应于其中
+的lambda抽象，是一个匿名函数，即没有函数名的函数。（希腊字母中的第十一个字母λ，英
+文lambda。）
+    Python3也支持匿名函数，这些函数使用lambda关键字创建。
+    当我们在传入函数时，有些时候，不需要显式地定义函数，直接传入匿名函数更方便。
+    匿名函数有个限制，就是只能有一个表达式，不用写return，返回值就是该表达式的结果。
+     用匿名函数有个好处，因为函数没有名字，不必担心函数名冲突。此外，匿名函数也是一个
+函数对象，也可以把匿名函数赋值给一个变量，再利用变量来调用该函数。
+    见示例4-7。
+
+# -*- coding: utf-8 -*-
+# lambda匿名函数演示
+
+#1、 lambda匿名函数
+f = lambda a,b,c:a+b+c
+print( f(1,2,3))
+
+#2、匿名函数及输入参数(lambda a,b=2:a*b)(i,j)
+i=3
+j=5
+l=[x for x in range(1,(lambda a,b=2:a*b)(i,j))]
+print(l)
+
+#3、a = lambda *z:z #*z返回的是一个元祖
+f2 = lambda *z:z #*z返回的是一个元祖
+b=f2(1,3,6,9)
+print('b= ',b)
+
+#4、lambda **Arg: Arg #arg返回的是一个字典
+f3=lambda **Arg: Arg #arg返回的是一个字典
+c=f3(name='hhh',age=19,a=98.5,b=97,c=98.8)
+print('c= ',c)
+
+#5、 #lambda嵌套到普通函数中,lambda函数本身做为return的值
+def addx(n):
+    n+=n
+    return (lambda x: n+n)(n)
+
+d=addx(3)
+print('d= ',d)
+    程序运行结果：
+6
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+b=  (1, 3, 6, 9)
+c=  {'name': 'hhh', 'age': 19, 'a': 98.5, 'b': 97, 'c': 98.8}
+d=  12
+'''

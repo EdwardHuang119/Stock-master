@@ -55,7 +55,7 @@ class LoginPage(object):
         x = int( (ws/2) - (self.w/2) )
         y = int( (hs/2) - (self.h/2) )
         self.root.geometry('{}x{}+{}+{}'.format(self.w, self.h, x, y))
-        self.root.iconbitmap(self.staIco)
+        # self.root.iconbitmap(self.staIco)
         
   
     def createPage(self):  

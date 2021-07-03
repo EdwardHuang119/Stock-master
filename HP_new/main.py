@@ -434,17 +434,17 @@ m1.add(ttabControl)
 m1.paneconfig(ttabControl,width=200)
 
 t6 = htk.Tree(ttab1,width=200)
-path= '../../../Downloads/xb2e/view'
+path= 'view'
 t6.load_path(path)
 t6.pack(expand = 1, fill = tk.BOTH)
 
 t7 = htk.Tree(ttab2,width=200)
-path= '../../../Downloads/xb2e/user'
+path= 'user'
 t7.load_path(path)
 t7.pack(expand = 1, fill = tk.BOTH)
 
 t8 = htk.Tree(ttab3,width=200)
-path= '../../../Downloads/xb2e/guide'
+path= 'guide'
 t8.load_path(path)
 t8.pack(expand = 1, fill = tk.BOTH)
 

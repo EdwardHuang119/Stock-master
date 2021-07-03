@@ -1,0 +1,60 @@
+'''
+    __main__关键字
+
+    Python3用这条语句“if __name__ == '__main__'”来说明程序的起始入口。
+    “__name__ == '__main__'”是Python的程序入口。加入这句可以判断：当前运行模块是否
+是直接被python解释器调用执行的。只有python解释器直接调用执行模块文件，才能获取程序
+参数。
+    getopt是一个包装方法，用以读取main函数后面跟着的参数。
+    getopt.getopt(args, options[, long_options])有三个参数，args就是python xxx.py后面跟
+着的参数，通常就是sys.argv数组，不过我们一般会去除第一个元素，因为sys.argv的第一个元素，
+就是文件名本身。所以，我们的写法是sys.argv[1]。
+    options是一个字符串，描述了需要解析哪些参数。如果一个参数，不需要参数值，就只写参
+数名，例如：’h’；如果一个参数需要传入参数值，则在后面加“”，比如’n’。所以本案例
+中’hnw’的意思是，我们有三个参数，分别是-h, -n, -w，其中-h无需传入参数值，而-n, -w需
+要传入参数值。
+    long_options是一个字符串数组，也表示需要解析哪些参数。long_options是相对options而
+言的，我们在linux中，经常会看到一个命令参数有多种写法，最常见的就是帮助参数，它有两种
+写法：-h, --help。前一种是options，而后一种就是long_options。
+    假如我们有一个--help，那么在long_options中就是['help']。如果一个参数需要传入参数，比
+如--name 'Good'，那么在long_options中就是['name=']，是的，就是多一个=。
+    getopt.getopt返回一个元组(opts, args)，其中opts就是我们解析出来的参数，而args则是剩
+余没有解析的参数。opts是元组数组，每个元组，相当于key-value。key就是我们的参数名，而
+value就是参数值。
+见示例4-8。
+# -- coding utf-8 --
+#main函数示例
+import getopt
+import sys
+
+def say(s1,s2)
+    print( '你好，我叫', s1, '，', s2)
+    
+
+if __name__ == '__main__'
+    opts, args = getopt.getopt(sys.argv[1], 'hnw', ['name=', 'word=', 'help'])
+
+    name = 'No Name'
+    word = 'Hello'
+    for key, value in opts
+
+        if key in ['-h', '--help']
+            print( '一个向人打招呼的程序')
+            print( '参数：')
+            print( '-ht显示帮助')
+            print( '-nt你的姓名')
+            print( '-wt想要说的话')
+            sys.exit(0)
+        if key in ['-n', '--name']
+            name = value
+        if key in ['-w', '--word']
+            word = value
+            
+    say(name,word)
+
+    在Spyder中运行的结果
+你好，我叫 No Name ， Hello
+
+    因为程序中的变量name和word使用的程序默认初值。这个程序需要在Window系统cmd窗
+口来运行这个程序。运行结果如下图4-1。
+ '''

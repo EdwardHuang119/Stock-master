@@ -1,0 +1,15 @@
+'''
+Python 应用
+
+     Youtube - 视频社交网站
+     Reddit - 社交分享网站
+     Dropbox - 文件分享服务
+     豆瓣网 - 图书、唱片、电影等文化产品的资料数据库网站
+     知乎 - 一个问答网站
+    果壳 - 一个泛科技主题网站
+    Bottle - Python微Web框架
+    EVE - 网络游戏EVE大量使用Python进行开发
+    Blender - 使用Python作为建模工具与GUI语言的开源3D绘图软件
+    Inkscape - 一个开源的SVG矢量图形编辑器。
+    ...
+...

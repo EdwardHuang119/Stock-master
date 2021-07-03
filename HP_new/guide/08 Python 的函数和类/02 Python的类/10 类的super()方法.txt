@@ -1,0 +1,63 @@
+'''
+    类的super()方法
+
+    在类的继承中，如果重定义某个方法，子类方法会覆盖父类的同名方法。但有时，我们希望能
+同时使用父类（基类）的同名方法。可通过使用 super()方法来实现。
+    super() 函数是用于调用父类（基类）的一个方法。
+    Super() 是用来解决多重继承问题的。在使用单继承的时候，直接用类名调用父类方法。但是
+如果使用多继承，会涉及到查找顺序（MRO）、重复调用（钻石继承）等种种问题。
+  super() 方法的语法：
+super(type[, object-or-type])
+super参数见表4-4。
+表4-4  super的参数
+参数	说明
+type	类名。
+object-or-type	类实例或类名，一般是 self。
+    事实上，对于你定义的每一个类，Python 会计算出一个方法解析顺序（Method Resolution
+ Order, MRO）列表，它代表了类继承的顺序。一个类的 MRO 列表就是合并所有父类的 MRO 
+列表，并遵循以下三条原则：
+    1）子类永远在父类前面。
+    2）如果有多个父类，会根据它们在列表中的顺序被检查。
+    3）如果对下一个类存在两个合法的选择，选择第一个父类。
+    见super 的示例4-14。
+# -- coding utf-8 --
+class A(object)
+    def __init__(self)
+        print(init A Class)
+        super(A, self).__init__()
+        
+class B(object)
+    def __init__(self)
+        print(init B Class)
+        super(B, self).__init__()
+
+class C(object)
+    def __init__(self)
+        print(init C Class)
+        super(C, self).__init__()
+        
+class D(A,B,C)
+    def __init__(self)
+        print(init D class)
+        super(D, self).__init__()
+
+class E(D)
+    def __init__(self)
+        print(init E class)
+        super(E, self).__init__()
+
+class F(E)
+    def __init__(self)
+        print( init F class)
+        super(F, self).__init__()
+
+F = F()
+
+    程序运行结果。
+init F class
+init E class
+init D class
+init A Class
+init B Class
+init C Class
+'''

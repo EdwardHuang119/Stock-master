@@ -1,0 +1,18 @@
+除权信息
+
+'year'   年
+'month'  月
+'day'    日
+'category'  类别
+'name'      类别名称
+'fenhong'   分红
+'peigujia'  配股价
+'songzhuangu'  送转股
+'peigu'   配股
+'suogu'   缩股
+'panqianliutong' 盘前流通
+'panhouliutong'  盘后流通
+'qianzongguben'  前总股本
+'houzongguben'   后总股本
+'fenshu'         分数
+'xingquanjia'    行权价

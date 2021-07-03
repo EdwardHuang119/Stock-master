@@ -678,7 +678,7 @@ class StatusBar(tk.Frame):
 class ToolsBar(tk.Frame):
     def __init__(self, root,n=3,**kw):
         tk.Frame.__init__(self, root,**kw)
-        self.png= PIL.ImageTk.PhotoImage(PIL.Image.open('../../../Downloads/xb2e/ico/python.ico'))
+        self.png= PIL.ImageTk.PhotoImage(PIL.Image.open('ico/python.ico'))
         self.m=n  #有10个子栏
         if self.m>20:
             self.m=20
@@ -748,7 +748,7 @@ class ToolsBar2(tk.Frame):
     def __init__(self, root,n=3,**kw):
         tk.Frame.__init__(self, root,**kw)
         #tk.Label(self, bd=1, relief=tk.SUNKEN, anchor=tk.W,text='0000').place(x=0, y=0, relwidth=1,bordermode=tk.OUTSIDE)
-        self.png= PIL.ImageTk.PhotoImage(Image.open('../../../Downloads/xb2e/ico/python.ico'))
+        self.png= PIL.ImageTk.PhotoImage(Image.open('ico/python.ico'))
         self.m=n  #有10个子栏
         if self.m>20:
             self.m=20
@@ -2175,10 +2175,10 @@ class Tree(tk.Frame): # 继承Frame类的ttk.Treeview类
         self.col = [1,2]
         self.tree=ttk.Treeview(self)
         self.usepop=None
-        self.img= tk.PhotoImage(file="../../../Downloads/xb2e/x0.gif")
-        self.img2= tk.PhotoImage(file="../../../Downloads/xb2e/x1.gif")
-        self.img3= tk.PhotoImage(file="../../../Downloads/xb2e/x2.gif")
-        self.img4= tk.PhotoImage(file="../../../Downloads/xb2e/x3.gif")
+        self.img= tk.PhotoImage(file="x0.gif")
+        self.img2= tk.PhotoImage(file="x1.gif")
+        self.img3= tk.PhotoImage(file="x2.gif")
+        self.img4= tk.PhotoImage(file="x3.gif")
         self.tree.image=self.img 
         self.tree_root=None
         self.tree.pack(fill=tk.BOTH, expand=tk.YES,side = tk.LEFT)
@@ -2202,8 +2202,9 @@ class Tree(tk.Frame): # 继承Frame类的ttk.Treeview类
 
     #读取目录
     def load_path(self,path='.'):
-        self.img= tk.PhotoImage(file="../../../Downloads/xb2e/open.gif")
+        self.img= tk.PhotoImage(file="open.gif")
         self.abspath = os.path.abspath(path)
+        print(self.abspath)
         self.root_node = self.tree.insert('', 'end', text=self.abspath, open=True,image=self.img)
         self.process_directory(self.root_node, self.abspath)
         self.fix_last() 

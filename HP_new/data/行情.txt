@@ -1,0 +1,49 @@
+代码 名称 涨幅 现价 涨跌 买价 卖价 总量 今开 最高 最低 昨收
+'code','name','zdf','price','zd','bid1','ask1','amount','open','high','low','last_close'
+
+'active1'
+'active2'
+'amount'  成交额
+'ask1'  卖一价
+'ask2'  卖二价
+'ask3'  卖三价
+'ask4'  卖四价
+'ask5'  卖五价
+'ask_vol1' 卖一量
+'ask_vol2' 卖二量
+'ask_vol3' 卖三量
+'ask_vol4' 卖四量
+'ask_vol5' 卖五量
+'b_vol'   外盘
+'bid1'  买一价
+'bid2'  买二价
+'bid3'  买三价
+'bid4'  买四价
+'bid5'  买五价
+'bid_vol1'  买一量
+'bid_vol2'  买二量
+'bid_vol3'  买三量
+'bid_vol4'  买四量
+'bid_vol5'  买五量
+'code'  代码
+'cur_vol' 当前量
+'high'   最高
+'last_close' 昨收
+'low'   最低
+'market' 市场
+'open'  开盘
+'price'  现价
+'reversed_bytes0'
+'reversed_bytes1'
+'reversed_bytes2'
+'reversed_bytes3'
+'reversed_bytes4'
+'reversed_bytes5'
+'reversed_bytes6'
+'reversed_bytes7'
+'reversed_bytes8'
+'reversed_bytes9'
+'s_vol'  内盘
+'servertime' 服务器时间
+'value'
+'vol'  总量

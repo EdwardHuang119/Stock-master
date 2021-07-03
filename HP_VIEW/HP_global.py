@@ -100,7 +100,7 @@ global MA5     #价格平均线周期
 global MA6     #价格平均线周期
 global MAV1     #成交量平均线周期
 global MAV2     #成交量平均线周期
-global money   #当前用户资金
+global money   #当前用户资金t
 global stamp_duty   #印花税 0.1%
 global trading_Commission    #交易佣金0.05%
 global stop_loss_on #允许止损

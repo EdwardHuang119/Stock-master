@@ -1,0 +1,51 @@
+'''
+     import语句
+
+    Python中可以使用 import 语句来引入模块、包和库。
+    import 语句的一般语法格式如下：
+
+    import  模块名包名库名
+
+    Python模块就是一个包含了一组定义的变量、函数和类所组成的Python文件。
+这个文件可以是“.py”文件后缀的原始文本文件，也可以是“.py”文件编译过
+的“.pyc”文件。
+    我们编写的程序也一般存储在“.py”文件中，这个文件如果包含的变量、函数
+或类，可以提供给其它Python程序使用，这个文件也可以称为模块。假定模块名
+为“stockn.py”。
+# -- coding utf-8 --
+#文件名：stockn.py
+#数字股票代码转换字符串股票代码
+def stockname(n)
+    '''
+    数字股票代码转换字符串股票代码
+stockname(n)
+    参数 n 整型
+    返回：字符串
+    '''
+    s=str(n)
+    s=s.strip()
+    if (len(s)6 and len(s)0)
+        s=s.zfill(6)+'.SZ'
+    if len(s)==6
+        if s[01]=='0'
+            s=s+'.SZ'
+        else
+            s=s+'.SH'
+    return s
+
+    我们用import语句来导入“stockn.py”模块，就可以使用这个模块中的
+“stockname(n)”函数了，模块名可以省略“.py”。
+
+    例如示例。
+import  stockn
+mystock=650
+stock=stockn.stockname(mystock)
+stock2=stockn.stockname(600020)
+print('stock= ',stock)
+print('stock2= ',stock2)
+
+    程序运行结果：
+stock=  000650.SZ
+stock2=  600020.SH
+
+'''

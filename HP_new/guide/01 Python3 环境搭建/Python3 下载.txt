@@ -1,0 +1,11 @@
+'''
+Python3 下载
+
+    Python3 最新源码，二进制文档，新闻资讯等可以在 Python 的官网查看到：
+
+    Python 官网：https://www.python.org/
+
+    你可以在以下链接中下载 Python 的文档，你可以下载 HTML、PDF 和 PostScript 等格式的文档。
+
+    Python文档下载地址：https://www.python.org/doc/
+'''

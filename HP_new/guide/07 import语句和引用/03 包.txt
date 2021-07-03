@@ -1,0 +1,31 @@
+'''
+    包
+
+    包是一个包含“__init__.py” 文件的目录。包是一个有层次的文件目录结
+构，它定义了由N个模块或N个子包组成的Python应用程序执行环境。
+    包所在子目录与模块子目录功能用法基本一样。包所在目录中一般包含特
+定文件“__init__.py”，这个文件和其它诸多“.py”文件构成一个包。
+    该“__init__.py”可以为空文件，也可以写入一些包执行的初始化代码。
+    假如“func”包中的“__init__.py”文件有包执行的初始化代码。我们就
+可以引用这个包名。
+
+import  func
+
+    假如“func”的目录有下面2个文件，“__init__.py”和“aaa.py”文件。
+假如“__init__.py”文件为空文件。此时包和带子目录的模块用法没什么区别。
+我们用如下格式导入包中“aaa.py”文件。
+
+import  func.aaa
+
+看示例。
+'''
+from func.aaa import *
+bb=aaa()
+print('\nfrom func.aaa import *')
+print('bb= ',bb)
+
+'''
+    程序运行结果如下：
+from func.aaa import *
+bb=  funcaaa.py
+'''

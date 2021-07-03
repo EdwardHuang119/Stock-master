@@ -1,0 +1,21 @@
+'''
+    单条件分支语句
+
+    条件分支语句一般指“if”语句。
+
+    （1）单条件分支命令格式。
+if 逻辑表达式:
+    命令块
+else :
+    命令块
+'''
+
+if True:
+    print ("真")
+else:
+    print ("假")
+
+if False:
+    print ("真")
+else:
+    print ("假")

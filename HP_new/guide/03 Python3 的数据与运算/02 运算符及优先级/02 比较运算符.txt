@@ -1,0 +1,43 @@
+'''
+    比较运算符
+
+    比较运算符如表3-3所示。
+    表3-3 比较运算符
+运算符    表达式    描述
+==    x==y    等于 - 比较对象是否相等，相等返回True，否则返回False。
+!=    x!=y    不等于 - 比较两个对象是否不相等，不相等返回True，否则返回False。
+    xy    大于 - 返回x是否大于y，大于返回True，否则返回False。
+    xy    小于 - 返回x是否小于y。小于返回True，否则返回False。
+=    x=y    大于等于 - 返回x是否大于等于y。大于等于返回True，否则返回False。
+=    x=y    小于等于 - 返回x是否小于等于y。小于等于返回True，否则返回False。
+
+   下面给出比较运算符代码示例3-12。
+'''
+#比较运算符示例
+import numpy as np
+
+print('28==28 运算结果',28==28)
+print('18==28 运算结果',18==28)
+print('28!=28 运算结果',28!=28)
+print('18!=28 运算结果',18!=28)
+print('28>28 运算结果',28>28)
+print('18<28 运算结果',18<28)
+print('28>=28 运算结果',28>=28)
+print('18<=28 运算结果',18<=28)
+print('28=28 运算结果',28==28)
+print('18=28 运算结果',18==28)
+
+print('abc==bbb  运算结果','abc'=='bbb')
+print('abc==bbb  运算结果','abc'=='bbb')
+print('ccc==ccc  运算结果','abc'=='bbb')
+print(' \'\'==None   运算结果',''==None)
+
+#使用arange生成连续元素
+a =np.zeros((2,3))
+b =np.zeros((2,3))
+c = np.ones((2,3))
+print('a=n',a)
+print('b=n',b)
+print('c=n',c)
+print('a==b 运算结果n',a==b)
+print('a==c 运算结果n',a==c) 

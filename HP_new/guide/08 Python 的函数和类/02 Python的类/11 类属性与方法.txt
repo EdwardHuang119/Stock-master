@@ -1,0 +1,70 @@
+'''
+    类属性与方法
+
+    类的私有属性：
+    __private_attrs：两个下划线开头，声明该属性为私有，不能在类的外部被使用或直接访
+问。在类内部的方法中使用时 self.__private_attrs。
+    类的方法：在类的内部，使用 def 关键字可以为类定义一个方法，与一般函数定义不同，
+类方法必须包含参数 self，且为第一个参数。
+    类的私有方法：
+    __private_method：两个下划线开头，声明该方法为私有方法，不能在类的外部调用。在
+类的内部调用 self.__private_methods（self. __私有方法）。
+    Python不允许类实例访问私有属性，但可以使用 object._className__attrName（对象
+名._类名__私有属性名）访问私有属性。见示例4-16：print(t._testPrivate__data)。
+
+    单下划线、双下划线、头尾双下划线说明：
+    _foo：以单下划线开头的表示的是 protected 类型的变量，即保护类型只能允许其本身
+与子类进行访问，不能用于 from module import  。
+__foo：双下划线的表示的是私有类型(private)的变量，只能是允许这个类本身进行访问了。
+    __foo__：定义的是特殊方法，一般是系统定义名字 ，类似 __init__() 之类的。
+
+    见示例4-15。
+# -- coding utf-8 --
+#示例4-15
+class testPrivate
+	def __init__(self)
+		self.__data = []
+ 
+	def add(self,item)
+		self.__data.append(item)
+	def printData(self)
+		print (self.__data)
+ 
+t = testPrivate()
+t.add('dancingrain')
+t.add('hello')
+t.printData()
+print(t.__data)
+   程序运行结果：
+['dancingrain', 'hello']
+  File C0HP示例12-7.py, line 16, in module
+    print(t.__data)
+
+AttributeError 'testPrivate' object has no attribute '__data'
+   程序中因为直接访问私有变量而出现错误提示，
+“AttributeError 'testPrivate' object has no attribute '__data'”。
+   但是，这并不是意味着我们不能够从外部访问这个变量了，上面说Python在类的内部用_classname__foo替换了__foo，因此，我们可以在类的外面使用_testPrivate__data来访问__data。见代码示例4-16。
+# -- coding utf-8 --
+#示例4-16
+class testPrivate
+	def __init__(self)
+		self.__data = []
+ 
+	def add(self,item)
+		self.__data.append(item)
+	def printData(self)
+		print (self.__data)
+ 
+t = testPrivate()
+t.add('testPrivate Var')
+t.add('hello')
+t.printData()
+print(t._testPrivate__data)
+
+    程序运行结果：
+['testPrivate Var', 'hello']
+['testPrivate Var', 'hello']
+    上面结果表明，我们获取到了私有变量的值。
+    我们开发程序的目的是代码安全健壮，使用私有变量目的为了防止其他程序员或用户误改关键数据。如果一定要修改内部私有数据，可以使用类内部方法间接修改。
+    关于类先介绍到这里，后面在使用类的代码中，读者慢慢体会类的用法。
+'''

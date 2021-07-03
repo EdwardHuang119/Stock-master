@@ -1,0 +1,25 @@
+'''
+     print自动换行
+
+   “print”语句会自动在行末加上回车，如果不需回车，只需在“print”语句的结尾
+添加一个“end”参数，来改变他的输出行为。例如：
+
+for x in range(0,5)
+    print (x,end='')
+
+    在 Python3 中 print(x) 默认是换行的，想插入一个空行也可以这样print()，如果不
+想换行要这样写“print(x, end = '' )”。
+
+示例。
+'''
+
+for x in range(0,5)
+    print (x,end=' ')
+
+print()
+for x in range(0,5)
+    print (x,end=',')
+
+print()    
+for x in range(0,5)
+    print (x,end='')

@@ -1,0 +1,15 @@
+6.5 不可变集合
+有时为了防止程序意外修改集合数据，可以使用冰冻方法。冰冻方法“frozenset()”返回一个不可变集合备份。这个新的不可变集合，只能访问，不能修改集合中的元素。“set()”和 “frozenset()”函数分别用来生成可变和不可变的集合。
+格式：
+var= frozenset(x)
+如果不提供任何参数，默认会生成空集合。如果提供一个参数x，则该参数x必须是可迭代的，即，一个序列，或迭代器，或支持迭代的一个对象。
+如果想解冻集合可以使用集合“set()”方法。见示例3-34。
+# -- coding utf-8 --
+bb = {x for x in range(1,5)}
+var = frozenset(bb)
+print(var,type(var))
+var2 = set(var)
+print(var2,type(var2))
+程序运行结果：
+frozenset({1, 2, 3, 4}) class 'frozenset'
+{1, 2, 3, 4} class 'set'

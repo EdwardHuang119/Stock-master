@@ -1,0 +1,58 @@
+'''
+    列表迭代操作
+
+    Python的迭代操作就是利用了列表有序特性，进行迭代输出。
+    迭代器是一个可以记住遍历位置的对象。
+    迭代器对象从列表的第一个元素开始访问，直到所有的元素被访问完结束。迭代器只能往
+前不会后退。字符串，列表或元组对象都可用于创建迭代器。
+    迭代器有两个基本的方法：iter() 和 next()。
+    方法“iter()”创建迭代器对象，并且指针指第一个元素。
+    方法“next()”输出当前指针元素，并且使迭代器指针指向下一个元素。
+    一般我们用for语句作列表遍历操作。可参见示例3-33。
+
+list1=[x for x in range(10)]
+#使用for循环
+for i in list1
+  print(i, end= )
+
+    如果使用迭代器，就可以使用while语句作列表遍历操作。
+list1=[x for x in range(10)]
+#使用迭代器，用while循环
+it = iter(list1)
+i=0
+while ilen(list1)
+    print (next(it), end= )
+i+=1
+
+    上面运行的结果是相同的。
+     Python是优美的编程语言，上面复杂的循环操作，只需要一行for循环语句就能
+实现。见以下示例3-33。
+# -- coding utf-8 --
+list1=[x for x in range(10)]
+
+#使用for循环
+print('使用for循环')
+for i in list1
+print(i2, end= )
+print()
+
+#使用迭代器，用while循环
+print('使用迭代器，用while循环')
+it = iter(list1)
+i=0
+while ilen(list1)
+    print (next(it)2, end= )
+i+=1
+print()
+
+#for循环语句迭代命令
+print('for循环语句命令')
+for x in list1 x=x2;print(x, end= )
+运行结果。
+使用for循环
+0 2 4 6 8 10 12 14 16 18 
+使用迭代器，用while循环
+0 2 4 6 8 10 12 14 16 18 
+for循环语句命令
+0 2 4 6 8 10 12 14 16 18
+'''

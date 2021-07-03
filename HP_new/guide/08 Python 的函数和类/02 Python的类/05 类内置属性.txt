@@ -1,0 +1,52 @@
+'''
+    类内置属性
+
+    类的内置属性见表 4-1。
+
+表 4-1 Python类的内置属性
+类属性	含义
+__name__	类的名字（字符串）。
+__doc__	类的文档字符串。
+__bases__	类的所有父类组成的元组。
+__dict__	类的属性组成的字典。包含一个字典，由类的数据属性组成。
+__module__	类所属的模块。类的全名是'__main__.className'，如果类位于一个
+                导入模块mymod中，那么className.__module__ 等于 mymod。
+__class__	类对象的类型。
+
+     见示例4-11。
+# -- coding utf-8 --
+#示例4-11
+class dog(object)    #定义小狗类 
+    '这是一个dog类的定义。'
+    def __init__(self,dogname='小虎')     #类初始化
+        self.name=dogname
+        print('n你的小狗叫'+self.name+'。')
+
+    def SetName(self,dogname)
+        self.name=dogname
+        print('你的小狗改名叫'+self.name+'。')
+        
+    def Run(self)
+        print(self.name+'正在跑。')
+
+    def CalltheDog(self)
+        print('你呼唤'+self.name+','+self.name+'向你跑来。n')
+
+    def __del__(self)   #类对象销毁
+        class_name = self.__class__.__name__
+        print( class_name+  销毁)
+
+print('dog.__name__  ',dog.__name__)
+print('dog.__doc__  ',dog.__doc__)
+print('dog.__bases__  ',dog.__bases__)
+print('dog.__dict__  ',dog.__dict__)
+print('dog.__module__  ',dog.__module__)
+print('dog.__class__  ',dog.__class__)
+    运行结果如下图：    
+dog.__name__   dog
+dog.__doc__   这是一个dog类的定义。
+dog.__bases__   (class 'object',)
+dog.__dict__   {'__module__' '__main__', '__doc__' '这是一个dog类的定义。', '__init__' function dog.__init__ at 0x0000000009C30048, 'SetName' function dog.SetName at 0x0000000009C30A60, 'Run' function dog.Run at 0x0000000009C30B70, 'CalltheDog' function dog.CalltheDog at 0x0000000009C301E0, '__del__' function dog.__del__ at 0x0000000009C30D08, '__dict__' attribute '__dict__' of 'dog' objects, '__weakref__' attribute '__weakref__' of 'dog' objects}
+dog.__module__   __main__
+dog.__class__   class 'type'dog.__module__   __main__
+'''

@@ -1,0 +1,34 @@
+'''
+    多元赋值
+
+    多元赋值是指一条赋值语句实现了多个变量的赋值过程。
+
+    例如：“a,b,c=1,2,3”。多元赋值要求变量名个数和表达式个数相等，否
+则会出现错误。
+    例如4个变量，仅提供3个表达式：“a,b,c,d=1,2,35”。
+    出现错误信息：
+  “ValueError not enough values to unpack (expected 4, got 3)”。
+
+    例如3个变量，提供4个表达式：“a,b,c=1,2,35,182”。
+    出现错误信息：
+    “ValueError too many values to unpack (expected 3)”。
+     多元赋值使程序编写更加简洁，方便。我们常常用于函数中。一个函数能
+返回多个变量值。
+    请看示例。
+'''
+a,b,c=1,2,35
+print('a= ',a)
+print('b= ',b)
+print('c= ',c)
+print()
+
+def xyz(n)
+    x=nn
+    y=n^2
+    z=n%2
+    return x,y,z
+
+x,y,z=xyz(6)
+print('x= ',x)
+print('y= ',y)
+print('z= ',z)

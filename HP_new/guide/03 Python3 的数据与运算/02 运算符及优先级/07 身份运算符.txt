@@ -1,0 +1,73 @@
+'''
+    身份运算符
+
+    身份运算符用于比较两个对象的存储单元地址是否相同。除了简单数值、字符串、逻辑
+变量外，其他复合数据都是一个对象数据，这类数据比较的是变量所对应的对象地址，如
+果对象地址相同即这些变量使用的是同一份数据。对其中一个变量的数据进行操作，其它
+变量的数据数据也会发生改变。对这类对象变量操作，为了防止更改原始数据，必须进行
+数据“copy”方法，不能用简单赋值语句进行变量赋值。身份运算符见表3-7身份运算符。
+    表3-7身份运算符
+
+运算符	表达式	描述
+is	x is y	is是判断两个标识符是不是引用自一个对象。x is y, 类似 id(x) == id(y) ,
+                                如果引用的是同一个对象则返回 True，否则返回 False。
+is not	x is not y	is not是判断两个标识符是不是引用自不同对象。x is not y ，类似
+                                 id(x) != id(y)。如果引用的不是同一个对象则返回结果 True，否则返
+                                 回 False。
+
+    下面给出身份运算符代码3-17。
+
+a = 20
+b = 20
+print ('a=',a,'  id=',id(a), 'nb=',b,'  id=',id(b))
+c= a is b
+print('c= a is b 运算结果 c=  ',c)
+b=30
+print ('a=',a,'  id=',id(a), 'nb=',b,'  id=',id(b))
+c= a is b
+print('c= a is b 运算结果 c=  ',c)
+
+x=y=[1,2,3,4,5]
+print ('x=',x,'  id=',id(x), 'ny=',y,'  id=',id(y))
+c= x is y
+print('c= x is y 运算结果 c=  ',c)
+x.append(99)  #修改了x数据，后面我们发现y的数据也变化了
+print('x.append(99) 运算结果 x=  ',x)
+print('x.append(99) 运算结果 y=  ',y)
+print()
+z=x.copy()
+print('z=x.copy() 运算结果 z=  ',z)
+print ('x=',x,'  id=',id(x), 'nz=',z,'  id=',id(z))
+c= x is z
+print('c= x is z 运算结果 c=  ',c)
+print()
+x.pop(5)
+print('x.pop(5) 运算结果 x=  ',x)
+print('x.pop(5) 运算结果 y=  ',y)
+print ('x=',x,'  id=',id(x), 'nz=',z,'  id=',id(z))
+c= y is not z
+print('c= y is not z 运算结果 c=  ',c) 
+命令执行结果：
+a= 20   id= 8791414134400 
+b= 20   id= 8791414134400
+c= a is b 运算结果 c=   True
+a= 20   id= 8791414134400 
+b= 30   id= 8791414134720
+c= a is b 运算结果 c=   False
+x= [1, 2, 3, 4, 5]   id= 326381000 
+y= [1, 2, 3, 4, 5]   id= 326381000
+c= x is y 运算结果 c=   True
+x.append(99) 运算结果 x=   [1, 2, 3, 4, 5, 99]
+x.append(99) 运算结果 y=   [1, 2, 3, 4, 5, 99]
+
+z=x.copy() 运算结果 z=   [1, 2, 3, 4, 5, 99]
+x= [1, 2, 3, 4, 5, 99]   id= 326381000 
+z= [1, 2, 3, 4, 5, 99]   id= 326369864
+c= x is z 运算结果 c=   False
+
+x.pop(5) 运算结果 x=   [1, 2, 3, 4, 5]
+x.pop(5) 运算结果 y=   [1, 2, 3, 4, 5]
+x= [1, 2, 3, 4, 5]   id= 326381000 
+z= [1, 2, 3, 4, 5, 99]   id= 326369864
+c= y is not z 运算结果 c=   True 
+'''

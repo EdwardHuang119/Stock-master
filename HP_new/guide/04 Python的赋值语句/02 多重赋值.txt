@@ -1,0 +1,63 @@
+'''
+    多重赋值
+ 
+    多重赋值命令格式如下:
+
+    变量名1=变量名2=…=变量名n=表达式
+
+    对于基本类型来说，例如int等，分配独立内存空间赋值给相同值，将
+来一个变量值变化，不影响其它变量值。
+    对于对象类型来说，例如pandas 的DataFrame类型，所有变量指向
+一个对象类型空间地址，任何一个变量对DataFrame类型数据处理，其
+它变量的数据内容也会变化。这种复制方式叫浅复制。
+    因此建立新对象类型数据，需要用“copy()”函数。
+
+    例如：
+    df1=df2 = ts.get_k_data('000001',ktype='D')
+    df1和df2指向同一个数据。无论哪个变量数据变化，另外一个变量数
+据也会变化，因为他们是同一份数据。
+    如果需要新建一份数据，需要用“copy()”函数，使用“copy()”函
+数的复制方式称为深复制。
+
+    df3=df1.copy()
+
+    此时“df1”数据变化，不会影响“df3”的内容。
+
+请看示例。
+'''
+
+import HP_global as g 
+import HP_data as hp
+from HP_sys import *
+
+a=b=10.4        #变量a和b的值赋值为 10.4。
+a=a*3           #变量a的值乘3
+
+print('a= ',a)  #显示变量a的值
+print('b= ',b)  #显示变量b的值,b值没有随a值变化。
+
+ds='2017-01-01'  #开始日期
+de='2017-12-30'  #结束日期
+stockn='600521'  #股票代码,600521华海药业
+df=hp.get_k_data(stockn,ktype='D',start=ds,end=de,index=False, \
+                autype='qfq').head(2) #获取股票数 
+
+df2=df3=df      #给变量 df2和df3浅复制df
+df4=df.copy()   #给变量 df4深复制df
+print('------下面是 df2的内容-------------')
+print(df2)
+print('------下面是 df4的内容-------------')
+print(df4)
+
+df3.open=df3.open*4  #给df3['open']的值放大4倍
+print('--下面是浅复制df2的内容，open值放大了4倍-------------')
+print(df2)
+print('--可以看到浅复制，df3修改，df2的值也变化了。-')
+print('--下面是深复制df4的内容，深复制open-------------')
+print(df4)
+print('-可以看到深复制，df4的值没有变化。-')
+print('-不难想象，修改浅复制的df2或df3,也破坏了原始数据df。')
+print('------下面是原始数据df的内容-------------')
+print(df)
+print('--df与df4比较open,原始数据df也被修改掉了。')
+

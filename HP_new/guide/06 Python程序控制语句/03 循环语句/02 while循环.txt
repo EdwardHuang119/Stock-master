@@ -1,0 +1,21 @@
+'''
+   while循环
+
+   Python的while命令格式如下：
+
+while  逻辑表达式（也称循环条件）
+    循环体命令块
+
+   示例：通过while循环打印99乘法表。
+'''
+j = 1
+while j <= 9:
+    i = 1
+    while i <=j:
+        print('%d*%d=%d' % (i, j, i*j), end='\t')
+        i += 1
+    print()
+    j += 1
+
+
+

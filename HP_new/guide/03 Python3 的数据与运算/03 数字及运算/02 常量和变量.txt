@@ -1,0 +1,31 @@
+ '''
+    常量和变量
+
+    常量是不会变化的量。Python3并没有命名常量，也就是说不能像C语言那样给常量起一
+个名字。只能以具体数值来代表常量。例如，整数常量12，字符串常量'abc'等等。
+    Python3常量包括：数字、字符串、布尔值（True，False）、空值(None)。
+    变量是可以通过变量名访问计算机内存中的一块区域，变量可以存储规定范围内的值，而
+且值可以改变。基于变量的数据类型，Python3解释器会分配指定内存，并决定什么数据怎
+么存储在内存中。
+
+    “del”语句可以删除不再使用的变量，释放变量所占内存资源。
+    例如“示例3-001.py”：
+
+# -- coding utf-8 --
+var1=10  #创建变量var1
+var2='hello'   #创建变量var2
+print('var1=',var1)
+print('var2=',var2)
+del var1,var2   #删除掉var1和var2变量，以后再引用就会出错。
+print('var1=',var1)
+
+    程序运行结果：
+
+var1= 10
+var2= hello
+
+  File Cdemo示例4-001.py, line 7, in module
+    print('var1=',var1)
+
+NameError name 'var1' is not defined
+'''

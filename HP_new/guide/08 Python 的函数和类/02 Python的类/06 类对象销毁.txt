@@ -1,0 +1,72 @@
+'''
+    类对象销毁
+
+    Python 使用了引用计数这一简单技术来跟踪和回收类对象。当类对象（类实例）被创建
+时， 就创建了一个引用计数， 当类对象不再需要使用时，即这个对象的引用计数变为0 时，
+它将要被销毁。但是类对象销毁不是“立即”操作的， 而是由Python解释器在适当的时机，
+将类对象销毁，回收类对象占用的内存空间。
+    用户也可以在程序中主动销毁类对象。
+    Python类有析构函数 __del__ ，__del__在对象销毁的时候被调用，当对象不再被使用时，
+运行__del__方法。
+
+del MyDoga
+del MyDogb
+del MyDogc
+    见示例4-12。
+
+# -- coding utf-8 --
+
+class dog(object)    #定义小狗类 
+    '这是一个dog类的定义。'
+    def __init__(self,dogname='小虎')     #类初始化
+        self.name=dogname
+        print('n你的小狗叫'+self.name+'。')
+
+    def SetName(self,dogname)
+        self.name=dogname
+        print('你的小狗改名叫'+self.name+'。')
+        
+    def Run(self)
+        print(self.name+'正在跑。')
+
+    def CalltheDog(self)
+        print('你呼唤'+self.name+','+self.name+'向你跑来。n')
+
+    def __del__(self)   #类对象销毁
+        class_name = self.__class__.__name__
+        print( class_name+  销毁)
+
+#实例化第1个类MyDoga
+MyDoga=dog()   #使用默认参数
+MyDoga.CalltheDog()
+
+#实例化第2个类MyDoga
+MyDogb=dog('旺财')    #使用自定义参数
+MyDogb.CalltheDog()
+
+#实例化第3个类MyDoga
+MyDogc=dog('小黑')    #使用自定义参数
+MyDogc.CalltheDog()
+
+del MyDoga
+del MyDogb
+del MyDogc
+
+MyDogc.CalltheDog()  #类示例销毁，再执行此句会出错
+    运行结果如下图：
+你的小狗叫小虎。
+你呼唤小虎,小虎向你跑来。
+
+你的小狗叫旺财。
+你呼唤旺财,旺财向你跑来。
+
+你的小狗叫小黑。
+你呼唤小黑,小黑向你跑来。
+
+dog 销毁
+dog 销毁
+dog 销毁
+
+   MyDogc.CalltheDog()
+NameError name 'MyDogc' is not defined
+'''

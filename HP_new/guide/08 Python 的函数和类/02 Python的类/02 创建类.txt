@@ -1,0 +1,34 @@
+'''
+    创建类
+
+    使用 class 语句来创建一个新类，class 之后为类的名称并以冒号“” 结尾。
+class ClassName
+   '类的帮助信息'   #类文档字符串
+   class_suite  #类体
+
+    类的帮助信息可以通过ClassName.__doc__查看。
+    class_suite 由类成员，方法，数据属性组成。
+    以下是一个简单的 Python 类的例子
+class dog(object)    #定义小狗类 
+    '这是一个dog类的定义。'
+    def __init__(self,dogname='小虎')     #类初始化
+        self.name=dogname
+        print('n你的小狗叫'+self.name+'。')
+
+    def SetName(self,dogname)
+        self.name=dogname
+        print('你的小狗改名叫'+self.name+'。')
+        
+    def Run(self)
+        print(self.name+'正在跑。')
+
+    def CalltheDog(self)
+        print('你呼唤'+self.name+','+self.name+'向你跑来。n')
+    def __del__(self)   #类对象销毁
+        class_name = self.__class__.__name__
+        print( class_name+  销毁)
+    第一种方法__init__()方法是一种特殊的方法，被称为类的构造函数或初始化方法，当创建
+了这个类的实例时就会调用该方法。
+    self 代表类的实例，self 在定义类的方法时是必须有的，虽然在调用时不必传入相应的参
+数。
+'''

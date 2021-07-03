@@ -1,0 +1,28 @@
+'''
+    数值类型转换
+
+    Python在含有混合类型到普通类型用于计算表达式，内部转换数字。但有时，需要从一种
+类型明确强制转换到另一种类型，以满足操作符或函数参数的要求。
+    “int(x)” 是将“x”转换为纯整数。
+    “float(x)” 将 “x” 转换为浮点数。 
+    “complex(x)” 将 “x” 转换成具有实数部分x和虚部为零的复数。
+    “complex(x, y)”将 “x”和“y”转换成一个带“x”实部和“y”为虚部的复数。“x”和
+“y”是数值表达式。
+
+    例如“示例3-003.py”。
+
+x=12.88
+a=int(x)
+b=float(a)
+c=complex(x)
+print('x=',x,type(x))
+print('a=',a,type(a))
+print('b=',b,type(b))
+print('c=',c,type(c))
+
+    程序运行结果：
+x= 12.88 class 'float'
+a= 12 class 'int'
+b= 12.0 class 'float'
+c= (12.88+0j) class 'complex'
+'''

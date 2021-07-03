@@ -1,0 +1,48 @@
+'''
+    成员运算符
+
+     除了以上的一些运算符之外，Python还支持成员运算符，具有成员的数据类型包括字符
+串，列表或元组。见表3-6 成员运算符。
+    表3-6 成员运算符
+
+运算符	表达式	描述
+in	x in y	如果在指定的序列中找到值返回True，否则返回False。假如x在y序列
+                                中,如果x在y序列中返回True。
+not in	x not in y	如果在指定的序列中没有找到值返回True，否则返回 False。假如x不
+                                 在y序列中, 如果x不在y序列中返回 True。
+
+    下面给出成员运算符代码示例3-16。
+
+a = 10
+l = [1, 2, 3, 4, 5 ]  #列表
+s = (10, 20, 30, 40, 50 ) #集合
+print('a= ',a)
+print('l= ',l)
+print('s= ',s)
+c= a in l
+print('c= a in l 运算结果 c=  ',c)
+c= a in s
+print('c= a in s 运算结果 c=  ',c)
+c= a not in l
+print('c= a not in l 运算结果 c=  ',c)
+c= a not in s
+print('c= a not in s 运算结果 c=  ',c)
+
+b=[]  #空列表
+print('b=[]  #空列表')
+c= b not in l
+print('c= b in l 运算结果 c=  ',c)
+c= b in s
+print('c= b in s 运算结果 c=  ',c)  
+命令执行结果：
+a=  10
+l=  [1, 2, 3, 4, 5]
+s=  (10, 20, 30, 40, 50)
+c= a in l 运算结果 c=   False
+c= a in s 运算结果 c=   True
+c= a not in l 运算结果 c=   True
+c= a not in s 运算结果 c=   False
+b=[]  #空列表
+c= b in l 运算结果 c=   True
+c= b in s 运算结果 c=   False  
+'''

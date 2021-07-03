@@ -1,0 +1,62 @@
+'''
+    实例化类对象
+
+    实例化类其它编程语言中一般用关键字 new，但是在 Python 中并没有这个关键字，类的
+实例化类似函数调用方式。
+    访问类方法，您可以使用点号“.”来访问对象的属性。
+    以下使用类的名称dog来实例化，并通过 __init__ 方法接收参数。
+
+#实例化第一个类MyDoga
+MyDoga=dog()   #使用默认参数
+MyDoga.Run()
+
+#实例化第一个类MyDoga
+MyDogb=dog('旺财')    #使用自定义参数
+MyDogb.CalltheDog()
+
+MyDogb.SetName('小哈')
+MyDogb.CalltheDog()
+    见示例4-9。
+# -- coding utf-8 --
+
+class dog(object)    #定义小狗类 
+    '这是一个dog类的定义。'
+    def __init__(self,dogname='小虎')     #类初始化
+        self.name=dogname
+        print('n你的小狗叫'+self.name+'。')
+
+    def SetName(self,dogname)
+        self.name=dogname
+        print('你的小狗改名叫'+self.name+'。')
+        
+    def Run(self)
+        print(self.name+'正在跑。')
+
+    def CalltheDog(self)
+        print('你呼唤'+self.name+','+self.name+'向你跑来。n')
+
+    def __del__(self)   #类对象销毁
+        class_name = self.__class__.__name__
+        print( class_name+  销毁)
+
+#实例化第一个类MyDoga
+MyDoga=dog()   #使用默认参数
+MyDoga.Run()
+
+#实例化第一个类MyDoga
+MyDogb=dog('旺财')    #使用自定义参数
+MyDogb.CalltheDog()
+
+MyDogb.SetName('小哈')
+MyDogb.CalltheDog()
+
+    运行结果如下图：    
+你的小狗叫小虎。
+小虎正在跑。
+
+你的小狗叫旺财。
+你呼唤旺财,旺财向你跑来。
+
+你的小狗改名叫小哈。
+你呼唤小哈,小哈向你跑来。
+'''

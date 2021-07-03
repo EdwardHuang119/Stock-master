@@ -1,0 +1,36 @@
+'''
+    print输出函数
+
+    Python2和Python3的“print”语句用法不同，Python2输出用“print”语
+句，Python3输入用“print()”函数。这里只介绍Python3的“print()”函数使用。
+
+    在Python3的“print()”函数用法如下：
+    （1）可以输出任何类型变量或对象。
+    无论什么类型数据，字符串、数值、布尔型、列表、字典...都可以直接输出。
+
+示例。
+'''
+a='Python3 !'
+print('Hello '+a)
+d = {'a':1, 'b':2}
+print('d= ',d)
+c=12.5
+print('c= ',c)
+d=True
+print('d= ',d)
+
+'''
+    如果你希望将输出的值转成字符串，可以使用“ repr()”或“str()” 函数来实现。
+  “str()”： 可以将数值数据转换为字符串。
+  “repr()”： 产生一个易于阅读的字符串格式，参数可以是 Python3的任何对象。
+'''
+#示例。
+import numpy as np
+
+print(str(10.5),str(2+3j),repr([x for x in range(10)])) 
+print()
+a = np.arange(15).reshape(3, 5)
+print(a)
+print()
+print(repr(a))
+

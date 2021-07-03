@@ -1,0 +1,31 @@
+'''
+   类和变量引用
+
+    除了库中函数按如上使用方法外，库中定义的类和变量使用也是如此使用。
+   例如：
+   <库名>.<类名>
+   <别名>.<变量名>
+   见示例。
+# -*- coding: utf-8 -*-
+import bbb as aa
+bb=aa.ddd('ABCD')
+print('bb= ',bb)
+
+bb=aa.ccc()
+print('bb= ',bb)
+
+print('var3= ',aa.var3)
+
+v1=aa.var1
+v2=aa.var2
+print('v1= ',v1)
+print('v2= ',v2)
+程序运行结果：
+bb=  ABCD
+bb=  ccc3
+var3=  18.55
+v1=  var1
+v2=  var2
+
+    Python中多个模块或程序使用同一个文件，不设定库名或别名，就会认为是一次使用的局部变量，程序终止，变量就会释放消失。
+'''

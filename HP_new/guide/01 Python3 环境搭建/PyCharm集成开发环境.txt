@@ -1,0 +1,14 @@
+'''
+PyCharm集成开发环境
+
+    集成开发环境（IDE：Integrated Development Environment）: PyCharm
+    PyCharm 是由 JetBrains 打造的一款 Python IDE，支持 macOS、 Windows、
+ Linux 系统。
+
+    PyCharm 功能 : 调试、语法高亮、Project管理、代码跳转、智能提示、自动完
+成、单元测试、版本控制……
+
+    PyCharm 下载地址 : https://www.jetbrains.com/pycharm/download/
+
+    PyCharm 安装地址：http://www.runoob.com/w3cnote/pycharm-windows-install.html
+'''

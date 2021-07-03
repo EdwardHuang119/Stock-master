@@ -1,0 +1,39 @@
+6.9 集合相关函数
+Python3中集合包的函数见表3-21。
+见表3-21 集合相关函数
+ 
+函数	               功能
+s.add(obj)	   集合添加成员操作，将成员obj添加到集合s中。
+s.remove(obj)	   集合删除成员操作，将成员obj从集合s中删除，如果集合s中不存在该成员obj，将引发错误KeyError。
+s.discard(obj)	   集合删除成员操作，将成员obj从集合s中删除，如果集合s中不存在该成员obj，不提示错误。
+s.pop()  	   移除集合s中的任意一个元素并返回。
+len(s)	           集合s中元素的个数。
+s.clear()	   清除操作。清除集合s中的所有元素，s成为空集合。
+set([obj])	   生成可变集合。
+frozenset([obj])   生成不可变集合。
+obj in s	   成员测试。
+obj not in s	   非成员测试。
+s.isdisjoint(t)
+或s == t	   等价测试。
+s != t	           不等价测试。
+s& t	           严格意义上的子集测试，不允许成员相同。当s!= t且集合s中所有的元素都是集合t中的元素。
+s.issubset(t)
+或s <= t	   子集测试。集合s中所有的元素都是集合t的成员，允许成员相同。
+s > t	           严格意义上的超集测试，不允许成员相同。当s != t 且集合t中所有的元素都是集合s的成员。
+s.issuperset(t)
+或 s >= t	   超集测试。集合t中所有的元素都是集合s的成员。
+s.union(t)
+或s | t	集合合并操作。
+s.intersection(t)
+或 s ^ t	   交集操作。同时是集合s和集合t中的元素。
+s.difference(t)
+或s - t	集合差分操作: s 中的元素，而不是 t 中的元素。
+s.copy()	   集合复制操作。返回集合s 的副本。
+s.update(t)
+或s |= t	   将集合t中的成员添加到集合s中。
+s.intersection_update(t)
+或s &= t	   修改集合操作，使集合s中仅包括集合s和集合t中相同的成员。
+s.difference_update(t)
+或s -= t	   集合差修改操作，使集合s中包括仅属于集合s但不属于集合t的成员。
+symmetric_difference_update()
+或s ^= t	   对称差分修改操作，集合s中包括仅属于集合s或仅属于集合t的成员。

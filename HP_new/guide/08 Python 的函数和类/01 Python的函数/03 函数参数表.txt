@@ -1,0 +1,195 @@
+'''
+    函数参数表
+
+    Python3的函数定义非常简单，但灵活度却非常大。除了正常定义的必选参数外，还
+可以使用默认参数、可变参数和关键字参数，使得函数定义的接口，不但能处理复杂的
+参数，还可以简化调用者的代码。
+    函数参数表的数据类型分为不可变数据：Number（数字）、String（字符串）、
+Tuple（元组）和可变数据：List（列表）、Dictionary（字典）、Set（集合）、引入
+对象数据例如DataFrame。
+    不可变数据类型参数传递的只是值，没有影响传递参数变量的本身。
+    可变数据类型参数传递的是对象指针，如果修改了变量参数数据，传递参数的变量数
+据也会修改。
+    因此我们要对引入数据copy()，对数据副本进行处理，结果也是返回处理后的数据副
+本指针。
+    见演示示例4-2。
+
+# -- coding utf-8 --
+#函数演示
+
+i=20
+f=19.86
+dic = {i2i for i in range(10)}
+l=[i for i in range(10)]
+print('dic= ',dic)
+print('l= ',l)
+
+def fa(x,y)
+    x=xy
+    y=x
+    return y
+
+def fb(x)
+    x.clear()
+    return x
+
+def fc(x)
+    y=x.copy()  #使用copy()不会破坏原始数据 
+    y.clear()
+    return y
+
+a=fa(i,f)
+print('a= ',a)
+print('i= ',i)
+print('f= ',f)
+
+print('使用copy()方法，不会破坏原始数据。')
+b=fc(dic)
+print('b= ',b)
+print('dic= ',dic)
+
+c=fc(l)
+print('c= ',c)
+print('l= ',l)
+
+print('不使用copy()方法，会破坏原始数据。')
+d=fb(dic)
+print('d= ',d)
+print('dic= ',dic)
+
+e=fb(l)
+print('e= ',e)
+print('l= ',l)
+程序运行结果：
+dic=  {0 0, 1 2, 2 4, 3 6, 4 8, 5 10, 6 12, 7 14, 8 16, 9 18}
+l=  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+a=  397.2
+i=  20
+f=  19.86
+使用copy()方法，不会破坏原始数据。
+b=  {}
+dic=  {0 0, 1 2, 2 4, 3 6, 4 8, 5 10, 6 12, 7 14, 8 16, 9 18}
+c=  []
+l=  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+不使用copy()方法，会破坏原始数据。
+d=  {}
+dic=  {}
+e=  []
+l=  []
+
+  （1）默认参数，预先赋值有初值的参数。默认参数可以简化函数的调用。设置默认参数时，
+必选参数在前，默认参数在后，否则Python3的解释器会报错。
+    当函数有多个参数时，把变化大的参数放前面，变化小的参数放后面。变化小的参数就可
+以作为默认参数。
+    示例4-3。
+
+# -- coding utf-8 --
+#函数默认参数演示
+
+def mypow(x,y=2)
+    return xy
+
+a=mypow(4,3)
+b=mypow(4)
+print('a=mypow(4,3)= ',a)
+print('b=mypow(4)= ',b)
+程序运行结果：
+a=mypow(4,3)=  64
+b=mypow(4)=  16
+
+（2）可变参数，仅仅在参数前面加了一个号。调用该函数时，可以传入0个或任意个参数，
+这些可变参数在函数调用时自动组装为一个元组tuple。
+    args是可变参数，args接收的是一个元组tuple。λ
+     元组tuple无法直接修改，我们可以转换为一个列表，再来处理。请看一个利用可变参
+数来装配排序后列表的代码，示例4-4。
+# -- coding utf-8 --
+#函数kargs参数演示
+
+def test(kargs)
+    return kargs
+
+def shortall(kargs)
+    '''
+    多参数字符串排序
+    shortall(kargs)
+    返回字符串列表
+    '''
+    #过滤非字符串
+    l=list(kargs).copy()
+    l.sort()
+    return l
+
+s=test('ABC','222','1111','xixi','hahahah') 
+print('s= ',s)
+print('type(s)= ',type(s))
+
+#1、无参数
+s1=shortall() 
+print('s1=',s1)
+
+#2、字符串参数
+s2=shortall('ABC','222','1111','xixi','hahahah') 
+print('s2=',s2)
+
+#3.数值参数 
+s3=shortall(88,9,1,5,32423,999) 
+print('s3=',s3)
+程序运行结果：
+s=  ('ABC', '222', '1111', 'xixi', 'hahahah')
+type(s)=  class 'tuple'
+s1= []
+s2= ['1111', '222', 'ABC', 'hahahah', 'xixi']
+s3= [1, 5, 9, 88, 999, 32423]
+
+
+    （3）关键字参数允许你传入0个或任意个含参数名的参数，这些关键字参数在函数内部自
+动组装为一个字典dict。
+    kw是关键字参数，kw接收的是一个字典dict。
+    见示例4-5。
+
+# -- coding utf-8 --
+#函数kargs参数演示
+
+def  myset (kw)
+    '''
+    kw是关键字参数
+    mayset(kw)
+    返回参数内容
+    '''
+    d=kw
+    return d
+
+def detail(name=None,kargs) 
+    '''
+    detail(name=None,kargs) - str
+    name is a str.return a str like'name,key1value1,key2value2'    这个函数特定的功能
+    '''
+    data = []
+    for x,y in kargs.items()
+        data.extend([',', str(x), '', str(y)])
+   
+    info = ''.join(data)
+    return '%s%s'%(name,info)
+
+a=myset(name='hhh',age=19,a=98.5,b=97,c=98.8)
+print('a= ',a)
+
+b=detail(name='hhh',age=19,a=98.5,b=97,c=98.8)
+print('b= ',b)
+程序运行结果：
+a=  {'name' 'hhh', 'age' 19, 'a' 98.5, 'b' 97, 'c' 98.8}
+b=  hhh,age19,a98.5,b97,c98.8
+
+
+    (4)参数组合
+    在Python3中定义函数，可以用必选参数、默认参数、可变参数和关键字参数，这4种参
+数都可以一起使用，或者只用其中某些，但是请注意，参数定义的顺序必须是：必选参数、
+默认参数、可变参数和关键字参数。
+     使用函数参数方式：
+     1）按位置匹配 func(name)
+     2）按关键字匹配 func(key=value)
+     3）按输入参数匹配
+　　    a.元组收集 func(name,arg1,arg2)
+　　    b.字典收集 func(name,key1=value1,key1=value2)
+     4）按参数定义顺序。
+'''

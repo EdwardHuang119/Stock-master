@@ -1,0 +1,60 @@
+'''
+    方法重写
+
+    如果父类方法的功能不能满足需求，可以在子类重写父类的方法。
+    下面给出有关类继承和方法重新的演示代码。见示例4-13。
+
+# -- coding utf-8 --
+#示例4-13
+class dog(object)    #定义小狗类 
+    '这是一个dog类的定义。'
+    def __init__(self,dogname='小虎')     #类初始化
+        self.name=dogname
+        print('n你的小狗叫'+self.name+'。')
+
+    def SetName(self,dogname)
+        self.name=dogname
+        print('你的小狗改名叫'+self.name+'。')
+        
+    def Run(self)
+        print(self.name+'正在跑。')
+
+    def CalltheDog(self)
+        print('你呼唤'+self.name+','+self.name+'向你跑来。n')
+
+    def __del__(self)
+        class_name = self.__class__.__name__
+        print( class_name+  销毁)
+
+class newdog(dog)
+    '这是新dog类'
+
+    def Eat(self)  # 定义子类新方法
+        print(self.name+'正在吃东西。')
+
+    def CalltheDog(self) #重构基类方法
+        print('你呼唤'+self.name+','+self.name+'抬头看你。n')
+
+
+#实例化第一个类MyDoga
+MyDoga=newdog()   #使用默认参数
+MyDoga.Run()
+MyDoga.Eat()
+print('----------------')
+MyDoga.name='宝贝'
+MyDoga.Run()
+MyDoga.Eat()
+MyDoga.CalltheDog()
+del MyDoga
+    运行结果如下图：
+你的小狗叫小虎。
+小虎正在跑。
+小虎正在吃东西。
+----------------
+宝贝正在跑。
+宝贝正在吃东西。
+你呼唤宝贝,宝贝抬头看你。
+
+newdog 销毁
+
+'''

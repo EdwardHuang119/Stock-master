@@ -1,0 +1,359 @@
+'''
+    字符串处理函数
+
+    字符串处理函数见表 3-13。
+ 
+   表 3-13 字符串处理函数
+函数（string表示字符串）	说明
+len(string)	返回字符串长度。
+string.capitalize()	把字符串的第一个字符大写。
+string.center(width)	返回一个原字符串居中，并使用空格填充至长度 width 的新字
+                                符串。
+string.count(str, beg=0, end=len(string))	返回 str 在 string 里面出现的次数，如
+                                   果 beg 或者 end 指定则返回指定范围内 str 出现的次数。
+string.decode(encoding='UTF-8', errors='strict')	以 encoding 指定的编码格
+                              式解码 string，如果出错默认报一个 ValueError 的 异 常 ， 除
+                              非 errors 指 定 的 是 “'ignore'” 或 者“'replace'”。
+string.encode(encoding='UTF-8', errors='strict')	以 encoding 指定的编码格
+                              式编码 string，如果出错默认报一个ValueError 的异常，除非
+                              errors 指定的是“'ignore'”或者“'replace'”。
+string.endswith(obj, beg=0, end=len(string))	检查字符串是否以 obj 结束，
+                              如果beg 或者 end 指定则检查指定的范围内是否以 obj 结束，如
+                              果是，返回 True,否则返回 False。
+string.expandtabs(tabsize=8)	把字符串 string 中的 tab 符号转为空格，tab 符号默
+                               认的空格数是 8。
+s.find(str, beg=0, end=len(string))	检测 str 是否包含在 string 中，如果 beg 
+                               和 end 指定范围，则检查是否包含在指定范围内，如果是返回开
+                               始的索引值，否则返回-1。
+string.format()	格式化字符串。
+string.index(str, beg=0, end=len(string))	跟“find()”方法一样，只不过如果str不在
+                                 string中会报一个异常。
+string.isalnum()	如果 string 至少有一个字符并且所有字符都是字母或数字则返回
+                               True，否则返回 False。
+string.isalpha()	如果 string 至少有一个字符并且所有字符都是字母则返回 True，
+                                否则返回 False。
+string.isdecimal()	如果 string 只包含十进制数字则返回 True 否则返回 False。
+string.isdigit()	如果 string 只包含数字则返回 True 否则返回 False。
+string.islower()	如果 string 中包含至少一个区分大小写的字符，并且所有这些(区
+                                分大小写的)字符都是小写，则返回 True，否则返回 False。
+string.isnumeric()	如果 string 中只包含数字字符，则返回 True，否则返回 False。
+string.isspace()	如果 string 中只包含空格，则返回 True，否则返回 False。
+string.istitle()	如果 string 是标题化的(见“ title()”)则返回 True，否则返回 False。
+string.isupper()	如果 string 中包含至少一个区分大小写的字符，并且所有这些(区分
+                                大小写的)字符都是大写，则返回 True，否则返回 False。
+string.join(seq)	以 string 作为分隔符，将 seq 中所有的元素(的字符串表示)合并为
+                               一个新的字符串。
+string.ljust(width)	返回一个原字符串左对齐，并使用空格填充至长度 width 的新字符串。
+string.lower()	转换 string 中所有大写字符为小写。
+string.lstrip()	截掉 string 左边的空格。
+string.maketrans(intab, outtab])	“maketrans()”方法用于创建字符映射的转换
+                                表，对于接受两个参数的最简单的调用方式，第一个参数是字符串，
+                                表示需要转换的字符，第二个参数也是字符串表示转换的目标。
+max(string)	返回字符串 string 中最大的字母。
+min(string)	返回字符串 string 中最小的字母。
+string.partition(str)	有点像 “find()”和 “split()”的结合体,从 str 出现的第一个位置起,把 
+                                字 符 串 string 分 成 一 个 3 元 素 的 元 组 “(string_pre_str,str,string_post_str)”，
+                                 如果 string 中不包含str 则 “string_pre_str == string”。
+string.replace(str1, str2,  num=string.count(str1))	把 string 中的 str1 替换成 str2，如果 
+                                 num 指定，则替换不超过 num 次。
+string.rfind(str, beg=0,end=len(string) )	类似于 find()函数，不过是从右边开始查找。
+string.rindex( str, beg=0,end=len(string))	类似于 index()，不过是从右边开始。
+string.rjust(width)	返回一个原字符串右对齐，并使用空格填充至长度 width 的新字符串。
+string.rpartition(str)	类似于“partition()”函数，不过是从右边开始查找。
+string.rstrip()	删除 string 字符串末尾的空格。
+string.split(str=, num=string.count(str))	以 str 为分隔符切片 string，如果 num有指定值，则
+                                 仅分隔 num 个子字符串。
+string.splitlines([keepends])	按照行“'r', 'rn', n'”分隔，返回一个包含各行作为元素的列表，
+                                 如果参数 keepends 为 False，不包含换行符，如果为 True，则保留换行符。
+string.startswith(obj, beg=0,end=len(string))	检查字符串是否是以 obj 开头，是则返回 
+                                True，否则返回 False。如果beg 和 end 指定值，则在指定范围内检查。
+string.strip([obj])	在 string 上执行 “lstrip()”和 “rstrip()”。
+string.swapcase()	翻转 string 中的大小写。
+string.title()	返回标题化的 string,就是说所有单词都是以大写开始，其余字母均为小写
+                                (见 “istitle()”)。
+string.translate(str, del=)	根据 str 给出的表(包含 256 个字符)转换 string 的字符，要过滤
+                              掉的字符放到 del 参数中。
+string.upper()	转换 string 中的小写字母为大写。
+string.zfill(width)	返回长度为 width 的字符串，原字符串 string 右对齐，前面填充0。
+
+
+    示例3-25：将任何格式的中国股市股票代码转换为聚宽股票代码格式。
+    相关知识：中国股市的证券代码是6位数字，中国股市分上海市场和深圳市场，这个2个市场又
+有一些证券品种。
+
+表3-14 上海证券市场的交易品种
+上海证券品种	代码
+上海A股	格式6XXXXX，例如600030。
+上海B股	格式9XXXXX，例如900901。
+上海基金	格式5XXXXX，例如519002。
+上海债券	格式01XXXX，例如010107。
+
+表3-15 深圳证券市场的交易品种
+深圳证券品种	代码
+深圳A股	格式00XXXX，例如000001，001979。
+深圳B股	格式20XXXX，例如200011，200992。
+深圳基金	格式15XXXX，例如150008。
+深圳债券	格式10XXXX，11XXXX例如100303，118861。
+中小板	格式002XXX，例如002001，002940。
+创业板	格式3XXXXX，例如300001，300760。
+
+表3-16 全国中小企业股份转让系统品种
+转股证券品种	代码
+新三板	格式4XXXXX，例如400008，400070。
+
+    聚宽证券代码标准格式，仅适用于A股市场股票代码以及基金代码，不含债券。
+表3-17 聚宽证券代码标准格式
+交易市场	代码后缀	示例代码	证券简称
+上海证券交易所	.XSHG	'600519.XSHG'	贵州茅台
+深圳证券交易所	.XSHE	'000001.XSHE'	平安银行
+
+    解题思路：
+（1）首先我们只考虑A股、B股、中小板、创业板及基金。其次，我们要考虑到输入股票代码的
+        各种格式，例如'000001', 'SZ000001', '000001SZ', '000001.sz', '000001.XSHE'，’88’
+        等等。我们要从各种字符串中提取出0-9数字，合成只有数字构成的新字符串，我们可以先
+        做一个函数来完成这个功能。
+（2）我们使用“zfill()”函数，把只含数字的字符串变为长度为6的新字符串，前面补0。
+（3）我们分析股票代码所处的市场，然后增加对应市场的后缀。
+    下面给出程序代码示例3-25。
+
+# -- coding utf-8 --
+#ston()函数提取字符串中的数字,并返回.
+#函数概念和用法后面对应的章节会涉及
+def ston(string)
+    s1=''
+    for s in string
+        if s.isdecimal()
+            s1=s1+s
+    return s1
+
+#聚宽股票代码转换
+def jqsn(s)
+    s=s.strip()
+    s=ston(s)
+    if (len(s)6 and len(s)0)
+        s=s.zfill(6)+'.XSHE'
+    if len(s)==6
+        if s[01]=='6' or s[01]=='9' or s[01]=='5'
+            s=s+'.XSHG'
+        else
+            s=s+'.XSHE'
+    return s
+
+print('sz1 ==',jqsn('sz1'))
+print('1.sz ==',jqsn('1.sz'))
+print('400011 ==',jqsn('400011'))
+print('SH600011 ==',jqsn('SH600011'))
+print('900011.sh ==',jqsn('900011.sh'))
+print('500011.XSHG ==',jqsn('500011.XSHG'))
+程序运行结果如下：
+sz1 == 000001.XSHE
+1.sz == 000001.XSHE
+400011 == 400011.XSHE
+SH600011 == 600011.XSHG
+900011.sh == 900011.XSHG
+500011.XSHG == 500011.XSHG
+
+    3.字符串运算
+    下面介绍字符串常见运算方法。
+（1）使用加号“+”可以将两个字符串连接到一起，成为一个新的字符串。例如：
+tring='abcd'+'efg'    #结果为：'abcdefg'
+（2）使用乘号“”可以将一个字符串的内容复制数次，成为一个新的字符串。
+例如：s='#'3+'Python'+'#'3   #结果：'###Python###'
+
+    示例3-26：隐藏电话号码中间4为数字，换为星号“”。
+tela = '18578755056'
+telb = tela[3]+''4+tela[7]
+print(telb)
+运行结果：
+1855056
+
+    （3）使用大于“”、大于等于“=”、等于“==”、小于“”、小于等于“=”等
+         逻辑运算符，比较2个字符串的大小。例如：
+
+'abc'='aaa'  #结果False。
+name='Tom'   #给name变量赋值'Tom'。
+name=='Tom'  #判断name是否为'Tom'，结果为True。
+
+    （4）使用“in”或“not in”关键字，可以测试某个字符串是否存在于另外一个字符
+串内。例如示例3-27 ：
+# -- coding utf-8 --
+x='ab' in 'abc'  #结果为True
+print('x= ',x)
+a='2abcd'   #给变量a赋值’2abcd’
+f=lambda xx[0] in '0123456789'  #匿名函数f,判断字符串首字母是否为数字
+y=f(a)   #返回结果为True
+print('y= ',y)
+
+    程序运行结果：
+x=  True
+y=  True
+
+    示例3-28：输入用户名和密码，判断用户名是否为'administrator'，密码是否
+为'admin888'，如果正确显示信息'欢迎管理员登录！'，如果错误显示'用户名或密码
+错误！'。要求用户名能连续输入5个字符及以上就算正确。判断完，程序结束。
+    解题思路：这是一个普通用户登录的程序段。一般字符串比较用连等于符号（==），
+因此密码比较可以用此方法。用户名比较长，要求能够连续输入对5个及以上字符就算
+正确。我们可以使用函数“rfind()”来处理，示例3-28程序代码如下。
+
+# -- coding utf-8 --
+name=input('请输入用户名')
+password=input('请输入密码')
+if password=='admin888' and 'administrator'.rfind(name)==0 and len(name)=5
+    print('欢迎管理员登录！')
+else
+    print('用户名或密码错误！') 
+程序运行结果：
+请输入用户名admin
+请输入密码admin888
+欢迎管理员登录！
+请输入用户名admi
+请输入密码asmin888
+用户名或密码错误！
+
+    4.字符串格式化
+     Python3的字符串格式化有两种方式：%格式符方式，format方式。
+（1）%格式符方式
+字符串格式控制：
+%[(name)][flags][width].[precision]typecode
+    其中参数含义见表 3-18。
+
+    表 3-18字符串格式控制的参数
+参数	说明
+name	可为空，数字(占位),命名(传递参数名,不能以数字开头)以字典格式映射格式化，
+                其为键名。
+flag	标记格式限定符号,包含+-#和0,+表示右对齐(会显示正负号),-左对齐,前面默认
+                 为填充空格(即默认右对齐)，0表示填充0，#表示八进制时前面补充0,16进制
+                 数填充0x,二进制填充0b。
+width	宽度(最短长度,包含小数点,小于width时会填充)。
+precision	小数点后的位数,与C语言相同。
+type	输入格式类型。
+
+    其中type输入格式类型，见表3-19  Python3格式化输出符。
+
+表3-19 Python3字符串的格式类型
+type符号	描述
+%	 百分号%标记。
+c	 格式化字符及其ASCII码。
+s	 格式化字符串。
+d	 有符号十进制整数。
+u	 无符号十进制整数。
+o	 格式化无符号八进制数。
+x	 格式化无符号十六进制数。
+X	 格式化无符号十六进制数（大写字符）。
+f	 格式化浮点数字，可指定小数点后的精度。
+e	 用科学计数法格式化浮点数。
+E	 用科学计数法格式化浮点数，用E代替e。
+g	 浮点数字(根据值的大小采用%e或%f)。
+G	 浮点数字(根据值的大小采用%E或%f)。
+p	 指针，用十六进制数格式化变量的地址。
+
+    示例3-28A是关于Python3字符串的格式类型的示例。
+# -*- coding: utf-8 -*-
+a=50
+print('变量a的ASCII码%%c: %c'%a)
+
+s='Hello World !'
+print("The length of %s is %d" % (s,len(s)))
+
+b=-10.8
+print('b=-10.8')
+print("变量b的值为%%d: %d"% b)
+print("变量b的值为%%f: %f"% b)
+print("变量b的值为%%u: %u"% b)
+
+c=10/3000
+print('c=10/3000')
+print("变量c的值为%%f: %f"% c)
+print("变量c的值为%%e: %e"% c)
+print("变量c的值为%%g: %g"% c)
+
+d=-2304123
+print('d=-2304123')
+print("变量d的值为%%u: %u"% d)
+print("变量d的值为%%o: %o"% d)
+print("变量d的值为%%x: %x"% d)
+print("变量d的值为%%X: %X"% d) 
+
+    程序运行结果：
+变量a的ASCII码%c: 2
+The length of Hello World ! is 13
+b=-10.8
+变量b的值为%d: -10
+变量b的值为%f: -10.800000
+变量b的值为%u: -10
+c=10/3000
+变量c的值为%f: 0.003333
+变量c的值为%e: 3.333333e-03
+变量c的值为%g: 0.00333333
+d=-2304123
+变量d的值为%u: -2304123
+变量d的值为%o: -10624173
+变量d的值为%x: -23287b
+变量d的值为%X: -23287B 
+
+    示例3-29：
+# -*- coding: utf-8 -*-
+a='股票代码: %d  股票名称: %s  股票价格: %.2f 元'
+b=(600519,'贵州茅台',551.65)
+c=a%b
+print(c)
+print()
+e ='★'*5+ '%(string)+20s★★★★★'%{'string':'书山有路勤为径'}
+print(e)
+f ='★'*5+ '%(string)-20s★★★★★'%{'string':'书中自有黄金屋'}
+print(f)
+
+    运行结果：
+股票代码: 600519  股票名称: 贵州茅台  股票价格: 551.65 元
+
+★★★★★             书山有路勤为径★★★★★
+★★★★★书中自有黄金屋             ★★★★★
+
+股票代码: 600519  股票名称: 贵州茅台  股票价格: 551.65 元
+股票代码: 600519  股票名称: 贵州茅台  股票价格: 551.65 元
+
+    （2）format方式
+    语法格式：
+    <{模板字符串}>.format(<参数表>) 
+    调用“format()”方法后会按模板字符串返回一个新的字符串。
+    模板字符串格式：{i: <格式控制模板>}
+    其中i是参数表中第i个参数，参数从0 开始编号。
+    格式控制模板格式： 
+    [[fill]align][sign][#][0][width][,][.precision][type]
+    格式控制模板主要包括“[fill][ align][ width][ .precision][type]”六个字段，这些字段都是
+可选的，可以组合使用。模板参数说明见表3-19。
+
+    表3-19 format方式控制模板参数说明
+参数	说明
+fill	可选。空白处填充的字符。
+align	可选。对齐方式，需配合width使用。只能选<，>，=，^四种符号。
+<：内容左对齐。
+>：内容右对齐(默认)。
+＝：内容右对齐。将符号放置在填充字符的左侧，且只对数字类型有效。
+^：内容居中。
+sign	可选。有无符号数字。只能选正号+,负号-和空格。
++：正号加正，负号加负。
+-：正号不变，负号加负。
+空格：正号空格，负号加负。
+#	可选。对于二进制、八进制、十六进制，如果加上#，会显示0b/0o/0x，否则不显示。
+，	可选。为数字添加分隔符，如：1,000,000。
+width	可选。格式化位所占宽度。
+.precision	可选。小数位保留精度。
+type	可选。格式化类型。同字符串的格式类型，例如d，.3f等等。不需要输入百分负号。
+
+    示例3-30：
+# -*- coding: utf-8 -*-
+#默认数据顺序{}
+aa='股票代码: {}  股票名称: {}  股票价格: {} 元'.format(600519,'贵州茅台',551.65)
+print(aa)
+#指定数据顺序{i}
+bb='股票代码: {2}  股票名称: {0}  股票价格: {1} 元'.format('贵州茅台',551.65,600519)
+print(bb)
+
+cc='PI={0:.2f}'.format(3.1415926) 
+print(cc)
+运行结果：
+股票代码: 600519  股票名称: 贵州茅台  股票价格: 551.65 元
+股票代码: 600519  股票名称: 贵州茅台  股票价格: 551.65 元
+PI=3.14
+'''
