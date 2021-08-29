@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import pymysql
+pymysql.install_as_MySQLdb()
 import MySQLdb
 import os
 from configparser import ConfigParser

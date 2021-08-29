@@ -35,6 +35,8 @@ from tkinter import scrolledtext  #装载scrolledtext模块
 from tkinter.messagebox import *
 from tkinter.filedialog import *
 from HP_formula import *    #使用HP_formula公式基本函数库
+from tkinter import *
+from tkinter.ttk import *
 
 from PIL import Image, ImageTk, ImageDraw, ImageFont,ImageGrab
 

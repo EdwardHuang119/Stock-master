@@ -4,7 +4,7 @@ import  tkinter.ttk  as  ttk   #导入Tkinter.ttk
 import  tkinter.tix  as  tix   #导入Tkinter.tix
 from tkinter.filedialog import *
 from tkinter.messagebox import *
-import  HP_tk  as  htk   #导入htk
+import HP_tk as htk   #导入htk
 from  HP_robot import *
 from  HP_edit import *
 from PIL import Image, ImageTk, ImageDraw, ImageFont

@@ -40,6 +40,7 @@ import math
 import datetime as dt
 import pandas as pd  
 import numpy  as np
+import time
 
 class HSeries(pd.Series):
     def __init__(self,**kw):
