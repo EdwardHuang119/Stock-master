@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import numpy as np
 import pandas as pd
 
 from HP_formula import *
@@ -38,13 +39,50 @@ QSDD=pd.concat([data['Close'],HHV_High_14,LLV_Low_14,HHV_High_34,LLV_Low_34],axi
 QSDD.columns = ['Close','HHV_High_14','LLV_Low_14','HHV_High_34','LLV_Low_34']
 show_func(QSDD)
 
-def minperiod(QSDD):
+def shortperiod(QSDD):
     if pd.isnull(QSDD['HHV_High_14']) or pd.isnull(QSDD['LLV_Low_14']):
-        minperiod = np.nan
+        shortperiod = np.nan
     else:
-        minperiod= 100+(-100*(QSDD['HHV_High_14'] - QSDD['Close'])/(QSDD['HHV_High_14']-QSDD['LLV_Low_14']))
-        # minperiod = 100+minperiod
-    return minperiod
+        shortperiod= 100+(-100*(QSDD['HHV_High_14'] - QSDD['Close'])/(QSDD['HHV_High_14']-QSDD['LLV_Low_14']))
+        # show_func(shortperiod.tolist())
+        # shortperiod = shortperiod.tolist()
+        # shortperiod = shortperiod(0:)
+        # shortperiod = pd.Series(shortperiod)
+    return shortperiod,print(shortperiod),print(type(shortperiod))
 
-QSDD['minperiod'] = QSDD.apply(minperiod,axis=1)
+# def EMA(Series, N):
+#     var=pd.Series.ewm(Series, span=N, min_periods=N - 1, adjust=True).mean()
+#     if N>0:
+#         var[0]=0
+#         #y=0
+#         a=2.00000000/(N+1)
+#         for i in range(1,N):
+#             y=pd.Series.ewm(Series, span=i, min_periods=i - 1, adjust=True).mean()
+#             y1=a*Series[i]+(1-a)*y[i-1]
+#             var[i]=y1
+#     return var
+
+def longperiod(QSDD):
+    out= {}
+    if pd.isnull(QSDD['HHV_High_34']) or pd.isnull(QSDD['LLV_Low_34']):
+        midperiod = np.nan
+        langperiod = np.nan
+    else:
+        mid_S=(-100*(QSDD['HHV_High_34']-QSDD['Close'])/(QSDD['HHV_High_34'] - QSDD['LLV_Low_34']))
+        mid_S=pd.Series(mid_S)
+        # print(type(mid_S))
+        mid_S =EMA2(mid_S,4)
+        midperiod = mid_S+100
+        lang_S =(-100 * (QSDD['HHV_High_34'] - QSDD['Close']) / (QSDD['HHV_High_34'] - QSDD['LLV_Low_34']))
+        lang_S = pd.Series(lang_S)
+        lang_S=MA(lang_S,19)
+        langperiod =lang_S+100
+    out['midperiod'] = midperiod
+    out['langperiod'] = langperiod
+    return pd.Series(out),print(out)
+
+# QSDD=shortperiod(QSDD)
+# QSDD['shortperiod'] = QSDD.apply(shortperiod,axis=1)
+# QSDD[['midperiod','langperiod']] = QSDD.apply(longperiod,axis=1)
+# Tocsv(QSDD,'','QSDD_TEST')
 show_func(QSDD)
