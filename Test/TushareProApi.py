@@ -378,6 +378,26 @@ def index_basic():
         i = i+1
     return index_basic
 
+def index_weight(index_code,trade_date,start_date,end_date):
+    index_weight = pd.DataFrame()
+    if type(index_code) == str:
+        if str(trade_date) !='':
+            index_weight = pro.index_weight(index_code=index_code,trade_date=trade_date)
+        else:
+            index_weight = pro.index_weight(index_code=index_code,start_date=start_date,end_date=end_date)
+    elif type(index_code) == list:
+        if str(trade_date) != '':
+            for i in range(len(index_code)):
+                index_weight_per = pro.index_weight(index_code=index_code[i],trade_date=trade_date)
+                index_weight = pd.concat([index_weight, index_weight_per], ignore_index=True)
+                i = i + 1
+        else:
+            for i in range(len(index_code)):
+                index_weight_per = pro.index_weight(index_code=index_code[i],tstart_date=start_date,end_date=end_date)
+                index_weight = pd.concat([index_weight, index_weight_per], ignore_index=True)
+                i = i + 1
+    return index_weight
+
 def daily_pro(ts_code,start_date,end_date,adj,freq,ma,factors,adjfactor):
     daily_pro = ts.pro_bar(ts_code=ts_code, start_date=start_date, end_date=end_date,adj=adj,freq=freq,ma=ma,factors=factors,adjfactor=adjfactor)
     return daily_pro
@@ -421,14 +441,8 @@ def fund_portfolio(ts_code):
 if __name__ == "__main__":
     show=True
     show_func = print if show else lambda a: a
-    # list=trade_cal_list('20210101','20211231','SSE')
-    # list=trade_cal_list('20200101','20211231','XHKG')
-    # list = hk_tradecal('20210101','20211231')
-    # df = fund_basic()
-    # df = fund_portfolio('')
-    df = Read_csv('fund_protfolio_analys_All','')
-    # Tocsv(df,'','fund_portfolio')
-    show_func(df)
+    ind = pro.index_weight(index_code='399300.SZ',start_date = '20210501',end_date = '20210915' )
+    show_func(ind)
     # df = pro.index_daily(ts_code='801011.SI', start_date='20200501', end_date='20200826')
     # df = index_sw_daily()
     # df = pro.index_classify(src='SW',fields='index_code,industry_name,level,industry_code')
