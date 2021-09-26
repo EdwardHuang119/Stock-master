@@ -70,11 +70,18 @@ def longperiod(HHV_High_34,LLV_Low_34,Close):
     langperiod =test+100
     return langperiod
 
+def ts_name_get(stock_basic,ts_code):
+    # name = stock_basic[stock_basic['ts_code']== ts_code]['name']
+    name_s = pd.merge(ts_code,stock_basic,on='ts_code',how='left',right_index=False)
+    # print(name_s)
+    name = name_s['name']
+    return name
+
 def QSDD_perstock(stock,start_date,end_date):
     data = get_data(stock, start_date, end_date)
     data = data.reset_index()
     data = data_clean_A(data)
-    show_func(data)
+    # show_func(data)
     QSDD = dataset(data)
     short = shortperiod(QSDD['HHV_High_14'], QSDD['LLV_Low_14'], QSDD['Close'])
     mid = minperiod(QSDD['HHV_High_34'], QSDD['LLV_Low_34'], QSDD['Close'])
@@ -88,10 +95,21 @@ def QSDD_perstock(stock,start_date,end_date):
     print(stock+'已经完成趋势顶底数据计算')
     return QSDD
 
+# def ts_name_get(stock_basic,ts_code):
+#     name = stock_basic[stock_basic['ts_code']== ts_code]['name']
+#     return name
+
 if __name__ == "__main__":
     QSDD= QSDD_perstock('300750.SZ','2021-01-01','2021-09-20')
-    Tocsv(QSDD,'','QSDD_300750')
-    show_func(QSDD.tail(10))
+    stock_basic = pro.query('stock_basic', exchange='', list_status='L',
+                                                    fields='ts_code,name')
+    name = ts_name_get(stock_basic,QSDD['ts_code'])
+    show_func(name)
+    # QSDD_withname = pd.merge(QSDD,stock_basic,on='ts_code',how='left',right_index=False)
+    QSDD['name'] = name
+    show_func(QSDD)
+    # Tocsv(QSDD,'','QSDD_300750')
+    # show_func(QSDD.tail(10))
 
 '''
 # QSDD['shortperiod'] = QSDD.apply(lambda x:shortperiod2(QSDD['HHV_High_14'],QSDD['LLV_Low_14'],QSDD['Close']),axis=1)

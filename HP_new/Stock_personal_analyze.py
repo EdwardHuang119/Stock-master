@@ -33,7 +33,7 @@ if __name__ == "__main__":
     for i in range(len(con_code_list)):
         code_anaylze_per = QSDD_perstock(con_code_list[i],start_date,Today)
         code_anaylze_per_tail = code_anaylze_per.tail(10)
-        code_anaylze = pd.concat([code_anaylze, code_anaylze_per_tail], ignore_index=True)
+        code_anaylze = pd.concat([code_anaylze, code_anaylze_per_tail], ignore_index=False)
         i=i+1
     filename= '上证500（'+str(Today)+')'
     Tocsv(code_anaylze,'',filename)
