@@ -71,8 +71,11 @@ def longperiod(HHV_High_34,LLV_Low_34,Close):
     return langperiod
 
 def ts_name_get(stock_basic,ts_code):
-
-    name = stock_basic[stock_basic['ts_code']== ts_code]['name']
+    ts_code_list = stock_basic['ts_code'].tolist()
+    if ts_code in ts_code_list:
+        name = stock_basic[stock_basic['ts_code']== ts_code]['name']
+    else:
+        name = '疑似退市股票'
     return name
 
 def QSDD_perstock(stock,start_date,end_date):
