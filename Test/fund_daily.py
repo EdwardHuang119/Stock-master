@@ -149,10 +149,10 @@ if __name__ == "__main__":
     # fund_code = '162416.SZ'
     # fund_code = ['320007.OF','000527.OF','540008.OF','001156.OF']
     fund_portfolio = fund_portfolio(fund_code)
-    # Tocsv(fund_portfolio,'','fund_portfolio_all')
-    # fund_portfolio = Read_csv('fund_portfolio_all','')
+    Tocsv(fund_portfolio,'','fund_portfolio_all')
+    fund_portfolio = Read_csv('fund_portfolio_all','')
     fund_portfolio = fund_portfolio[
-        (fund_portfolio['end_date'] == '20200630') | (fund_portfolio['end_date'] == '20200331')]
+        (fund_portfolio['end_date'] == '20200930') | (fund_portfolio['end_date'] == '20200630')]
     fund_portfolio = fund_portfolio.drop_duplicates(subset=['ts_code', 'end_date', 'symbol'], keep='last',
                                                     inplace=False)
     # 下载的数据有重复，原因未知，需要做一次去除重复
@@ -160,11 +160,11 @@ if __name__ == "__main__":
     # 需要对空值进行填充
     show_func(fund_portfolio)
     
-    Tocsv(fund_portfolio,'','fund_protfolio_2020seas_2')
+    Tocsv(fund_portfolio,'','fund_protfolio_2020seas_3')
     # fund_portfolio_analys = fund_analys_per(fund_portfolio,'162416.SZ','20201231','20200930')
-    fund_portfolio_analys = fund_analys_list(fund_portfolio,fund_code,'20200630','20200331')
+    fund_portfolio_analys = fund_analys_list(fund_portfolio,fund_code,'20200930','20200630')
     # show_func(fund_portfolio_analys)
-    Tocsv(fund_portfolio_analys,'','fund_protfolio_analys_2020_S2')
+    Tocsv(fund_portfolio_analys,'','fund_protfolio_analys_2020_S3')
     # '''
     '''
     china_stock_basic = GetAlltscode('','','','')

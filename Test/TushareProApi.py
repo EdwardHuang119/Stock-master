@@ -428,7 +428,9 @@ def fund_portfolio(ts_code):
         for i in range(len(ts_code)):
             fund_portfolio_per = pro.fund_portfolio(ts_code=ts_code[i])
             fund_portfolio = pd.concat([fund_portfolio, fund_portfolio_per], ignore_index=True)
+            print('%s的数据已经获取，%s已处理，共有%s'%((ts_code[i]),i,len(ts_code)))
             i = i + 1
+            time.sleep(1)
     elif type(ts_code)==str and str(ts_code) !='':
         fund_portfolio = pro.fund_portfolio(ts_code=ts_code)
     return fund_portfolio

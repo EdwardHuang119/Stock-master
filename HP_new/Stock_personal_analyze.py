@@ -54,5 +54,5 @@ if __name__ == "__main__":
     # code_anaylze['name'] =code_anaylze.apply(lambda x: ts_name_get(stock_basic, x['ts_code']), axis=1)
     # QSDD['name'] = QSDD.apply(lambda x: ts_name_get(stock_basic, x['ts_code']), axis=1)
 
-    # filename= '上证500（'+str(Today)+')'
-    # Tocsv(code_anaylze,'',filename)
+    filename= '上证500（'+str(Today)+')'
+    Tocsv(code_anaylze,'',filename)
