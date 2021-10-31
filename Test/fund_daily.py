@@ -141,18 +141,20 @@ def hk_code(code):
 if __name__ == "__main__":
     fund_basic = fund_basic(market='')
     # show_func(fund_basic)
-    Tocsv(fund_basic,'','fund_basic')
+    # Tocsv(fund_basic,'','fund_basic')
     # '''
     # 全部基金的合集
     fund_code = fund_basic.loc[(fund_basic['status']=='L') & (fund_basic['market']=='E')]['ts_code'].tolist()
     # 单个基金
     # fund_code = '162416.SZ'
     # fund_code = ['320007.OF','000527.OF','540008.OF','001156.OF']
-    fund_portfolio = fund_portfolio(fund_code)
-    Tocsv(fund_portfolio,'','fund_portfolio_all')
+    # fund_portfolio = fund_portfolio(fund_code)
+    # Tocsv(fund_portfolio,'','fund_portfolio_all')
     fund_portfolio = Read_csv('fund_portfolio_all','')
+    # 增加数据清洗，设置end_date位str类型。windows的存储类型可能位int，强制清洗后续跟进
+    fund_portfolio['end_date'] =  fund_portfolio['end_date'].apply(str)
     fund_portfolio = fund_portfolio[
-        (fund_portfolio['end_date'] == '20200930') | (fund_portfolio['end_date'] == '20200630')]
+        (fund_portfolio['end_date'] == '20210930') | (fund_portfolio['end_date'] == '20210630')]
     fund_portfolio = fund_portfolio.drop_duplicates(subset=['ts_code', 'end_date', 'symbol'], keep='last',
                                                     inplace=False)
     # 下载的数据有重复，原因未知，需要做一次去除重复
@@ -160,11 +162,11 @@ if __name__ == "__main__":
     # 需要对空值进行填充
     show_func(fund_portfolio)
     
-    Tocsv(fund_portfolio,'','fund_protfolio_2020seas_3')
+    Tocsv(fund_portfolio,'','fund_protfolio_2021seas_3')
     # fund_portfolio_analys = fund_analys_per(fund_portfolio,'162416.SZ','20201231','20200930')
-    fund_portfolio_analys = fund_analys_list(fund_portfolio,fund_code,'20200930','20200630')
-    # show_func(fund_portfolio_analys)
-    Tocsv(fund_portfolio_analys,'','fund_protfolio_analys_2020_S3')
+    fund_portfolio_analys = fund_analys_list(fund_portfolio,fund_code,'20210930','20210630')
+    show_func(fund_portfolio_analys)
+    Tocsv(fund_portfolio_analys,'','fund_protfolio_analys_2021_S3')
     # '''
     '''
     china_stock_basic = GetAlltscode('','','','')
