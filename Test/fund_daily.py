@@ -140,8 +140,6 @@ def hk_code(code):
 
 if __name__ == "__main__":
     fund_basic = fund_basic(market='')
-    # show_func(fund_basic)
-    # Tocsv(fund_basic,'','fund_basic')
     # '''
     # 全部基金的合集
     fund_code = fund_basic.loc[(fund_basic['status']=='L') & (fund_basic['market']=='E')]['ts_code'].tolist()
@@ -167,7 +165,7 @@ if __name__ == "__main__":
     fund_portfolio_analys = fund_analys_list(fund_portfolio,fund_code,'20210930','20210630')
     show_func(fund_portfolio_analys)
     Tocsv(fund_portfolio_analys,'','fund_protfolio_analys_2021_S3')
-    # '''
+    '''
     '''
     china_stock_basic = GetAlltscode('','','','')
     china_stock_basic = china_stock_basic[['ts_code','name']]
@@ -181,7 +179,7 @@ if __name__ == "__main__":
     # 测试效果
     fund_name = fund_basic[['ts_code','name']]
     # show_func(fund_name)
-    fund_oper_analys = Read_csv('fund_protfolio_analys_All','')
+    fund_oper_analys = Read_csv('fund_protfolio_analys_2021_S3','')
     fund_oper_analys.loc[fund_oper_analys['operater']== '新进','mkv_d_value']= fund_oper_analys['mkv']
     fund_oper_analys = pd.merge(fund_oper_analys,fund_name,on=['ts_code'])
     fund_oper_analys = pd.merge(fund_oper_analys,Total_stock_name,on=['symbol'])
@@ -190,7 +188,7 @@ if __name__ == "__main__":
        'stk_float_ratio', 'stk_float_ratio_d_value']]
     # 补基金公司名称和股票名称，然后调整一下列的分布。
     # Tocsv(fund_oper_analys,'','fund_oper_analys_2')
-    # fund_oper_analys=fund_oper_analys.sort_values(by=['ts_code'])
+    fund_oper_analys=fund_oper_analys.sort_values(by=['ts_code'])
     # 测试效果
     # 开始分析
 
@@ -203,6 +201,6 @@ if __name__ == "__main__":
     show_func(fund_oper_analys_test)
     # 测试效果
     Tocsv(fund_oper_analys_test, '', 'fund_oper_test_3')
-    '''
+    # '''
 
 
