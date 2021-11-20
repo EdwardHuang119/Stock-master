@@ -116,24 +116,38 @@ def QSDD_perstock_withname(stock_basic,stock,start_date,end_date):
     return QSDD
 
 
+
 # def ts_name_get(stock_basic,ts_code):
 #     name = stock_basic[stock_basic['ts_code']== ts_code]['name']
 #     return name
 
 if __name__ == "__main__":
+    # 测试过程，比对当日分析结果
+    QSDD_data= Read_csv('上证500（2021-11-11)','')
+    date_list = list(set(QSDD_data.index.tolist()))
+    date_list.sort()
+    date_after = date_list[-1]
+    data_before = date_list[-2]
+
+    QSDD_data_after = QSDD_data.loc[date_after]
+    # QSDD_date_after = QSDD_data_after.loc[(QSDD_data_after['shortperiod'] < 20.000000)]
+
+    # QSDD_date_before =
+    show_func(QSDD_data_after)
+    show_func(QSDD_data_after['shortperiod'].dtype)
+    '''
     stock_basic = pro.query('stock_basic', exchange='', list_status='L',
                                                     fields='ts_code,name')
     name = ts_name_get(stock_basic,'600068.SH')
     show_func(name)
 
     # Tocsv(stock_basic, '', 'stock_basic_test')
-    '''
     QSDD_1= QSDD_perstock('300750.SZ','2021-01-01','2021-09-29')
     QSDD_1['name'] = QSDD_1.apply(lambda x: ts_name_get(stock_basic,x['ts_code']),axis=1)
     QSDD_2 =QSDD_perstock('000738.SZ','2021-01-01','2021-09-29')
     QSDD_2['name'] = QSDD_2.apply(lambda x: ts_name_get(stock_basic, x['ts_code']), axis=1)
     QSDD = pd.concat([QSDD_1, QSDD_2], ignore_index=False)
-    '''
+    
     QSDD_1= QSDD_perstock_withname(stock_basic,'300750.SZ','2021-01-01','2021-09-29')
     # QSDD_1['name'] = QSDD_1.apply(lambda x: ts_name_get(stock_basic,x['ts_code']),axis=1)
     QSDD_2 =QSDD_perstock_withname(stock_basic,'600068.SH','2021-01-01','2021-09-29')
@@ -151,7 +165,7 @@ if __name__ == "__main__":
     show_func(QSDD)
     # Tocsv(QSDD,'','QSDD_300750')
     # show_func(QSDD.tail(10))
-
+    '''
 '''
 # QSDD['shortperiod'] = QSDD.apply(lambda x:shortperiod2(QSDD['HHV_High_14'],QSDD['LLV_Low_14'],QSDD['Close']),axis=1)
 short = shortperiod(QSDD['HHV_High_14'],QSDD['LLV_Low_14'],QSDD['Close'])
