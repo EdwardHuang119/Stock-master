@@ -37,20 +37,57 @@ def QSDD_any_zone(con_code_list,filename,start_date,end_date):
     Tocsv(code_anaylze, '', filename)
     return code_anaylze
 
+
+def con_code_list_get(list):
+    # 获取当前日期并改成了str格式
+    dateTime_p = datetime.datetime.now()
+    str_p = datetime.datetime.strftime(dateTime_p, '%Y%m%d')
+    # 获取全部的codelistall从开始到现在，获取之后选取最当前的一组数据
+    # 随机选择一个2020年开始时间，用当前日做enddate获取所有的code_zone并命名code_zone_all
+    code_zone_all = index_weight(list, '', '20200105', str_p)
+    # 更改一下获取成日期型比较大小。获取最新的日期（用list【-1】方法）
+    code_zone_all['trade_date'] = pd.to_datetime(code_zone_all['trade_date'],format='%Y/%m/%d')
+    trade_list_all = code_zone_all['trade_date'].to_list()
+    trade_list = set(trade_list_all)
+    trade_list = sorted(trade_list)
+    # trade_list.sort()
+    # 取最新的数据回来
+    code_zone = code_zone_all.loc[code_zone_all['trade_date'] == trade_list[-1]]
+    con_code_list = code_zone['con_code'].tolist()
+    return con_code_list
+
 list_HS300 = ['000300.SH','399300.SZ']
 list_SZ500 = ['000905.SH','399905.SZ']
-
+list_SZ1000 = ['000852.SH']
+list_CY50=['399673.SZ']
 
 if __name__ == "__main__":
     # 确定对应的分析周期
-    end_date = date.today()
+    end_date = date.today()+ relativedelta(days=-1)
+    # end_date = date.today()
     start_date = end_date + relativedelta(months=-9)
+    con_code_list_1 = con_code_list_get(list_SZ500)
+    QSDD_any_zone(con_code_list_1, '上证500', start_date, end_date)
+    con_code_list_2 = con_code_list_get(list_SZ1000)
+    QSDD_any_zone(con_code_list_2, '中证1000', start_date, end_date)
+    con_code_list_3 = con_code_list_get(list_CY50)
+    QSDD_any_zone(con_code_list_2, '创业50', start_date, end_date)
+
+
+    # # 做个比较
+    # code_zone = index_weight(list_SZ500, '20210730', '20210815', '20210910')
+    # con_code_list_2 = code_zone['con_code'].tolist()
+    # show_func(list(set(con_code_list).difference(set(con_code_list_2))))
+    '''
     # 获取上证500的QSDD指标分析
     code_zone = index_weight(list_SZ500, '20210730', '20210815', '20210910')
     con_code_list = code_zone['con_code'].tolist()
     QSDD_any_zone(con_code_list,'上证500',start_date,end_date)
     # 对于当天的趋势顶底做个分析看看
-
+    code_zone = index_weight(list_SZ1000, '20210730', '20210815', '20210910')
+    con_code_list = code_zone['con_code'].tolist()
+    QSDD_any_zone(con_code_list,'中证1000',start_date,end_date)
+    '''
     '''
     stock_basic = pro.query('stock_basic', exchange='', list_status='L',
                                                     fields='ts_code,name')

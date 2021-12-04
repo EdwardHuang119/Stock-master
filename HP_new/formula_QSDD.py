@@ -123,18 +123,37 @@ def QSDD_perstock_withname(stock_basic,stock,start_date,end_date):
 
 if __name__ == "__main__":
     # 测试过程，比对当日分析结果
-    QSDD_data= Read_csv('上证500（2021-11-11)','')
+    QSDD_data= Read_csv('中证1000（2021-12-04)','')
     date_list = list(set(QSDD_data.index.tolist()))
     date_list.sort()
-    date_after = date_list[-1]
-    data_before = date_list[-2]
+    date_analys = date_list[-1]
+    data_last = date_list[-2]
+    # 切片出来两个新的dataframe,来标识出出来分析日和之前一天的QSDD都低于20的股票。之后分别做出来list来分析
+    # 经过分析，决定直接取两个list，一个是分析日的股票list清单命名位ts_code_analys，一个分析日上一日的清单命名位ts_code_last
+    QSDD_data_analys = QSDD_data.loc[date_analys]
+    # QSDD_date_analys_A = QSDD_data_analys.loc[(QSDD_data_analys['midperiod'] <= 20.000000) & (QSDD_data_analys['shortperiod'] <= 20.000000) & (QSDD_data_analys['longperiod'] <= 20.000000)]
+    QSDD_data_before = QSDD_data.loc[data_last]
+    # QSDD_date_before_A = QSDD_data_before.loc[(QSDD_data_before['midperiod'] <= 20.000000) & (QSDD_data_before['shortperiod'] <= 20.000000) & (QSDD_data_before['longperiod'] <= 20.000000)]
+    # 再弄出来股票代码的列表。用列表分析出来分析日新进入的，已经没有的，和持续再里面的。
+    ts_code_analys = QSDD_data_analys.loc[(QSDD_data_analys['midperiod'] <= 20.000000) & (QSDD_data_analys['shortperiod'] <= 20.000000) & (QSDD_data_analys['longperiod'] <= 20.000000)]['ts_code'].tolist()
+    ts_code_last = QSDD_data_before.loc[(QSDD_data_before['midperiod'] <= 20.000000) & (QSDD_data_before['shortperiod'] <= 20.000000) & (QSDD_data_before['longperiod'] <= 20.000000)]['ts_code'].tolist()
+    ts_code_in = list(set(ts_code_analys).difference(set(ts_code_last)))
+    ts_code_out = list(set(ts_code_last).difference(set(ts_code_analys)))
+    ts_code_maintain = list(set(ts_code_analys).intersection(set(ts_code_last)))
+    ts_code_union = list(set(ts_code_analys).union(set(ts_code_last)))
+    # 思路：
+    # 1）创造一个dataframe，然后循环读取union的合集列表。如果在ts_code_in就买入，ts_code_out则卖出，ts_code_maintain则保持，
+    # 2）纳入一个Txt的输出模块，这个模块累计输出一些内容。
 
-    QSDD_data_after = QSDD_data.loc[date_after]
-    # QSDD_date_after = QSDD_data_after.loc[(QSDD_data_after['shortperiod'] < 20.000000)]
 
+    show_func(len(ts_code_in),ts_code_in)
+    show_func(len(ts_code_out),ts_code_out)
+    show_func(len(ts_code_maintain),ts_code_maintain)
+    show_func(len(ts_code_union),ts_code_union)
     # QSDD_date_before =
-    show_func(QSDD_data_after)
-    show_func(QSDD_data_after['shortperiod'].dtype)
+    # show_func(ts_code_test)
+
+
     '''
     stock_basic = pro.query('stock_basic', exchange='', list_status='L',
                                                     fields='ts_code,name')

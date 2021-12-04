@@ -6,8 +6,8 @@ from Test.TushareProApi import GetdatlyfromCname
 from Test.TushareProApi import Getconcept_detail
 from Test.TushareProApi import Getdailyfromconcept
 from Test.TushareProApi import moneyflowlist
-import Test.QyptTableView
-from Test.QyptTableView import Dataframdatashow
+# import Test.QyptTableView
+# from Test.QyptTableView import Dataframdatashow
 from Test.TushareProApi import trade_cal
 from Test.TushareProApi import trade_cal_list
 from Test.TushareProApi import hk_hold,index_classify,index_member
@@ -19,6 +19,8 @@ from Test.TryTensentCloud import connect_db_engine
 import pandas as pd
 import datetime
 import time
+from datetime import date
+from dateutil.relativedelta import relativedelta
 
 def index_get():
     level = ['l1', 'l2', 'l3']
@@ -46,11 +48,19 @@ show_func = print if show else lambda a: a
 
 
 if __name__ == "__main__":
+    end_date = date.today()
+    dateTime_p = datetime.datetime.now()
+    str_p = datetime.datetime.strftime(dateTime_p, '%Y%m%d')
+    # show_func(str(end_date),type(str(end_date)))
+    show_func(str_p,type(str_p))
+    '''
     index_member = index_menber_get()
+    index = index_get()
     index_member['in_date']= pd.to_datetime(index_member['in_date'],format='%Y%m%d')
     # index_member = index_member['out_date'] !='None'
     show_func(index_member)
-
+    # show_func(index)
+    '''
     '''
     engine = connect_db_engine()
     try:

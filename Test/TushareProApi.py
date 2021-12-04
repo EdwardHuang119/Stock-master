@@ -158,9 +158,9 @@ def Getdailyfromconcept(concept_id,start_date,end_date):
 def index_classify(level):
     # 申银万国行业区分
     if level !='':
-        index_list = pro.index_classify(level=level, src='SW',fields='index_code,industry_name,level,industry_code')
+        index_list = pro.index_classify(level=level, src='SW2021',fields='index_code,industry_name,level,industry_code')
     elif level == '':
-        index_list = pro.index_classify(src='SW', fields='index_code,industry_name,level,industry_code')
+        index_list = pro.index_classify(src='SW2021', fields='index_code,industry_name,level,industry_code')
         # index_list = pro.index_classify(src='SW')
     #     如果不指定fields会返回不足量。
     return index_list
@@ -170,10 +170,10 @@ def index_member(index_code,ts_code):
     if index_code == '' and ts_code == '':
         print('大哥你要不然输入一个行业分类或者输入个股票代码呗')
     elif index_code !='' and ts_code =='':
-        index_member_list = pro.index_member(index_code=index_code)
+        index_member_list = pro.index_member(index_code=index_code,fields = 'index_code,index_name,con_code,con_name,in_date,out_date,is_new')
         return index_member_list
     elif index_code =='' and ts_code !='':
-        index_member_list = pro.index_member(ts_code=ts_code)
+        index_member_list = pro.index_member(ts_code=ts_code,fields = 'index_code,index_name,con_code,con_name,in_date,out_date,is_new')
         return index_member_list
 
 def trade_cal(start_date,end_date):
@@ -443,8 +443,8 @@ def fund_portfolio(ts_code):
 if __name__ == "__main__":
     show=True
     show_func = print if show else lambda a: a
-    ind = pro.index_weight(index_code='399300.SZ',start_date = '20210501',end_date = '20210915' )
-    show_func(ind)
+    # ind = pro.index_weight(index_code='399300.SZ',start_date = '20210501',end_date = '20210915' )
+    # show_func(ind)
     # df = pro.index_daily(ts_code='801011.SI', start_date='20200501', end_date='20200826')
     # df = index_sw_daily()
     # df = pro.index_classify(src='SW',fields='index_code,industry_name,level,industry_code')
@@ -452,7 +452,19 @@ if __name__ == "__main__":
     # df2 = index_sw_daily(ts_code='801710.SI',start_date=20200101,end_date=20200831)
     # df2['trade_date'] = pd.to_datetime(df2['trade_date'], format='%Y%m%d')
     # show_func(df)
+    list_CY50 = ['399673.SZ']
+    code_zone = index_weight(list_CY50, '', '20210815', '20210910')
+    code_zone['trade_date'] = pd.to_datetime(code_zone['trade_date'],format='%Y/%m/%d')
+    trade_list_all = code_zone['trade_date'].to_list()
+    trade_list = set(trade_list_all)
+    trade_list = sorted(trade_list)
+    # trade_list.sort()
+    code_zone_new = code_zone.loc[code_zone['trade_date'] == trade_list[-1]]
+    show_func(code_zone)
+    show_func(trade_list[-1])
+    show_func(code_zone_new)
 
+    # show_func(code_zone['trade_date'].dtype)
 
     # Tocsv(df,'','index_sw_daily')
     # show_func(index_daily('857333.SI','2020-01-01','2020-08-26'))
