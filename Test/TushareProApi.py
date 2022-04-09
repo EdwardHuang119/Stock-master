@@ -345,6 +345,12 @@ def Tocsv(dataframe,filepathinput,name):
     print('TOCSV结束',fullname,'已经存储')
     return
 
+def new_txt(name,filepathinput):
+    configname = 'config.conf'
+    fatherpath = os.path.abspath(os.path.dirname(os.getcwd()))
+    configpath = fatherpath + '/confing' + '//' + configname
+
+
 def Read_csv(name,filepathinput):
     configname = 'config.conf'
     fatherpath = os.path.abspath(os.path.dirname(os.getcwd()))

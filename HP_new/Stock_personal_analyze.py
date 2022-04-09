@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 import datetime
 
 
-# end_date = date.today()+ relativedelta(days=-9)
+# end_date = date.today()+ relativedelta(days=-1)
 end_date = date.today()
 start_date = end_date + relativedelta(months=-9)
 
@@ -63,7 +63,7 @@ list_CY50=['399673.SZ']
 
 if __name__ == "__main__":
     # 确定对应的分析周期
-    end_date = date.today()+ relativedelta(days=-1)
+    end_date = date.today()+ relativedelta(days=-2)
     # end_date = date.today()
     start_date = end_date + relativedelta(months=-9)
     con_code_list_1 = con_code_list_get(list_SZ500)
@@ -71,7 +71,7 @@ if __name__ == "__main__":
     con_code_list_2 = con_code_list_get(list_SZ1000)
     QSDD_any_zone(con_code_list_2, '中证1000', start_date, end_date)
     con_code_list_3 = con_code_list_get(list_CY50)
-    QSDD_any_zone(con_code_list_2, '创业50', start_date, end_date)
+    QSDD_any_zone(con_code_list_3, '创业50', start_date, end_date)
 
 
     # # 做个比较

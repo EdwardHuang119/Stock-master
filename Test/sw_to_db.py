@@ -29,7 +29,7 @@ def sw_date_get(start_date,end_date):
             sw_date_per = index_sw_daily_trade(trade_date = date_list[i])
             sw_date = pd.concat([sw_date,sw_date_per],ignore_index= True)
             print('%s的数据已经获取'%(date_list[i]))
-            time.sleep(9)
+            time.sleep(4)
             i = i+1
         '''
         index_class = index_classify('')
@@ -85,8 +85,8 @@ if __name__ == "__main__":
     starttime = datetime.datetime.now()
     start_date = start_date_get()
     time_temp = datetime.datetime.now()
-    end_date = time_temp.strftime('%Y-%m-%d')
-    # end_date = '2021-09-25'
+    # end_date = time_temp.strftime('%Y-%m-%d')
+    end_date = '2021-12-08'
     data = sw_date_get(start_date,end_date)
     if data.empty:
         pass

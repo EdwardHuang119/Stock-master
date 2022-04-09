@@ -53,6 +53,8 @@ if __name__ == "__main__":
     str_p = datetime.datetime.strftime(dateTime_p, '%Y%m%d')
     # show_func(str(end_date),type(str(end_date)))
     show_func(str_p,type(str_p))
+
+    
     '''
     index_member = index_menber_get()
     index = index_get()

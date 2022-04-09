@@ -123,7 +123,9 @@ def QSDD_perstock_withname(stock_basic,stock,start_date,end_date):
 
 if __name__ == "__main__":
     # 测试过程，比对当日分析结果
-    QSDD_data= Read_csv('中证1000（2021-12-04)','')
+    QSDD_data = Read_csv('上证500（2022-03-07)', '')
+    # QSDD_data= Read_csv('中证1000（2022-01-14)','')
+    # QSDD_data = Read_csv('创业50（2022-03-04)', '')
     date_list = list(set(QSDD_data.index.tolist()))
     date_list.sort()
     date_analys = date_list[-1]
