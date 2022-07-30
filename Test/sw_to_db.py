@@ -52,6 +52,22 @@ def sw_date_get(start_date,end_date):
     # show_func(sw_date)
     return sw_date
 
+def sw_data_get_daybyday(start_date,end_date):
+    date_list = sw_date_list(start_date, end_date)
+    if date_list:
+        # sw_date = pd.DataFrame()
+        for i in range(len(date_list)):
+            sw_date_per = index_sw_daily_trade(trade_date=date_list[i])
+            # sw_date = pd.concat([sw_date, sw_date_per], ignore_index=True)
+            print('%s的数据已经获取' % (date_list[i]))
+            sw_date_insert(sw_date_per)
+            time.sleep(4)
+            i = i + 1
+            print('共获取数据', sw_date_per.shape[0], '条')
+    else:
+        print('没有要下载的数据')
+
+
 
 def sw_date_insert(data):
     try:
@@ -85,8 +101,12 @@ if __name__ == "__main__":
     starttime = datetime.datetime.now()
     start_date = start_date_get()
     time_temp = datetime.datetime.now()
-    # end_date = time_temp.strftime('%Y-%m-%d')
-    end_date = '2021-12-08'
+    end_date = time_temp.strftime('%Y-%m-%d')
+    # end_date = '2021-12-20'
+    # 逐日获取并insert
+    sw_data_get_daybyday(start_date,end_date)
+    '''
+    # 整体获取
     data = sw_date_get(start_date,end_date)
     if data.empty:
         pass
@@ -95,4 +115,15 @@ if __name__ == "__main__":
         sw_date_insert(data)
         endtime = datetime.datetime.now()
         print('从', starttime, '开始，到', endtime, '结束，耗时为', endtime - starttime)
-
+    '''
+'''
+# 数据库下检查是否中间丢数的脚本
+select * from 
+(select a.cal_date,count(*) as num from trade_cal a
+left join stockindex_china_sw b
+on a.cal_date = b.trade_date
+where a.is_open = 1 and a.exchange='SSE'
+and a.cal_date > '2021-12-18' and a.cal_date < '2022-07-28'
+group by a.cal_date) T
+where num < 400
+'''

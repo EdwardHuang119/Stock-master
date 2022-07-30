@@ -5,6 +5,7 @@ import tushare as ts
 import pandas as pd
 import numpy as np
 
+
 # print(ts.__version__)
 
 ts.set_token('22e74c8e4523bb24f26bcd5706617b2059c0e4e0f7f9df3559c5b000')

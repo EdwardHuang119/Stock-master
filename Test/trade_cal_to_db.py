@@ -10,8 +10,8 @@ show_func = print if show else lambda a: a
 
 if __name__ == "__main__":
     engine = connect_db_engine()
-    startdate = '20210101'
-    enddate = '20211231'
+    startdate = '20220101'
+    enddate = '20221231'
     trade_cal_sse = trade_cal(startdate,enddate,'')
     trade_cal_hk = trade_cal(startdate,enddate,'XHKG')
     trade_cal = pd.concat([trade_cal_sse,trade_cal_hk],ignore_index=True)
