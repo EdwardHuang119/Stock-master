@@ -63,8 +63,8 @@ list_CY50=['399673.SZ']
 
 if __name__ == "__main__":
     # 确定对应的分析周期
-    end_date = date.today()+ relativedelta(days=-2)
-    # end_date = date.today()
+    # end_date = date.today()+ relativedelta(days=-2)
+    end_date = date.today()
     start_date = end_date + relativedelta(months=-9)
     con_code_list_1 = con_code_list_get(list_SZ500)
     QSDD_any_zone(con_code_list_1, '上证500', start_date, end_date)

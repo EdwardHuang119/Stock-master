@@ -79,7 +79,7 @@ def Getdailyfromtscode(ts_code,start_date,end_date):
                 Stock_daily_per = pro.daily(start_date = trade_cal_list_1[i],end_date = trade_cal_list_1[i])
                 Stock_daily = pd.concat([Stock_daily,Stock_daily_per],ignore_index=True)
                 print(trade_cal_list_1[i],'全部国内市场交易数据已经获取')
-                time.sleep(20)
+                time.sleep(3)
                 i =i+1
         else:
             Stock_daily = pro.daily(start_date=start_date, end_date=end_date)
@@ -158,9 +158,11 @@ def Getdailyfromconcept(concept_id,start_date,end_date):
 def index_classify(level):
     # 申银万国行业区分
     if level !='':
-        index_list = pro.index_classify(level=level, src='SW2021',fields='index_code,industry_name,level,industry_code')
+        # index_list = pro.index_classify(level=level, src='SW2021',fields='index_code,industry_name,parent_code,level,industry_code')
+        index_list = pro.index_classify(level=level)
     elif level == '':
-        index_list = pro.index_classify(src='SW2021', fields='index_code,industry_name,level,industry_code')
+        # index_list = pro.index_classify(src='SW2021', fields='index_code,industry_name,parent_code,level,industry_code')
+        index_list = pro.index_classify(src='SW2021')
         # index_list = pro.index_classify(src='SW')
     #     如果不指定fields会返回不足量。
     return index_list

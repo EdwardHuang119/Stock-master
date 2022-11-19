@@ -115,6 +115,10 @@ def QSDD_perstock_withname(stock_basic,stock,start_date,end_date):
     print(stock+'已经完成趋势顶底数据计算')
     return QSDD
 
+def QSDD_perindex_withname(index_basic,index,start_date,end_date):
+
+    return QSDD
+
 
 
 # def ts_name_get(stock_basic,ts_code):

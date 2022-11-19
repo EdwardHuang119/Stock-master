@@ -30,9 +30,10 @@ if __name__ == "__main__":
         startdate_is_open = row['is_open']
     '''
     startdate=startdate.strftime('%Y%m%d')
+    startdate = '20100101'
     time_temp =datetime.datetime.now()
-    enddate = time_temp.strftime('%Y%m%d')
-    # enddate = '20220628'
+    # enddate = time_temp.strftime('%Y%m%d')
+    enddate = '20121231'
     # show_func(trade_cal_list(startdate,enddate,'SSE'))
     if trade_cal_list(startdate,enddate,'SSE'):
         # 数据库最大日期的第二天到现在没有有任何一个交易日，则开始执行
@@ -43,6 +44,7 @@ if __name__ == "__main__":
         except Exception as e:
             print(e)
         print('数据已经导入临时表，共导入数据%s条' % (str(Chinadaily.shape[0])))
+        exit()
         try:
             query_sql = """
                           INSERT INTO `stock_china_daily` (`ts_code`, `trade_date`, `open`, `high`, `low`, `close`, `pre_close`, `change`, `pct_chg`, `vol`, `amount`)
