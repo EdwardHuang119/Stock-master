@@ -283,7 +283,7 @@ dsqsj=20    #秒
 def dsjs():
     if g.tabs==6:
          try:
-            filename= '../../../Downloads/xb2e/view/分时图.py'
+            filename= 'view/分时图.py'
             g.status.text(2,'查看'+g.stock+' '+g.stock_names[g.stock]+' 分时图！')
             f = open(filename,'r',encoding='utf-8',errors='ignore')
             msg=f.read()
@@ -327,7 +327,7 @@ def rtnkey(event=None):
     g.stock=stockn
     if g.tabs<=5:
          try:
-            filename= '../../../Downloads/xb2e/view/日线图.py'
+            filename= 'view/日线图.py'
             g.status.text(2,'查看'+g.stock+' '+g.stock_names[g.stock]+' 日线图！')
             f = open(filename,'r',encoding='utf-8',errors='ignore')
             msg=f.read()
@@ -342,7 +342,7 @@ def rtnkey(event=None):
 
     elif g.tabs==7:
         try:
-            filename= '../../../Downloads/xb2e/view/F10窗口.py'
+            filename= 'view/F10窗口.py'
             g.status.text(2,'查看'+g.stock+' '+g.stock_names[g.stock]+'  F10信息！')
             f = open(filename,'r',encoding='utf-8',errors='ignore')
             msg=f.read()
@@ -354,7 +354,7 @@ def rtnkey(event=None):
             ttprint('用户代码出错:'+str(e)+'\n','red')        
     elif g.tabs==8:
         try:
-            filename= '../../../Downloads/xb2e/view/三画面.py'
+            filename= 'view/三画面.py'
             g.status.text(2,'查看'+g.stock+' '+g.stock_names[g.stock]+'  三画面！')
             f = open(filename,'r',encoding='utf-8',errors='ignore')
             msg=f.read()
@@ -366,7 +366,7 @@ def rtnkey(event=None):
             ttprint('用户代码出错:'+str(e)+'\n','red')       
     elif g.tabs==9:
         try:
-            filename= '../../../Downloads/xb2e/view/四画面.py'
+            filename= 'view/四画面.py'
             g.status.text(2,'查看'+g.stock+' '+g.stock_names[g.stock]+'  四画面！')
             f = open(filename,'r',encoding='utf-8',errors='ignore')
             msg=f.read()
@@ -747,9 +747,9 @@ def get_szcode(t=''):
     return base
 
 global mydf2
-if os.path.isfile('../../../Downloads/xb2e/data/zxg.dat'):
+if os.path.isfile('data/zxg.dat'):
     #获取自选股文件
-    f = open('../../../Downloads/xb2e/data/zxg.dat', 'rb')
+    f = open('data/zxg.dat', 'rb')
     g.zxg=pickle.load(f)
     f.close()  
 
@@ -975,7 +975,7 @@ def fst():
         g.gmarket=1
         stock.set(g.stock)
         try:
-            filename= '../../../Downloads/xb2e/view/分时图.py'
+            filename= 'view/分时图.py'
             g.status.text(2,'查看'+bb[0]+'分时图！')
             f = open(filename,'r',encoding='utf-8',errors='ignore')
             msg=f.read()
@@ -996,7 +996,7 @@ def F10():
     g.gmarket=1
     stock.set(g.stock)
     try:
-        filename= '../../../Downloads/xb2e/view/F10窗口.py'
+        filename= 'view/F10窗口.py'
         g.status.text(2,'查看'+bb[0]+'  F10信息！')
         f = open(filename,'r',encoding='utf-8',errors='ignore')
         msg=f.read()
@@ -1107,7 +1107,7 @@ def fst2():
     stock.set(g.stock)
     g.gmarket=0
     try:
-        filename= '../../../Downloads/xb2e/view/分时图.py'
+        filename= 'view/分时图.py'
         g.status.text(2,'查看'+bb[0]+'分时图！')
         f = open(filename,'r',encoding='utf-8',errors='ignore')
         msg=f.read()
@@ -1129,7 +1129,7 @@ def F10b():
     g.gmarket=1
     stock.set(g.stock)
     try:
-        filename= '../../../Downloads/xb2e/view/F10窗口.py'
+        filename= 'view/F10窗口.py'
         g.status.text(2,'查看'+bb[0]+'  F10信息！')
         f = open(filename,'r',encoding='utf-8',errors='ignore')
         msg=f.read()
@@ -1240,7 +1240,7 @@ def fst5():
     g.gmarket=int(bb[12])
     stock.set(g.stock)
     try:
-        filename= '../../../Downloads/xb2e/view/分时图.py'
+        filename= 'view/分时图.py'
         g.status.text(2,'查看'+bb[0]+'分时图！')
         f = open(filename,'r',encoding='utf-8',errors='ignore')
         msg=f.read()
@@ -1261,7 +1261,7 @@ def F105():
     g.gmarket=int(bb[12])
     stock.set(g.stock)
     try:
-        filename= '../../../Downloads/xb2e/view/F10窗口.py'
+        filename= 'view/F10窗口.py'
         g.status.text(2,'查看'+bb[0]+'  F10信息！')
         f = open(filename,'r',encoding='utf-8',errors='ignore')
         msg=f.read()
@@ -1369,7 +1369,7 @@ def fst6():
     stock.set(g.stock)
     g.gmarket=htdx.get_market(g.stock)
     try:
-        filename= '../../../Downloads/xb2e/view/分时图.py'
+        filename= 'view/分时图.py'
         g.status.text(2,'查看'+bb[0]+'分时图！')
         f = open(filename,'r',encoding='utf-8',errors='ignore')
         msg=f.read()
@@ -1390,7 +1390,7 @@ def F10b6():
     stock.set(g.stock)
     g.gmarket=htdx.get_market(g.stock)
     try:
-        filename= '../../../Downloads/xb2e/view/F10窗口.py'
+        filename= 'view/F10窗口.py'
         g.status.text(2,'查看'+bb[0]+'  F10信息！')
         f = open(filename,'r',encoding='utf-8',errors='ignore')
         msg=f.read()
@@ -1616,7 +1616,7 @@ def udestroy():
     timer.cancel()
     htdx.disconnect()
     #把结果保存到文件中
-    f = open('../../../Downloads/xb2e/data/zxg.dat', 'wb')
+    f = open('data/zxg.dat', 'wb')
     pt=pickle.dumps(g.zxg,0)
     f.write(pt)
     f.close()  
@@ -1625,7 +1625,7 @@ root.udestroy=udestroy
 
 
 #try:
-filename= '../../../Downloads/xb2e/view/F10窗口.py'
+filename= 'view/F10窗口.py'
 f = open(filename,'r',encoding='utf-8',errors='ignore')
 msg=f.read()
 f.close()
